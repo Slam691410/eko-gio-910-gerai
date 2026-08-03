@@ -27,6 +27,15 @@ dependency npm (murni modul bawaan Node).
 - **Screening Investasi** — Top-Down (makro → sektor potensial), Fundamental
   (skor manajemen, afiliasi, red flag laporan keuangan, corporate action), &
   Teknikal (MA20/MA50, RSI14 + sinyal entry/exit dari data riil CoinGecko).
+- **Sumber Penghasilan & Kewajiban** — multi-sumber penghasilan + manajemen
+  **Hutang & Piutang** (pokok, bunga, tenor, Debt-to-Income, strategi pelunasan).
+- **Asuransi** — daftar polis (jiwa/kesehatan/properti) & cek kecukupan
+  pertanggungan vs kebutuhan.
+- **Dana Pensiun, Waris & Hibah** — proyeksi dana pensiun (future value),
+  serta inflow **waris / hibah** masa depan.
+- **Tujuan Investasi Lengkap** — pendidikan, rumah, pensiun, waris & tujuan
+  lain dengan target & horizon; ringkasan **Kesehatan Keuangan Holistik**
+  (net worth, DTI, coverage, readiness).
 
 ## 🚀 Cara Menjalankan
 

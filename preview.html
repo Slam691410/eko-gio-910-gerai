@@ -73,6 +73,7 @@
       .profile-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; }
       .dep-row { display: grid; grid-template-columns: 1.4fr 1fr 1fr auto; gap: 8px; align-items: end; margin-bottom: 8px; }
       .dep-row input { padding: 9px 10px; }
+      .dep-row.wide { grid-template-columns: 1.3fr 1fr 0.7fr 0.7fr 0.7fr auto; }
       .dep-list label { font-size: 12px; }
       .mini-btn { margin-top: 0; padding: 8px 12px; font-size: 13px; }
       .score-pill { display: inline-block; font-size: 12px; padding: 3px 10px; border-radius: 999px; font-weight: 700; }
@@ -187,6 +188,7 @@
       <button class="tab" data-view="realtime">📡 Data Riil</button>
       <button class="tab" data-view="profil">👤 Profil & Tujuan</button>
       <button class="tab" data-view="screening">🔭 Screening</button>
+      <button class="tab" data-view="finance">💼 Keuangan</button>
     </nav>
 
     <main>
@@ -369,6 +371,54 @@
           </div>
           <div id="taResult" class="mkt-body"></div>
         </div>
+      </section>
+
+      <section class="view" id="view-finance">
+        <div class="card">
+          <h2>💰 Sumber Penghasilan</h2>
+          <div id="fin-income" class="dep-list"></div>
+          <button class="btn ghost mini-btn" id="fin-add-income">+ Tambah Sumber</button>
+        </div>
+        <div class="card">
+          <h2>🏦 Manajemen Hutang & Piutang</h2>
+          <h3 style="margin-top:8px">Hutang (Utang)</h3>
+          <div id="fin-debts" class="dep-list"></div>
+          <button class="btn ghost mini-btn" id="fin-add-debt">+ Tambah Hutang</button>
+          <h3 style="margin-top:14px">Piutang (Dagang / Keluarga)</h3>
+          <div id="fin-recv" class="dep-list"></div>
+          <button class="btn ghost mini-btn" id="fin-add-recv">+ Tambah Piutang</button>
+        </div>
+        <div class="card">
+          <h2>🛡️ Asuransi</h2>
+          <div id="fin-ins" class="dep-list"></div>
+          <button class="btn ghost mini-btn" id="fin-add-ins">+ Tambah Polis</button>
+        </div>
+        <div class="card">
+          <h2>🌅 Dana Pensiun, Waris & Hibah</h2>
+          <div class="grid-3">
+            <label>Usia Mulai Menabung <input id="fin-pen-start" type="number" min="0" max="80" value="30" /></label>
+            <label>Usia Pensiun <input id="fin-pen-retire" type="number" min="0" max="90" value="58" /></label>
+            <label>Return Tahunan % <input id="fin-pen-ret" type="number" step="0.5" value="8" /></label>
+          </div>
+          <div class="grid-3" style="margin-top:10px">
+            <label>Tabungan Pensiun Skrg (Rp) <input id="fin-pen-saved" type="number" value="0" /></label>
+            <label>Setoran/bulan (Rp) <input id="fin-pen-mth" type="number" value="1000000" /></label>
+            <label>&nbsp;</label>
+          </div>
+          <h3 style="margin-top:14px">Waris & Hibah (inflow masa depan)</h3>
+          <div id="fin-inh" class="dep-list"></div>
+          <button class="btn ghost mini-btn" id="fin-add-inh">+ Tambah Waris/Hibah</button>
+        </div>
+        <div class="card">
+          <h2>🎯 Tujuan Investasi Lainnya</h2>
+          <div id="fin-goals" class="dep-list"></div>
+          <button class="btn ghost mini-btn" id="fin-add-goal">+ Tambah Tujuan</button>
+        </div>
+        <div class="card">
+          <h2>🩺 Ringkasan Kesehatan Keuangan</h2>
+          <div id="finSummary" class="mkt-body"></div>
+        </div>
+        <button class="btn primary" id="fin-save">💾 Simpan Keuangan</button>
       </section>
     </main>
 
@@ -801,7 +851,7 @@
           html += `<div class="asset"><div class="name">Ξ Ethereum</div><div class="val">Rp ${fmtNum(market.crypto.eth)}</div></div>`;
         }
         html += `</div>`;
-        html += `<div style="margin-top:10px"><span class="chip">🪨 Tanah — menyusul</span><span class="chip">🏢 Properti — menyusul</span><span class="chip">🏛️ SBN — menyusul</span><span class="chip">➕ Aset lain — menyusul</span></div>`;
+          html += `<div style="margin-top:10px"><span class="chip">🪨 Tanah — menyusul</span><span class="chip">🏢 Properti — menyusul</span><span class="chip">🏛️ SBN — menyusul</span><span class="chip">📈 Saham/ETF (IDX) — menyusul</span><span class="chip">📊 Reksadana — menyusul</span><span class="chip">🪙 Obligasi — menyusul</span><span class="chip">₿ Kripto lain — menyusul</span><span class="chip">🛢️ Komoditas — menyusul</span></div>`;
         html += `<div class="muted" style="margin-top:8px">Logam mulia & aset dikonversi ke Rupiah via kurs real-time. Feed Tanah / Properti / SBN sedang dalam pengembangan.</div></div>`;
         // MACRO
         if (macro) {
@@ -911,10 +961,30 @@
 
       /* ===================== SCREENING: TOP-DOWN → FUNDAMENTAL → TEKNIKAL ===================== */
       const SECTORS_BY_PHASE = {
-        expansion: { label: 'Ekspansi', sectors: [{ n: 'Konsumsi & Ritel', r: 'Daya beli & penjualan naik' }, { n: 'Teknologi', r: 'Risk-on, valuasi naik' }, { n: 'Infrastruktur', r: 'Belanja publik & kredit longgar' }, { n: 'Properti', r: 'Bunga rendah dorong permintaan' }] },
-        recovery: { label: 'Pemulihan', sectors: [{ n: 'Keuangan / Perbankan', r: 'Kredit & NIM membaik' }, { n: 'Industri Manufaktur', r: 'Output rebound' }, { n: 'Material Dasar', r: 'Harga komoditas pulih' }] },
-        peak: { label: 'Puncak (Inflasi Tinggi)', sectors: [{ n: 'Energi & Komoditas', r: 'Lindung nilai inflasi' }, { n: 'Properti', r: 'Aset riil anti-inflasi' }, { n: 'Logam Mulia', r: 'Safe haven & lindung nilai' }] },
-        contraction: { label: 'Kontraksi / Stagflasi', sectors: [{ n: 'Kesehatan', r: 'Defensif, permintaan inelastis' }, { n: 'Consumer Staples', r: 'Kebutuhan pokok tetap' }, { n: 'Utilitas', r: 'Arus kas stabil' }, { n: 'Logam Mulia', r: 'Safe haven' }] },
+        expansion: { label: 'Ekspansi', sectors: [
+          { n: 'Konsumsi & Ritel', r: 'Daya beli & penjualan naik' },
+          { n: 'Teknologi & Semikonduktor', r: 'Risk-on, valuasi naik' },
+          { n: 'Infrastruktur & Konstruksi', r: 'Belanja publik & kredit longgar' },
+          { n: 'Properti & Perbankan', r: 'Bunga rendah dorong permintaan' },
+          { n: 'Otomotif', r: 'Kredit konsumsi membaik' } ] },
+        recovery: { label: 'Pemulihan', sectors: [
+          { n: 'Keuangan / Perbankan', r: 'Kredit & NIM membaik' },
+          { n: 'Industri Manufaktur', r: 'Output rebound' },
+          { n: 'Material Dasar & Logam', r: 'Harga komoditas pulih' },
+          { n: 'Energi', r: 'Permintaan industri naik' },
+          { n: 'Logistik & Transportasi', r: 'Volume perdagangan naik' } ] },
+        peak: { label: 'Puncak (Inflasi Tinggi)', sectors: [
+          { n: 'Energi & Komoditas', r: 'Lindung nilai inflasi' },
+          { n: 'Properti & Tanah', r: 'Aset riil anti-inflasi' },
+          { n: 'Logam Mulia (Emas/Perak)', r: 'Safe haven & lindung nilai' },
+          { n: 'Pertambangan', r: 'Harga komoditas tinggi' },
+          { n: 'Agrikultur & Pangan', r: 'Harga pangan naik' } ] },
+        contraction: { label: 'Kontraksi / Stagflasi', sectors: [
+          { n: 'Kesehatan', r: 'Defensif, permintaan inelastis' },
+          { n: 'Consumer Staples', r: 'Kebutuhan pokok tetap' },
+          { n: 'Utilitas & Telekomunikasi', r: 'Arus kas stabil' },
+          { n: 'Logam Mulia', r: 'Safe haven' },
+          { n: 'Obligasi Pemerintah (SBN)', r: 'Haven & yield relatif' } ] },
         unknown: { label: 'Belum Diketahui', sectors: [{ n: 'Dana Darurat & Emas', r: 'Fokus proteksi dulu' }] },
       };
       function renderScrPhase() {
@@ -1004,6 +1074,138 @@
       document.querySelector('[data-view="screening"]').addEventListener('click', () => {
         const b = document.getElementById('scrSectors');
         if (!b.dataset.loaded) { b.dataset.loaded = '1'; renderScrPhase(); }
+      });
+
+      /* ===================== KEUANGAN PRIBADI: penghasilan, hutang, asuransi, pensiun, waris, tujuan ===================== */
+      const FIN_KEY = 'pb_fin';
+      const num = (v) => { const n = Number(v); return isFinite(n) ? n : 0; };
+      function finRow(cls, html) {
+        const row = document.createElement('div'); row.className = 'dep-row ' + cls;
+        row.innerHTML = html + `<button class="btn ghost mini-btn r-del">✕</button>`;
+        row.querySelector('.r-del').addEventListener('click', () => row.remove());
+        return row;
+      }
+      function buildIncomeRow(d) {
+        d = d || {};
+        const row = finRow('', `<input class="i-name" placeholder="Nama sumber" value="${d.name || ''}">
+          <select class="i-type"><option value="gaji">Gaji</option><option value="bisnis">Bisnis</option><option value="investasi">Investasi</option><option value="pasif">Pasif</option><option value="lain">Lain</option></select>
+          <input class="i-amt" type="number" placeholder="Rp/bulan" value="${d.amount || ''}">`);
+        row.querySelector('.i-type').value = d.type || 'gaji';
+        document.getElementById('fin-income').appendChild(row);
+      }
+      function buildDebtRow(d) {
+        d = d || {};
+        const row = finRow('wide', `<input class="d-name" placeholder="Nama utang" value="${d.name || ''}">
+          <input class="d-principal" type="number" placeholder="Pokok" value="${d.principal || ''}">
+          <input class="d-rate" type="number" step="0.1" placeholder="Bunga %" value="${d.rate || ''}">
+          <input class="d-tenor" type="number" placeholder="Tenor bln" value="${d.tenor || ''}">
+          <input class="d-mth" type="number" placeholder="Angsuran/bulan" value="${d.monthly || ''}">`);
+        document.getElementById('fin-debts').appendChild(row);
+      }
+      function buildRecvRow(d) {
+        d = d || {};
+        const row = finRow('', `<input class="r-name" placeholder="Nama piutang" value="${d.name || ''}">
+          <input class="r-amt" type="number" placeholder="Jumlah" value="${d.amount || ''}">
+          <input class="r-year" type="number" placeholder="Jatuh thn" value="${d.year || ''}">`);
+        document.getElementById('fin-recv').appendChild(row);
+      }
+      function buildInsRow(d) {
+        d = d || {};
+        const row = finRow('', `<input class="n-type" placeholder="Jenis (Jiwa/Kesehatan/Properti)" value="${d.type || ''}">
+          <input class="n-cov" type="number" placeholder="Pertanggungan" value="${d.coverage || ''}">
+          <input class="n-prem" type="number" placeholder="Premi/tahun" value="${d.premiumYear || ''}">`);
+        document.getElementById('fin-ins').appendChild(row);
+      }
+      function buildInhRow(d) {
+        d = d || {};
+        const row = finRow('', `<input class="h-name" placeholder="Nama (Waris/Hibah)" value="${d.name || ''}">
+          <input class="h-amt" type="number" placeholder="Jumlah" value="${d.amount || ''}">
+          <input class="h-year" type="number" placeholder="Tahun" value="${d.year || ''}">`);
+        document.getElementById('fin-inh').appendChild(row);
+      }
+      function buildGoalRow(d) {
+        d = d || {};
+        const row = finRow('wide', `<input class="g-name" placeholder="Nama tujuan" value="${d.name || ''}">
+          <input class="g-target" type="number" placeholder="Target Rp" value="${d.target || ''}">
+          <input class="g-hor" type="number" placeholder="Horizon thn" value="${d.horizon || ''}">
+          <input class="g-mth" type="number" placeholder="Setoran/bulan" value="${d.monthly || ''}">
+          <input class="g-type" placeholder="Jenis aset" value="${d.asset || ''}">`);
+        document.getElementById('fin-goals').appendChild(row);
+      }
+      function loadFinIntoForm() {
+        let f; try { f = JSON.parse(localStorage.getItem(FIN_KEY)); } catch (e) {}
+        if (!f) return;
+        document.getElementById('fin-income').innerHTML = ''; (f.income || []).forEach(buildIncomeRow);
+        document.getElementById('fin-debts').innerHTML = ''; (f.debts || []).forEach(buildDebtRow);
+        document.getElementById('fin-recv').innerHTML = ''; (f.receivables || []).forEach(buildRecvRow);
+        document.getElementById('fin-ins').innerHTML = ''; (f.insurance || []).forEach(buildInsRow);
+        document.getElementById('fin-inh').innerHTML = ''; (f.inheritance || []).forEach(buildInhRow);
+        document.getElementById('fin-goals').innerHTML = ''; (f.goals || []).forEach(buildGoalRow);
+        document.getElementById('fin-pen-start').value = f.pension?.startAge ?? 30;
+        document.getElementById('fin-pen-retire').value = f.pension?.retireAge ?? 58;
+        document.getElementById('fin-pen-ret').value = f.pension?.ret ?? 8;
+        document.getElementById('fin-pen-saved').value = f.pension?.saved ?? 0;
+        document.getElementById('fin-pen-mth').value = f.pension?.monthly ?? 1000000;
+      }
+      function rows(container, sel) { return [...document.querySelectorAll('#' + container + ' .dep-row')].map(r => sel(r)); }
+      function saveFin() {
+        const f = {
+          income: rows('fin-income', r => ({ name: r.querySelector('.i-name').value, type: r.querySelector('.i-type').value, amount: num(r.querySelector('.i-amt').value) })),
+          debts: rows('fin-debts', r => ({ name: r.querySelector('.d-name').value, principal: num(r.querySelector('.d-principal').value), rate: num(r.querySelector('.d-rate').value), tenor: num(r.querySelector('.d-tenor').value), monthly: num(r.querySelector('.d-mth').value) })),
+          receivables: rows('fin-recv', r => ({ name: r.querySelector('.r-name').value, amount: num(r.querySelector('.r-amt').value), year: num(r.querySelector('.r-year').value) })),
+          insurance: rows('fin-ins', r => ({ type: r.querySelector('.n-type').value, coverage: num(r.querySelector('.n-cov').value), premiumYear: num(r.querySelector('.n-prem').value) })),
+          inheritance: rows('fin-inh', r => ({ name: r.querySelector('.h-name').value, amount: num(r.querySelector('.h-amt').value), year: num(r.querySelector('.h-year').value) })),
+          goals: rows('fin-goals', r => ({ name: r.querySelector('.g-name').value, target: num(r.querySelector('.g-target').value), horizon: num(r.querySelector('.g-hor').value), monthly: num(r.querySelector('.g-mth').value), asset: r.querySelector('.g-type').value })),
+          pension: { startAge: num(document.getElementById('fin-pen-start').value), retireAge: num(document.getElementById('fin-pen-retire').value), ret: num(document.getElementById('fin-pen-ret').value), saved: num(document.getElementById('fin-pen-saved').value), monthly: num(document.getElementById('fin-pen-mth').value) },
+        };
+        localStorage.setItem(FIN_KEY, JSON.stringify(f));
+        computeFin(f); toast('Keuangan tersimpan 💾');
+      }
+      function computeFin(f) {
+        const body = document.getElementById('finSummary');
+        if (!f) { body.innerHTML = '<div class="muted">Isi data lalu klik Simpan.</div>'; return; }
+        const totalIncome = (f.income && f.income.length) ? f.income.reduce((s, x) => s + (x.amount || 0), 0) : ((STATE && STATE.household) ? STATE.household.income : 0);
+        const totalDebt = f.debts.reduce((s, x) => s + (x.principal || 0), 0);
+        const monthlyDebt = f.debts.reduce((s, x) => s + (x.monthly || 0), 0);
+        const dti = totalIncome > 0 ? (monthlyDebt / totalIncome) * 100 : 0;
+        const totalRecv = f.receivables.reduce((s, x) => s + (x.amount || 0), 0);
+        const totalCov = f.insurance.reduce((s, x) => s + (x.coverage || 0), 0);
+        const totalPrem = f.insurance.reduce((s, x) => s + (x.premiumYear || 0), 0);
+        const p = f.pension || {}; const n = Math.max(0, (p.retireAge || 58) - (p.startAge || 30)) * 12;
+        const r = (p.ret || 8) / 100 / 12;
+        const fvSaved = (p.saved || 0) * Math.pow(1 + r, n);
+        const fvMth = r > 0 ? (p.monthly || 0) * ((Math.pow(1 + r, n) - 1) / r) : (p.monthly || 0) * n;
+        const pensionFV = Math.round(fvSaved + fvMth);
+        const inhTotal = f.inheritance.reduce((s, x) => s + (x.amount || 0), 0);
+        const goalsTarget = f.goals.reduce((s, x) => s + (x.target || 0), 0);
+        const goalsMonthly = f.goals.reduce((s, x) => s + (x.monthly || 0), 0);
+        const netWorth = (p.saved || 0) + totalRecv + inhTotal - totalDebt;
+        const insNeed = totalIncome * 12 * 5; // ≈ 5x annual income as life cover heuristic
+        const covGap = insNeed - totalCov;
+        let html = '';
+        html += `<div class="goal-card"><b>💵 Total Penghasilan/bulan:</b> Rp ${fmtNum(totalIncome)} <span class="muted">(${(f.income || []).length} sumber)</span></div>`;
+        html += `<div class="goal-card"><b>🏦 Hutang:</b> total Rp ${fmtNum(totalDebt)} · angsuran Rp ${fmtNum(monthlyDebt)}/bln<br>
+          <b>Debt-to-Income:</b> <span class="${dti > 40 ? 'sig-red' : dti > 30 ? 'sig-yellow' : 'sig-green'}">${dti.toFixed(1)}%</span> ${dti > 40 ? '(waspada)' : dti > 30 ? '(waspadalah)' : '(sehat)'}<br>
+          <b>Piutang:</b> Rp ${fmtNum(totalRecv)}</div>`;
+        html += `<div class="goal-card"><b>🛡️ Asuransi:</b> pertanggungan Rp ${fmtNum(totalCov)} · premi Rp ${fmtNum(totalPrem)}/thn<br>
+          Kebutuhan life cover ≈ Rp ${fmtNum(insNeed)} → <b>Gap: Rp ${fmtNum(covGap)}</b> ${covGap > 0 ? '(kurang)' : '(cukup)'}</div>`;
+        html += `<div class="goal-card"><b>🌅 Proyeksi Dana Pensiun:</b> Rp ${fmtNum(pensionFV)} <span class="muted">(dari usia ${(p.startAge||30)} s.d. ${(p.retireAge||58)}, return ${(p.ret||8)}%)</span></div>`;
+        html += `<div class="goal-card"><b>🎯 Tujuan Investasi:</b> total target Rp ${fmtNum(goalsTarget)} · setoran Rp ${fmtNum(goalsMonthly)}/bln<br>
+          <b>Waris & Hibah (inflow):</b> Rp ${fmtNum(inhTotal)}</div>`;
+        html += `<div class="goal-card"><b>🩺 Net Worth (proxy):</b> Rp ${fmtNum(netWorth)} <span class="muted">(tabungan pensiun + piutang + waris − hutang)</span></div>`;
+        html += `<div class="section-note">Heuristik sederhana; sesuaikan dengan kondisi & profesional. Diabetes/asuransi ikut memengaruhi piramida keuangan Anda.</div>`;
+        body.innerHTML = html;
+      }
+      document.getElementById('fin-add-income').addEventListener('click', () => buildIncomeRow());
+      document.getElementById('fin-add-debt').addEventListener('click', () => buildDebtRow());
+      document.getElementById('fin-add-recv').addEventListener('click', () => buildRecvRow());
+      document.getElementById('fin-add-ins').addEventListener('click', () => buildInsRow());
+      document.getElementById('fin-add-inh').addEventListener('click', () => buildInhRow());
+      document.getElementById('fin-add-goal').addEventListener('click', () => buildGoalRow());
+      document.getElementById('fin-save').addEventListener('click', saveFin);
+      document.querySelector('[data-view="finance"]').addEventListener('click', () => {
+        const b = document.getElementById('finSummary');
+        if (!b.dataset.loaded) { b.dataset.loaded = '1'; loadFinIntoForm(); computeFin(JSON.parse(localStorage.getItem(FIN_KEY) || 'null')); }
       });
 
       refresh(); renderLedger();
