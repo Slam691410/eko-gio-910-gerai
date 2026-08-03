@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PyraBudget · SaaS Budgeting Maslow × Keuangan + AI Blockchain</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Inter:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/css/styles.css" />
+    <link
+      rel="icon"
+      href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔺</text></svg>"
+    />
+  </head>
+  <body>
+    <div class="aurora"></div>
+
+    <header class="topbar">
+      <div class="brand">
+        <span class="logo">🔺</span>
+        <div>
+          <h1>PyraBudget</h1>
+          <p class="tagline">Budgeting ala Piramida Maslow × Piramida Keuangan</p>
+        </div>
+      </div>
+      <div class="badges">
+        <span class="badge ai">⚡ AI Advisor</span>
+        <span class="badge chain" id="chainBadge">⛓️ Blockchain</span>
+      </div>
+    </header>
+
+    <nav class="tabs" id="tabs">
+      <button class="tab active" data-view="dashboard">📊 Dashboard</button>
+      <button class="tab" data-view="pyramid">🔺 Piramida</button>
+      <button class="tab" data-view="ledger">⛓️ Ledger</button>
+      <button class="tab" data-view="ai">⚡ AI Advisor</button>
+      <button class="tab" data-view="marketing">📣 Marketing</button>
+    </nav>
+
+    <main>
+      <!-- DASHBOARD -->
+      <section class="view active" id="view-dashboard">
+        <div class="card setup">
+          <h2>⚙️ Setup Rumah Tangga</h2>
+          <div class="grid-3">
+            <label>Nama
+              <input id="in-name" type="text" placeholder="Keluarga Saya" />
+            </label>
+            <label>Pemasukan/bulan
+              <input id="in-income" type="number" placeholder="15000000" />
+            </label>
+            <label>Mata uang
+              <input id="in-currency" type="text" placeholder="IDR" value="IDR" />
+            </label>
+          </div>
+          <div class="row-between">
+            <button class="btn primary" id="btn-save-household">Simpan & Mulai</button>
+            <button class="btn ghost" id="btn-sample">✨ Muat Data Contoh</button>
+          </div>
+        </div>
+
+        <div class="stat-row" id="statRow">
+          <div class="stat">
+            <span class="stat-label">Pemasukan</span>
+            <strong id="stat-income">—</strong>
+          </div>
+          <div class="stat">
+            <span class="stat-label">Total Pengeluaran</span>
+            <strong id="stat-expense">—</strong>
+          </div>
+          <div class="stat">
+            <span class="stat-label">Sisa</span>
+            <strong id="stat-leftover">—</strong>
+          </div>
+          <div class="stat health">
+            <span class="stat-label">Skor Kesehatan</span>
+            <strong id="stat-health">—</strong>
+          </div>
+        </div>
+
+        <div class="card">
+          <h2>➕ Catat Transaksi (Blok Baru)</h2>
+          <div class="grid-4">
+            <label>Jenis
+              <select id="tx-kind">
+                <option value="expense">Pengeluaran</option>
+                <option value="income">Pemasukan</option>
+              </select>
+            </label>
+            <label>Jumlah
+              <input id="tx-amount" type="number" placeholder="500000" />
+            </label>
+            <label>Tier Piramida
+              <select id="tx-tier"></select>
+            </label>
+            <label>Kategori
+              <input id="tx-category" type="text" placeholder="Sewa rumah" />
+            </label>
+          </div>
+          <label>Catatan
+            <input id="tx-note" type="text" placeholder="Opsional" />
+          </label>
+          <button class="btn primary" id="btn-add-tx">⛏️ Tambang & Catat Blok</button>
+        </div>
+
+        <div class="card">
+          <h2>📈 Alokasi vs Target</h2>
+          <div id="allocBars" class="alloc-bars"></div>
+        </div>
+      </section>
+
+      <!-- PYRAMID -->
+      <section class="view" id="view-pyramid">
+        <div class="card">
+          <h2>🔺 Visualisasi Piramida</h2>
+          <p class="muted">
+            Setiap level memadukan <b>Kebutuhan Maslow</b> dengan <b>Lapis Piramida Keuangan</b>.
+            Semakin ke atas, semakin tinggi derajat kebebasan finansial.
+          </p>
+          <div id="pyramidSvg" class="pyramid-wrap"></div>
+        </div>
+      </section>
+
+      <!-- LEDGER -->
+      <section class="view" id="view-ledger">
+        <div class="card">
+          <div class="row-between">
+            <h2>⛓️ Blockchain Ledger (Proof-of-Budget)</h2>
+            <button class="btn ghost" id="btn-verify">✔️ Verifikasi Integritas</button>
+          </div>
+          <p class="muted" id="chainStatus">Setiap blok di-hash SHA-256 & dirantai ke blok sebelumnya.</p>
+          <div id="chainList" class="chain-list"></div>
+        </div>
+      </section>
+
+      <!-- AI -->
+      <section class="view" id="view-ai">
+        <div class="card">
+          <div class="row-between">
+            <h2>⚡ AI Advisor</h2>
+            <button class="btn primary" id="btn-ai">🧠 Analisis Sekarang</button>
+          </div>
+          <p class="muted" id="aiSummary">Klik analisis untuk mendapat saran alokasi otomatis.</p>
+          <div id="aiTips" class="ai-tips"></div>
+        </div>
+      </section>
+
+      <!-- MARKETING -->
+      <section class="view" id="view-marketing">
+        <div class="card">
+          <div class="row-between">
+            <h2>📣 Strategi Konten Marketing</h2>
+            <button class="btn primary" id="btn-mkt">🌈 Generate Strategi</button>
+          </div>
+          <div id="mktBody" class="mkt-body"></div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <span>PyraBudget · Vibes coding + AI Blockchain</span>
+      <button class="btn ghost danger" id="btn-reset">Reset Data</button>
+    </footer>
+
+    <div id="toast" class="toast"></div>
+
+    <script type="module" src="/js/app.js"></script>
+  </body>
+</html>

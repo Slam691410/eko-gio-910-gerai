@@ -1,0 +1,24 @@
+{
+  "name": "pyrabudget",
+  "version": "1.0.0",
+  "description": "SaaS budgeting berbasis Piramida Maslow + Piramida Keuangan, dengan AI Advisor dan Blockchain Ledger (Proof-of-Budget). Vibes coding + AI Blockchain.",
+  "type": "module",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "keywords": [
+    "budgeting",
+    "maslow",
+    "financial-pyramid",
+    "saas",
+    "ai",
+    "blockchain",
+    "personal-finance"
+  ],
+  "license": "MIT"
+}
