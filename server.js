@@ -345,7 +345,10 @@ function marketingStrategy(weakestTierId) {
 }
 
 /* ----------------------------------------------------------------- *
- * REAL-TIME DATA — KHL (logam mulia) + aset & makro/siklus ekonomi
+ * DATA WAKTU NYATA — Logam mulia (emas/perak) + aset & makro/siklus ekonomi
+ * CATATAN PENTING: KHL = Kebutuhan Hidup Layak (standar pengeluaran layak per bulan),
+ * BUKAN logam mulia dan BUKAN aset. Modul KHL dispesifikasikan terpisah di
+ * docs/PENJABARAN-DETAIL.md bagian M-01.
  * Di-fetch server-side (bebas CORS) dengan cache & fallback.
  * ----------------------------------------------------------------- */
 function computePhase(ind) {

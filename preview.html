@@ -276,13 +276,24 @@
       <section class="view" id="view-realtime">
         <div class="card">
           <div class="row-between">
-            <h2>📡 Data Riil — KHL, Aset & Makro Ekonomi</h2>
+            <h2>📡 Data Riil — Logam Mulia, Aset & Makro Ekonomi</h2>
             <button class="btn primary" id="btn-rt">🔄 Refresh Data</button>
           </div>
           <p class="muted">
             Harga logam mulia & aset investasi + indikator makro Indonesia (inflasi, PDB, pengangguran).
             Fase ekonomi & fase penghasilan Anda menentukan <b>arah budgeting</b> — bukan sekadar 50/30/20.
           </p>
+          <div class="phase-box" style="margin:10px 0">
+            <b>⚠️ Luruskan istilah (koreksi kesalahan sebelumnya):</b><br>
+            <b>KHL = Kebutuhan Hidup Layak</b> — standar rupiah <i>pengeluaran</i> per bulan agar pekerja
+            dan keluarganya hidup layak (acuan Kemnaker, per provinsi). <b>KHL BUKAN logam mulia,
+            BUKAN aset.</b><br>
+            <b>ASET</b> = yang Anda <i>miliki</i>: emas, perak, tanah, properti, SBN, reksadana, saham,
+            deposito, kripto. Halaman ini adalah halaman <b>ASET &amp; MAKRO</b>.<br>
+            <b>Keduanya dibangun, bukan salah satu.</b> Modul KHL berdiri sendiri (data 38 provinsi +
+            hitung kesenjangan gaji vs KHL) — penjabaran lengkapnya ada di
+            <code>docs/PENJABARAN-DETAIL.md</code> bagian M-01, dan dikerjakan pada tahap T-1.
+          </div>
           <div id="realtimeBody" class="mkt-body"></div>
         </div>
         <div class="card">
@@ -751,7 +762,9 @@
         saveStore(); toast('Data direset 🔄'); refresh(); renderLedger();
       });
 
-      /* ===================== REAL-TIME DATA (KHL + Makro/Ekonomi) ===================== */
+      /* ============ DATA WAKTU NYATA: ASET (logam mulia/kripto/kurs) + MAKRO ============
+         CATATAN: KHL = Kebutuhan Hidup Layak (pengeluaran), BUKAN aset. Lihat docs/PENJABARAN-DETAIL.md M-01.
+         ================================================================================= */
       function computePhase(ind) {
         const inf = ind.inflation, gdp = ind.gdpGrowth, ur = ind.unemployment, rt = ind.interestRate;
         const highInfl = inf != null && inf > 4.5;
