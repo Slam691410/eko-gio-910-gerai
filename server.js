@@ -19,6 +19,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import crypto from 'node:crypto';
 import { fileURLToPath } from 'node:url';
+import { analisisKhl, hitungKhlSurvei } from './packages/domain-khl/src/index.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const PUBLIC_DIR = path.join(__dirname, 'public');
@@ -480,6 +481,59 @@ const MIME = {
   '.ico': 'image/x-icon',
 };
 
+/* ============================================================
+   M-01 · KHL (Kebutuhan Hidup Layak) — data acuan & validasi
+   KHL = standar PENGELUARAN layak per bulan. BUKAN aset.
+   ============================================================ */
+const DIR_DATA = path.join(path.dirname(fileURLToPath(import.meta.url)), 'data');
+let _khlCache = null;
+
+function muatDataKhl() {
+  if (_khlCache) return _khlCache;
+  const baca = (rel) => JSON.parse(fs.readFileSync(path.join(DIR_DATA, rel), 'utf8'));
+  _khlCache = {
+    indeks: baca('khl/2026/indeks.json'),
+    komponen: baca('khl/2026/komponen-64.json'),
+    asumsi: baca('khl/2026/asumsi.json'),
+  };
+  return _khlCache;
+}
+
+/** Validasi masukan sederhana — endpoint tidak boleh mempercayai badan permintaan. */
+function validasiMasukanKhl(body) {
+  const galat = [];
+  const angka = (v, nama, { min = 0, max = Number.MAX_SAFE_INTEGER, wajib = false } = {}) => {
+    if (v === undefined || v === null || v === '') {
+      if (wajib) galat.push(`${nama} wajib diisi`);
+      return undefined;
+    }
+    const n = Number(v);
+    if (!Number.isFinite(n)) { galat.push(`${nama} harus berupa angka`); return undefined; }
+    if (n < min) { galat.push(`${nama} tidak boleh kurang dari ${min}`); return undefined; }
+    if (n > max) { galat.push(`${nama} melebihi batas wajar`); return undefined; }
+    return n;
+  };
+
+  const kode = typeof body.kode_provinsi === 'string' ? body.kode_provinsi.trim() : '';
+  if (!/^\d{2}$/.test(kode)) galat.push('kode_provinsi harus 2 digit angka');
+
+  const jumlahArt = angka(body.jumlah_art, 'jumlah_art', { min: 1, max: 20 }) ?? 4;
+  const artBekerja = angka(body.art_bekerja, 'art_bekerja', { min: 0, max: 20 }) ?? 1;
+  if (artBekerja > jumlahArt) galat.push('art_bekerja tidak boleh melebihi jumlah_art');
+
+  const penghasilan = angka(body.penghasilan_bersih_rt, 'penghasilan_bersih_rt', { min: 0, max: 1e12 }) ?? 0;
+  const cicilan = angka(body.cicilan_wajib, 'cicilan_wajib', { min: 0, max: 1e12 }) ?? 0;
+
+  const faseSah = ['pemulihan', 'ekspansi', 'puncak', 'kontraksi', 'stagflasi'];
+  const fase = typeof body.fase_ekonomi === 'string' && faseSah.includes(body.fase_ekonomi)
+    ? body.fase_ekonomi : 'ekspansi';
+
+  return {
+    galat,
+    nilai: { kode, jumlahArt, artBekerja, penghasilan, cicilan, fase, punyaBpjs: body.punya_bpjs === true },
+  };
+}
+
 function sendJson(res, code, obj) {
   const body = JSON.stringify(obj);
   res.writeHead(code, {
@@ -537,6 +591,67 @@ const server = http.createServer(async (req, res) => {
   // ---- API ----
   if (pathname.startsWith('/api/')) {
     try {
+      /* ---- M-01 KHL ---- */
+      if (pathname === '/api/khl/provinsi' && req.method === 'GET') {
+        const d = muatDataKhl();
+        return sendJson(res, 200, {
+          tahun: d.indeks.tahun,
+          sumber: d.indeks.meta.khl,
+          sumber_ump: d.indeks.meta.ump,
+          asumsi: d.asumsi,
+          jumlah: d.indeks.provinsi.length,
+          provinsi: d.indeks.provinsi.map((p) => ({
+            ...p,
+            selisih_ump_khl: p.ump - p.khl,
+            ump_menutupi_khl: p.ump >= p.khl,
+          })),
+        });
+      }
+
+      if (pathname.startsWith('/api/khl/provinsi/') && req.method === 'GET') {
+        const kode = pathname.split('/').pop();
+        if (!/^\d{2}$/.test(kode)) return sendJson(res, 400, { error: 'kode provinsi harus 2 digit' });
+        const d = muatDataKhl();
+        const p = d.indeks.provinsi.find((x) => x.kode === kode);
+        if (!p) return sendJson(res, 404, { error: 'Provinsi tidak ditemukan' });
+        return sendJson(res, 200, { ...p, selisih_ump_khl: p.ump - p.khl, sumber: d.indeks.meta });
+      }
+
+      if (pathname === '/api/khl/komponen' && req.method === 'GET') {
+        return sendJson(res, 200, muatDataKhl().komponen);
+      }
+
+      if (pathname === '/api/khl/hitung' && req.method === 'POST') {
+        const body = await readBody(req);
+        const { galat, nilai } = validasiMasukanKhl(body || {});
+        if (galat.length) return sendJson(res, 400, { error: 'Masukan tidak valid', rincian: galat });
+        const d = muatDataKhl();
+        const prov = d.indeks.provinsi.find((x) => x.kode === nilai.kode);
+        if (!prov) return sendJson(res, 404, { error: 'Provinsi tidak ditemukan' });
+        return sendJson(res, 200, analisisKhl({
+          khlProvinsi: prov.khl,
+          umpProvinsi: prov.ump,
+          namaProvinsi: prov.nama,
+          jumlahArt: nilai.jumlahArt,
+          artBekerja: nilai.artBekerja,
+          penghasilanBersihRt: nilai.penghasilan,
+          cicilanWajib: nilai.cicilan,
+          faseEkonomi: nilai.fase,
+          punyaBpjs: nilai.punyaBpjs,
+        }));
+      }
+
+      if (pathname === '/api/khl/survei' && req.method === 'POST') {
+        const body = await readBody(req);
+        if (!Array.isArray(body?.isian)) return sendJson(res, 400, { error: 'isian harus berupa array' });
+        if (body.isian.length > 200) return sendJson(res, 400, { error: 'isian terlalu banyak' });
+        try {
+          return sendJson(res, 200, hitungKhlSurvei(body.isian));
+        } catch (e) {
+          return sendJson(res, 400, { error: String(e.message || e) });
+        }
+      }
+
       if (pathname === '/api/state' && req.method === 'GET') {
         return sendJson(res, 200, computeState());
       }

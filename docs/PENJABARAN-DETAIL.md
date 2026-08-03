@@ -533,7 +533,21 @@ GET  /api/v1/khl/rencana-tutup-kesenjangan-> langkah + estimasi dampak rupiah
 - [ ] Ada tanggal & sumber di setiap angka.
 
 ### M-01.11 Status
-**BELUM DIBUAT.** Ini prioritas nomor satu setelah dokumen ini disetujui.
+**SUDAH DIBUAT (T-1 selesai).** Rinciannya:
+- `data/khl/2026/` — 38 berkas provinsi + `indeks.json` + `komponen-64.json` + `asumsi.json`
+- `data/ump/2026/` — 38 berkas provinsi + `indeks.json` (pembanding UMP 2026)
+- `packages/domain-khl/src/` — 9 berkas rumus/aturan, tiap rumus satu berkas
+- `packages/domain-khl/test/` — 6 berkas tes, **35 tes lulus** (`npm test`)
+- `apps/preview/bangun-preview.js` — menyuntik rumus & data ke `preview.html`
+  sehingga satu rumus hanya ada di satu berkas
+- `preview.html` — tab **🏠 KHL**
+- `server.js` — `GET /api/khl/provinsi`, `GET /api/khl/provinsi/:kode`,
+  `GET /api/khl/komponen`, `POST /api/khl/hitung`, `POST /api/khl/survei` (dengan validasi masukan)
+
+**Temuan dari data sendiri:** **32 dari 38 provinsi** punya UMP 2026 **di bawah** KHL 2026.
+Jarak terlebar di DI Yogyakarta (UMP Rp 2.417.495 vs KHL Rp 4.604.982 = 52,5%), lalu Jawa Barat
+(56,2%) dan Bali (61,1%). Hanya 6 provinsi yang UMP-nya sudah menutup KHL: Gorontalo,
+Sulawesi Utara, Sulawesi Selatan, Sulawesi Barat, Aceh, dan Sumatera Selatan.
 
 ---
 
@@ -1533,7 +1547,7 @@ cara Anda melihat hasil kerja saya langsung di chat.
 | Tahap | Isi | Hasil yang Anda lihat |
 |---|---|---|
 | **T-0** | Dokumen ini | `docs/PENJABARAN-DETAIL.md`, `docs/DAFTAR-FILE-TARGET.md` |
-| **T-1** | **M-01 KHL** — data 38 provinsi, hitung kesenjangan, mode anggaran, kunci modul investasi. Sekaligus membersihkan semua salah tulis "KHL = logam mulia". | tab **KHL** baru di preview |
+| **T-1** ✅ | **M-01 KHL** — SELESAI: data 38 provinsi, kesenjangan, mode anggaran, kunci modul investasi, survei 64 komponen, 35 tes lulus | tab **🏠 KHL** sudah ada di preview |
 | **T-2** | **M-02 ASET** dirapikan & dipisah tegas dari KHL: CAGR, penghasilan pasif, rasio kemerdekaan, peringatan konsentrasi | tab **Aset** yang bersih |
 | **T-3** | **M-15 Emiten Dividen** — 20+ emiten, riwayat DPS, kalender, perencana penghasilan bulanan, peringatan jebakan dividen | tab **Dividen** |
 | **T-4** | **M-13 Fundamental sungguhan** — 25 rasio, 14 penanda merah, tata kelola, aksi korporasi + efek dilusi | tab **Fundamental** ditulis ulang |
@@ -1557,7 +1571,7 @@ cara Anda melihat hasil kerja saya langsung di chat.
 | I-1 | Strategi konten marketing | M-18 | ADA | perbarui T-3 |
 | I-1 | Blockchain (SHA-256) | M-17 | ADA | tanda tangan T-6 |
 | I-2 | Preview mengikuti tiap respon | apps/preview | ADA | dijaga |
-| I-3 | **KHL data riil** | M-01 | **BELUM** | **T-1** |
+| I-3 | **KHL data riil** | M-01 | **ADA** ✅ | T-1 selesai |
 | I-3 | Aset: tanah, properti, SBN, reksadana, dll | M-02 | ADA sebagian | T-2 |
 | I-3 | Logam mulia (emas/perak) riil | M-02 | ADA | — |
 | I-3 | Makro & siklus ekonomi | M-10 | ADA | lengkapi T-4 |
@@ -1578,12 +1592,12 @@ cara Anda melihat hasil kerja saya langsung di chat.
 | I-6 | Pensiun, waris, hibah | M-09 | ADA sebagian | T-2 |
 | I-7 | Jangan melabeli "menyusul" | — | dipatuhi | — |
 | I-8 | KHL ≠ aset, **keduanya ada** | M-01 + M-02 | **diperbaiki** | T-1, T-2 |
-| I-8 | Gaji di bawah KHL jadi fitur | M-01.7, M-11.3 | BELUM | T-1 |
+| I-8 | Gaji di bawah KHL jadi fitur | M-01.7, M-11.3 | **ADA** ✅ | T-1 selesai |
 | I-8 | **Daftar emiten rutin dividen + riwayat** | M-15 | **BELUM** | **T-3** |
 | I-8 | Keamanan, autentikasi, API | M-19, Bab 5 | **BELUM** | T-6 |
 | I-8 | Ribuan berkas, bukan 10 | Bab 4 | rencana siap | T-5 |
 
-**Rekap jujur:** dari 29 butir — **9 ada**, **11 ada sebagian**, **8 belum**, **1 palsu**.
+**Rekap jujur (diperbarui setelah T-1):** dari 29 butir — **11 ada**, **11 ada sebagian**, **6 belum**, **1 palsu**.
 Tidak ada yang saya sembunyikan.
 
 ---

@@ -96,3 +96,58 @@ data/db.json           # persistensi (digenerate otomatis)
 ---
 
 Dibuat dengan vibes coding + AI Blockchain 💜
+
+## 🏠 Modul KHL — Kebutuhan Hidup Layak (M-01, selesai)
+
+> **KHL = Kebutuhan Hidup Layak**, yaitu standar **pengeluaran** layak per bulan untuk pekerja
+> dan keluarganya. **KHL bukan aset.** Emas, perak, tanah, properti, SBN, reksadana, saham
+> adalah **ASET** (modul M-02, tab *Data Riil*). Keduanya ada di aplikasi ini, bukan salah satu.
+
+- Data acuan **38 provinsi** (Kemnaker 2026, metode berbasis studi ILO) + pembanding **UMP 2026**
+  dan **garis kemiskinan BPS**.
+- Hitung **kesenjangan** penghasilan rumah tangga vs KHL, rasio pemenuhan, dan status.
+- **Mode anggaran** ditentukan rasio KHL, bukan rumus 50/30/20. Bila penghasilan di bawah KHL,
+  **modul investasi dikunci** dan aplikasi beralih ke rencana menutup kekurangan.
+- **Survei mandiri 64 komponen** Permenaker 18/2020 sebagai pembanding angka acuan.
+- Temuan dari data: **32 dari 38 provinsi punya UMP di bawah KHL.**
+
+### Struktur berkas modul KHL
+
+```
+data/khl/2026/      38 berkas provinsi + indeks + komponen-64 + asumsi
+data/ump/2026/      38 berkas provinsi + indeks
+packages/domain-khl/src/    9 berkas rumus & aturan (satu rumus satu berkas)
+packages/domain-khl/test/   6 berkas tes — 35 tes
+apps/preview/bangun-preview.js   menyuntik rumus + data ke preview.html
+infra/seed/         sumber data & penulis berkas
+```
+
+### Perintah
+
+```bash
+npm test              # 35 tes rumus KHL
+npm run seed:khl      # tulis ulang 80 berkas data KHL & UMP
+npm run build:preview # suntik rumus + data ke preview.html
+npm start             # jalankan server + API
+```
+
+### API KHL
+
+| Method | Endpoint | Keterangan |
+|---|---|---|
+| GET | `/api/khl/provinsi` | 38 provinsi + KHL + UMP + selisih |
+| GET | `/api/khl/provinsi/:kode` | detail satu provinsi |
+| GET | `/api/khl/komponen` | 64 komponen Permenaker 18/2020 |
+| POST | `/api/khl/hitung` | analisis kesenjangan + mode anggaran (dengan validasi masukan) |
+| POST | `/api/khl/survei` | hitung KHL versi survei mandiri |
+
+## 📄 Dokumen
+
+- **`docs/PENJABARAN-DETAIL.md`** — penjabaran detail seluruh instruksi (8 instruksi, 21 modul,
+  rumus, skema data, kriteria terima, urutan pengerjaan).
+- **`docs/DAFTAR-FILE-TARGET.md`** — daftar 1.526 nama berkas target arsitektur penuh.
+- **`docs/marketing-strategy.md`** — strategi konten.
+
+> **Status jujur:** ini masih **prototipe/MVP**, belum SaaS produksi. Belum ada autentikasi,
+> belum ada basis data sungguhan, belum ada batas laju. Rancangan lengkapnya ada di
+> `docs/PENJABARAN-DETAIL.md` Bab 5, dikerjakan pada tahap T-6.

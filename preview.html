@@ -159,6 +159,45 @@
       .footer { position: relative; z-index: 2; display: flex; justify-content: space-between; align-items: center; padding: 18px 28px 30px; color: var(--muted); font-size: 13px; max-width: 1100px; margin: 0 auto; }
       .toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(20px); background: linear-gradient(135deg, var(--primary), var(--primary-2)); color: #fff; padding: 12px 20px; border-radius: 12px; font-size: 14px; font-weight: 600; opacity: 0; pointer-events: none; transition: all 0.3s ease; z-index: 50; box-shadow: var(--shadow); }
       .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+      /* ===== M-01 KHL (Kebutuhan Hidup Layak) ===== */
+      .khl-hero { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 14px; margin: 6px 0 4px; }
+      .khl-hero .box { border: 1px solid var(--border); border-radius: 14px; padding: 14px 16px; background: rgba(255,255,255,0.03); }
+      .khl-hero .box .lbl { font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: .4px; }
+      .khl-hero .box .val { font-size: 21px; font-weight: 800; margin-top: 4px; }
+      .khl-status { display: inline-block; padding: 6px 14px; border-radius: 999px; font-weight: 700; font-size: 13px; }
+      .khl-status.merah { background: rgba(255,90,110,0.18); color: #ff8a9c; border: 1px solid rgba(255,90,110,0.4); }
+      .khl-status.oranye { background: rgba(255,150,60,0.18); color: #ffb066; border: 1px solid rgba(255,150,60,0.4); }
+      .khl-status.kuning { background: rgba(255,214,64,0.16); color: #ffd964; border: 1px solid rgba(255,214,64,0.35); }
+      .khl-status.hijau { background: rgba(24,214,140,0.16); color: #35e0a1; border: 1px solid rgba(24,214,140,0.4); }
+      .khl-status.biru { background: rgba(90,160,255,0.16); color: #8ab8ff; border: 1px solid rgba(90,160,255,0.4); }
+      .bar-row { display: grid; grid-template-columns: 190px 1fr 130px; gap: 10px; align-items: center; margin-bottom: 8px; font-size: 13px; }
+      .bar-row .nm { color: var(--muted); }
+      .bar-track { height: 20px; background: rgba(255,255,255,0.06); border-radius: 999px; overflow: hidden; }
+      .bar-fill { height: 100%; border-radius: 999px; transition: width .5s ease; }
+      .bar-fill.khl { background: linear-gradient(90deg, #7c5cff, #a58bff); }
+      .bar-fill.ump { background: linear-gradient(90deg, #18d6c9, #6ff0e6); }
+      .bar-fill.saya { background: linear-gradient(90deg, #ff5a6e, #ff9aa8); }
+      .bar-fill.miskin { background: linear-gradient(90deg, #6b7280, #9ca3af); }
+      .bar-row .nilai { text-align: right; font-weight: 700; }
+      .khl-tabel { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+      .khl-tabel th, .khl-tabel td { padding: 7px 9px; border-bottom: 1px solid var(--border); text-align: right; }
+      .khl-tabel th { color: var(--muted); font-weight: 600; text-align: right; cursor: pointer; user-select: none; white-space: nowrap; }
+      .khl-tabel th:first-child, .khl-tabel td:first-child { text-align: left; }
+      .khl-tabel tr.saya { background: rgba(124,92,255,0.14); }
+      .khl-tabel td.kurang { color: #ff8a9c; font-weight: 700; }
+      .khl-tabel td.cukup { color: #35e0a1; font-weight: 700; }
+      .khl-scroll { max-height: 340px; overflow: auto; border: 1px solid var(--border); border-radius: 12px; }
+      .langkah { border: 1px solid var(--border); border-left: 4px solid var(--primary); border-radius: 12px; padding: 12px 14px; margin-bottom: 10px; background: rgba(255,255,255,0.03); }
+      .langkah .jd { font-weight: 700; margin-bottom: 4px; }
+      .langkah .dmp { color: #35e0a1; font-weight: 700; font-size: 13px; margin-top: 6px; }
+      .tab.terkunci { opacity: .55; }
+      .tab.terkunci::after { content: ' 🔒'; }
+      .khl-sumber { font-size: 11.5px; color: var(--muted); margin-top: 10px; line-height: 1.6; }
+      details.khl-survei summary { cursor: pointer; font-weight: 700; padding: 8px 0; }
+      .komp-row { display: grid; grid-template-columns: 1fr 90px 120px 110px; gap: 8px; align-items: center; font-size: 12.5px; margin-bottom: 5px; }
+      .komp-row input { padding: 5px 8px; font-size: 12.5px; }
+      .komp-kel { margin: 12px 0 6px; font-weight: 700; color: var(--primary-2); font-size: 13px; }
     </style>
   </head>
   <body>
@@ -181,6 +220,7 @@
 
     <nav class="tabs" id="tabs">
       <button class="tab active" data-view="dashboard">📊 Dashboard</button>
+      <button class="tab" data-view="khl">🏠 KHL</button>
       <button class="tab" data-view="pyramid">🔺 Piramida</button>
       <button class="tab" data-view="ledger">⛓️ Ledger</button>
       <button class="tab" data-view="ai">⚡ AI Advisor</button>
@@ -270,6 +310,90 @@
             <button class="btn primary" id="btn-mkt">🌈 Generate Strategi</button>
           </div>
           <div id="mktBody" class="mkt-body"></div>
+        </div>
+      </section>
+
+      <!-- ============ M-01 · KEBUTUHAN HIDUP LAYAK ============ -->
+      <section class="view" id="view-khl">
+        <div class="card">
+          <div class="row-between">
+            <h2>🏠 KHL — Kebutuhan Hidup Layak</h2>
+            <button class="btn primary" id="khl-hitung">🧮 Hitung Ulang</button>
+          </div>
+          <p class="muted">
+            <b>KHL = Kebutuhan Hidup Layak</b>: standar rupiah <b>pengeluaran</b> per bulan agar pekerja
+            <i>dan keluarganya</i> hidup layak. <b>KHL bukan aset.</b> Emas, perak, tanah, properti, SBN,
+            reksadana, saham = <b>ASET</b>, ada di tab <i>Data Riil</i>. Dua-duanya dihitung di aplikasi ini,
+            bukan salah satu.
+          </p>
+          <div class="grid-3">
+            <label>Provinsi domisili
+              <select id="khl-prov"></select>
+            </label>
+            <label>Jumlah anggota rumah tangga
+              <input id="khl-art" type="number" min="1" max="20" value="4" />
+            </label>
+            <label>Yang bekerja / berpenghasilan
+              <input id="khl-kerja" type="number" min="0" max="20" value="1" />
+            </label>
+            <label>Penghasilan bersih rumah tangga/bulan
+              <input id="khl-penghasilan" type="number" min="0" placeholder="4200000" />
+            </label>
+            <label>Cicilan wajib/bulan
+              <input id="khl-cicilan" type="number" min="0" value="0" />
+            </label>
+            <label>Punya BPJS Kesehatan aktif?
+              <select id="khl-bpjs"><option value="tidak">Belum / tidak aktif</option><option value="ya">Ya, aktif</option></select>
+            </label>
+          </div>
+        </div>
+
+        <div class="card" id="khl-hasil-card">
+          <h2>📊 Posisi Anda terhadap KHL</h2>
+          <div id="khl-hasil"><p class="muted">Isi data di atas lalu tekan <b>Hitung Ulang</b>.</p></div>
+        </div>
+
+        <div class="card" id="khl-rencana-card" style="display:none">
+          <h2 id="khl-rencana-judul">🧭 Rencana</h2>
+          <div id="khl-rencana"></div>
+        </div>
+
+        <div class="card">
+          <h2>🗺️ KHL vs UMP di 38 Provinsi</h2>
+          <p class="muted">
+            Klik judul kolom untuk mengurutkan. Baris berwarna = provinsi Anda.
+            Kolom <b>Selisih</b> merah artinya <b>upah minimum resmi provinsi itu masih di bawah KHL</b>.
+          </p>
+          <div id="khl-ringkas-nasional" class="phase-box"></div>
+          <div class="khl-scroll">
+            <table class="khl-tabel" id="khl-tabel">
+              <thead><tr>
+                <th data-urut="nama">Provinsi</th>
+                <th data-urut="khl">KHL 2026</th>
+                <th data-urut="ump">UMP 2026</th>
+                <th data-urut="selisih">Selisih (UMP−KHL)</th>
+                <th data-urut="rasio">UMP/KHL</th>
+              </tr></thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="card">
+          <details class="khl-survei">
+            <summary>📋 Survei mandiri 64 komponen KHL (Permenaker 18/2020) — opsional</summary>
+            <p class="muted">
+              Isi harga & kuantitas di daerah Anda sendiri. Angka acuan Kemnaker adalah rata-rata provinsi;
+              hasil survei Anda dipakai sebagai <b>pembanding</b>. Tabungan 2% dan jaminan sosial 2%
+              ditambahkan otomatis sesuai aturan. Kuantitas dikosongkan bila angka resminya tidak
+              dipublikasikan — tidak saya karang.
+            </p>
+            <div class="row-between" style="margin:8px 0">
+              <div id="khl-survei-total" class="muted"></div>
+              <button class="btn ghost mini-btn" id="khl-survei-hitung">Hitung Survei</button>
+            </div>
+            <div id="khl-survei-list"></div>
+          </details>
         </div>
       </section>
 
@@ -458,6 +582,666 @@
     <div id="toast" class="toast"></div>
 
     <script>
+      /* PB:SUNTIK-KHL:MULAI */
+      /* ==========================================================================
+         DISUNTIK OTOMATIS oleh apps/preview/bangun-preview.js — JANGAN EDIT DI SINI.
+         Sumber rumus : packages/domain-khl/src/**  (punya tes di packages/domain-khl/test)
+         Sumber data  : data/khl/2026/**, data/ump/2026/**
+         Dibangun     : 2026-08-03T08:24:52.604Z
+
+         KHL = KEBUTUHAN HIDUP LAYAK (standar pengeluaran layak per bulan).
+         KHL BUKAN aset. Emas/perak/tanah/properti/SBN/reksadana = ASET (modul M-02).
+         Keduanya ada di aplikasi ini, bukan salah satu.
+         ========================================================================== */
+      const KHL = (function () {
+        const DATA_KHL = {"tahun":2026,"meta":{"tahun":2026,"khl":{"sumber":"Kementerian Ketenagakerjaan RI","metode":"Berbasis studi ILO 2025 — (konsumsi per kapita x ART) / ART bekerja","kelompok_konsumsi":["makanan","kesehatan dan pendidikan","perumahan","kebutuhan pokok lainnya"],"tanggal_rilis":"2025-12-20","catatan":"Dipakai sebagai acuan penetapan UMP 2026 secara bertahap mendekati KHL."},"ump":{"sumber":"Penetapan UMP 2026 oleh gubernur, berlaku 1 Januari 2026","tanggal_rilis":"2025-12-24","dasar":"UU 6/2023, PP 51/2023, dan Putusan MK 168/PUU-XXI/2023"},"garis_kemiskinan_nasional":{"nilai_per_kapita_per_bulan":609160,"sumber":"BPS, Susenas Maret 2025","catatan":"Ambang MISKIN, bukan ambang LAYAK. Jauh di bawah KHL."},"standar_hidup_layak_bps":{"nilai_per_kapita_per_bulan":1028333,"sumber":"BPS 2024 (pengeluaran riil per kapita Rp 12,34 juta/tahun untuk komponen IPM)","catatan":"BPS menegaskan angka ini BUKAN kriteria layak/tidak layak, hanya komponen IPM."},"asumsi_rumah_tangga_acuan":{"jumlah_art":4,"art_bekerja":1,"catatan":"Asumsi yang dipakai aplikasi untuk menurunkan konsumsi per kapita dari angka KHL provinsi. Kemnaker tidak mempublikasikan angka ART per provinsi secara rinci, jadi ini ASUMSI yang bisa diubah pengguna, bukan angka resmi."}},"provinsi":[{"kode":"11","nama":"Aceh","slug":"aceh","pulau":"Sumatera","khl":3654466,"ump":3932552,"konsumsiPerKapita":913617},{"kode":"12","nama":"Sumatera Utara","slug":"sumatera-utara","pulau":"Sumatera","khl":3599803,"ump":3228949,"konsumsiPerKapita":899951},{"kode":"13","nama":"Sumatera Barat","slug":"sumatera-barat","pulau":"Sumatera","khl":4076173,"ump":3182955,"konsumsiPerKapita":1019043},{"kode":"14","nama":"Riau","slug":"riau","pulau":"Sumatera","khl":4158948,"ump":3780495,"konsumsiPerKapita":1039737},{"kode":"15","nama":"Jambi","slug":"jambi","pulau":"Sumatera","khl":3931596,"ump":3471497,"konsumsiPerKapita":982899},{"kode":"16","nama":"Sumatera Selatan","slug":"sumatera-selatan","pulau":"Sumatera","khl":3299907,"ump":3942963,"konsumsiPerKapita":824977},{"kode":"17","nama":"Bengkulu","slug":"bengkulu","pulau":"Sumatera","khl":3714932,"ump":2827250,"konsumsiPerKapita":928733},{"kode":"18","nama":"Lampung","slug":"lampung","pulau":"Sumatera","khl":3343494,"ump":3047734,"konsumsiPerKapita":835874},{"kode":"19","nama":"Kepulauan Bangka Belitung","slug":"kep-bangka-belitung","pulau":"Sumatera","khl":4714805,"ump":4035000,"konsumsiPerKapita":1178701},{"kode":"21","nama":"Kepulauan Riau","slug":"kep-riau","pulau":"Sumatera","khl":5717082,"ump":3879520,"konsumsiPerKapita":1429271},{"kode":"31","nama":"DKI Jakarta","slug":"dki-jakarta","pulau":"Jawa","khl":5898511,"ump":5729876,"konsumsiPerKapita":1474628},{"kode":"32","nama":"Jawa Barat","slug":"jawa-barat","pulau":"Jawa","khl":4122871,"ump":2317601,"konsumsiPerKapita":1030718},{"kode":"33","nama":"Jawa Tengah","slug":"jawa-tengah","pulau":"Jawa","khl":3512997,"ump":2327386,"konsumsiPerKapita":878249},{"kode":"34","nama":"DI Yogyakarta","slug":"di-yogyakarta","pulau":"Jawa","khl":4604982,"ump":2417495,"konsumsiPerKapita":1151246},{"kode":"35","nama":"Jawa Timur","slug":"jawa-timur","pulau":"Jawa","khl":3575938,"ump":2446880,"konsumsiPerKapita":893985},{"kode":"36","nama":"Banten","slug":"banten","pulau":"Jawa","khl":4295985,"ump":3100881,"konsumsiPerKapita":1073996},{"kode":"51","nama":"Bali","slug":"bali","pulau":"Bali & Nusa Tenggara","khl":5253107,"ump":3207459,"konsumsiPerKapita":1313277},{"kode":"52","nama":"Nusa Tenggara Barat","slug":"nusa-tenggara-barat","pulau":"Bali & Nusa Tenggara","khl":3410833,"ump":2673861,"konsumsiPerKapita":852708},{"kode":"53","nama":"Nusa Tenggara Timur","slug":"nusa-tenggara-timur","pulau":"Bali & Nusa Tenggara","khl":3054508,"ump":2455898,"konsumsiPerKapita":763627},{"kode":"61","nama":"Kalimantan Barat","slug":"kalimantan-barat","pulau":"Kalimantan","khl":4083420,"ump":3054552,"konsumsiPerKapita":1020855},{"kode":"62","nama":"Kalimantan Tengah","slug":"kalimantan-tengah","pulau":"Kalimantan","khl":4279888,"ump":3686138,"konsumsiPerKapita":1069972},{"kode":"63","nama":"Kalimantan Selatan","slug":"kalimantan-selatan","pulau":"Kalimantan","khl":4112552,"ump":3725000,"konsumsiPerKapita":1028138},{"kode":"64","nama":"Kalimantan Timur","slug":"kalimantan-timur","pulau":"Kalimantan","khl":5735353,"ump":3762431,"konsumsiPerKapita":1433838},{"kode":"65","nama":"Kalimantan Utara","slug":"kalimantan-utara","pulau":"Kalimantan","khl":4968935,"ump":3775243,"konsumsiPerKapita":1242234},{"kode":"71","nama":"Sulawesi Utara","slug":"sulawesi-utara","pulau":"Sulawesi","khl":3864224,"ump":4002630,"konsumsiPerKapita":966056},{"kode":"72","nama":"Sulawesi Tengah","slug":"sulawesi-tengah","pulau":"Sulawesi","khl":3546013,"ump":3179565,"konsumsiPerKapita":886503},{"kode":"73","nama":"Sulawesi Selatan","slug":"sulawesi-selatan","pulau":"Sulawesi","khl":3670085,"ump":3921088,"konsumsiPerKapita":917521},{"kode":"74","nama":"Sulawesi Tenggara","slug":"sulawesi-tenggara","pulau":"Sulawesi","khl":3645086,"ump":3306496,"konsumsiPerKapita":911272},{"kode":"75","nama":"Gorontalo","slug":"gorontalo","pulau":"Sulawesi","khl":3398395,"ump":3405144,"konsumsiPerKapita":849599},{"kode":"76","nama":"Sulawesi Barat","slug":"sulawesi-barat","pulau":"Sulawesi","khl":3091442,"ump":3315934,"konsumsiPerKapita":772861},{"kode":"81","nama":"Maluku","slug":"maluku","pulau":"Maluku & Papua","khl":4168498,"ump":3334490,"konsumsiPerKapita":1042125},{"kode":"82","nama":"Maluku Utara","slug":"maluku-utara","pulau":"Maluku & Papua","khl":4431339,"ump":3510240,"konsumsiPerKapita":1107835},{"kode":"91","nama":"Papua Barat","slug":"papua-barat","pulau":"Maluku & Papua","khl":5246172,"ump":3841000,"konsumsiPerKapita":1311543},{"kode":"92","nama":"Papua Barat Daya","slug":"papua-barat-daya","pulau":"Maluku & Papua","khl":5246172,"ump":3766000,"konsumsiPerKapita":1311543},{"kode":"94","nama":"Papua","slug":"papua","pulau":"Maluku & Papua","khl":5314281,"ump":4436283,"konsumsiPerKapita":1328570},{"kode":"95","nama":"Papua Selatan","slug":"papua-selatan","pulau":"Maluku & Papua","khl":5314281,"ump":4508100,"konsumsiPerKapita":1328570},{"kode":"96","nama":"Papua Tengah","slug":"papua-tengah","pulau":"Maluku & Papua","khl":5314281,"ump":4285848,"konsumsiPerKapita":1328570},{"kode":"97","nama":"Papua Pegunungan","slug":"papua-pegunungan","pulau":"Maluku & Papua","khl":5314281,"ump":4508714,"konsumsiPerKapita":1328570}],"komponen":{"dasar_hukum":"Permenaker No. 18 Tahun 2020 (perubahan atas Permenaker No. 21 Tahun 2016)","tanggal_penetapan":"2020-10-09","jumlah_komponen":64,"kelompok":[{"kode":"makanan_minuman","nama":"Makanan & Minuman","jumlah":13},{"kode":"sandang","nama":"Sandang","jumlah":13},{"kode":"perumahan","nama":"Perumahan","jumlah":26},{"kode":"pendidikan","nama":"Pendidikan","jumlah":2},{"kode":"kesehatan","nama":"Kesehatan","jumlah":5},{"kode":"transportasi","nama":"Transportasi","jumlah":1},{"kode":"komunikasi","nama":"Komunikasi","jumlah":1},{"kode":"rekreasi_tabungan","nama":"Rekreasi, Tabungan & Jaminan Sosial","jumlah":3}],"komponen":[{"kelompok":"makanan_minuman","nama":"Beras kualitas sedang","satuan":"kg","kuantitas":null,"catatan":""},{"kelompok":"makanan_minuman","nama":"Protein: daging kualitas sedang","satuan":"kg","kuantitas":null,"catatan":""},{"kelompok":"makanan_minuman","nama":"Protein: ikan segar kualitas baik","satuan":"kg","kuantitas":null,"catatan":""},{"kelompok":"makanan_minuman","nama":"Protein: telur ayam ras","satuan":"kg","kuantitas":null,"catatan":""},{"kelompok":"makanan_minuman","nama":"Kacang-kacangan (tahu/tempe)","satuan":"kg","kuantitas":null,"catatan":""},{"kelompok":"makanan_minuman","nama":"Susu bubuk kualitas sedang","satuan":"gram","kuantitas":null,"catatan":""},{"kelompok":"makanan_minuman","nama":"Gula pasir kualitas sedang","satuan":"kg","kuantitas":null,"catatan":""},{"kelompok":"makanan_minuman","nama":"Minyak goreng curah","satuan":"liter","kuantitas":null,"catatan":""},{"kelompok":"makanan_minuman","nama":"Sayuran kualitas baik","satuan":"kg","kuantitas":null,"catatan":""},{"kelompok":"makanan_minuman","nama":"Buah-buahan (setara pisang/pepaya)","satuan":"kg","kuantitas":null,"catatan":""},{"kelompok":"makanan_minuman","nama":"Karbohidrat lain (setara tepung terigu)","satuan":"kg","kuantitas":null,"catatan":""},{"kelompok":"makanan_minuman","nama":"Teh celup & kopi sachet","satuan":"paket","kuantitas":null,"catatan":"Pada 2020 teh dan kopi dipisah"},{"kelompok":"makanan_minuman","nama":"Air minum galon curah/refill","satuan":"galon","kuantitas":3,"catatan":"Komponen baru pada Permenaker 18/2020"},{"kelompok":"sandang","nama":"Celana panjang / pakaian muslim katun","satuan":"potong/tahun","kuantitas":null,"catatan":""},{"kelompok":"sandang","nama":"Celana pendek katun","satuan":"potong/tahun","kuantitas":null,"catatan":""},{"kelompok":"sandang","nama":"Ikat pinggang kulit sintetis","satuan":"buah/tahun","kuantitas":null,"catatan":""},{"kelompok":"sandang","nama":"Kemeja lengan pendek katun","satuan":"potong/tahun","kuantitas":null,"catatan":""},{"kelompok":"sandang","nama":"Kaos oblong poliester","satuan":"potong/tahun","kuantitas":null,"catatan":""},{"kelompok":"sandang","nama":"Celana dalam poliester","satuan":"potong/tahun","kuantitas":null,"catatan":""},{"kelompok":"sandang","nama":"Sarung kualitas sedang","satuan":"helai/tahun","kuantitas":null,"catatan":""},{"kelompok":"sandang","nama":"Sepatu kulit sintetis","satuan":"pasang/tahun","kuantitas":null,"catatan":""},{"kelompok":"sandang","nama":"Kaos kaki polos","satuan":"pasang/tahun","kuantitas":null,"catatan":""},{"kelompok":"sandang","nama":"Perlengkapan pembersih sepatu (semir & sikat)","satuan":"set/tahun","kuantitas":null,"catatan":""},{"kelompok":"sandang","nama":"Sandal jepit karet","satuan":"pasang/tahun","kuantitas":null,"catatan":""},{"kelompok":"sandang","nama":"Handuk mandi 100 x 60 cm","satuan":"helai/tahun","kuantitas":null,"catatan":""},{"kelompok":"sandang","nama":"Perlengkapan ibadah (sajadah, kitab suci, peci)","satuan":"set/tahun","kuantitas":null,"catatan":""},{"kelompok":"perumahan","nama":"Sewa/kontrak kamar 16 m2","satuan":"bulan","kuantitas":1,"catatan":""},{"kelompok":"perumahan","nama":"Dipan / tempat tidur","satuan":"buah","kuantitas":null,"catatan":""},{"kelompok":"perumahan","nama":"Perlengkapan tidur (kasur & bantal busa)","satuan":"set","kuantitas":null,"catatan":""},{"kelompok":"perumahan","nama":"Sprei & sarung bantal katun","satuan":"set","kuantitas":null,"catatan":""},{"kelompok":"perumahan","nama":"Meja dan kursi (1 meja, 4 kursi)","satuan":"set","kuantitas":null,"catatan":""},{"kelompok":"perumahan","nama":"Lemari pakaian kayu","satuan":"buah","kuantitas":null,"catatan":""},{"kelompok":"perumahan","nama":"Sapu ijuk","satuan":"buah","kuantitas":null,"catatan":""},{"kelompok":"perumahan","nama":"Perlengkapan makan (piring, gelas, sendok, garpu)","satuan":"set","kuantitas":null,"catatan":""},{"kelompok":"perumahan","nama":"Ceret aluminium 1,5 liter","satuan":"buah","kuantitas":null,"catatan":""},{"kelompok":"perumahan","nama":"Wajan aluminium 26 cm","satuan":"buah","kuantitas":null,"catatan":""},{"kelompok":"perumahan","nama":"Panci aluminium 24 cm","satuan":"buah","kuantitas":null,"catatan":""},{"kelompok":"perumahan","nama":"Sendok masak aluminium","satuan":"buah","kuantitas":null,"catatan":""},{"kelompok":"perumahan","nama":"Rice cooker 0,5 liter SNI","satuan":"buah","kuantitas":null,"catatan":""},{"kelompok":"perumahan","nama":"Kompor gas 1 tungku + selang + regulator + tabung 3 kg","satuan":"set","kuantitas":null,"catatan":""},{"kelompok":"perumahan","nama":"Gas elpiji tabung 3 kg","satuan":"tabung/bulan","kuantitas":null,"catatan":""},{"kelompok":"perumahan","nama":"Ember plastik 20 liter","satuan":"buah","kuantitas":null,"catatan":""},{"kelompok":"perumahan","nama":"Gayung plastik","satuan":"buah","kuantitas":null,"catatan":""},{"kelompok":"perumahan","nama":"Listrik PLN 1.300 VA","satuan":"bulan","kuantitas":1,"catatan":""},{"kelompok":"perumahan","nama":"Bola lampu hemat energi 14 watt","satuan":"buah","kuantitas":null,"catatan":""},{"kelompok":"perumahan","nama":"Air bersih standar PDAM","satuan":"bulan","kuantitas":1,"catatan":""},{"kelompok":"perumahan","nama":"Sabun cuci pakaian (deterjen bubuk)","satuan":"kg/bulan","kuantitas":null,"catatan":""},{"kelompok":"perumahan","nama":"Sabun cuci piring cair refill","satuan":"ml/bulan","kuantitas":null,"catatan":""},{"kelompok":"perumahan","nama":"Setrika SNI","satuan":"buah","kuantitas":null,"catatan":""},{"kelompok":"perumahan","nama":"Rak piring portabel plastik","satuan":"buah","kuantitas":null,"catatan":""},{"kelompok":"perumahan","nama":"Pisau dapur stainless","satuan":"buah","kuantitas":null,"catatan":""},{"kelompok":"perumahan","nama":"Cermin 30 x 50 cm","satuan":"buah","kuantitas":null,"catatan":""},{"kelompok":"pendidikan","nama":"Bacaan / saluran informasi","satuan":"bulan","kuantitas":1,"catatan":""},{"kelompok":"pendidikan","nama":"Ballpoint atau pensil non-refill","satuan":"buah/bulan","kuantitas":null,"catatan":""},{"kelompok":"kesehatan","nama":"Sarana kesehatan (pasta gigi, sabun mandi, sikat gigi, sampo, cotton bud, alat cukur)","satuan":"paket/bulan","kuantitas":1,"catatan":""},{"kelompok":"kesehatan","nama":"Deodoran 100 ml/gram","satuan":"buah","kuantitas":null,"catatan":""},{"kelompok":"kesehatan","nama":"Obat anti nyamuk cair semprot 325 ml","satuan":"buah","kuantitas":null,"catatan":""},{"kelompok":"kesehatan","nama":"Potong rambut non-salon","satuan":"kali/bulan","kuantitas":null,"catatan":""},{"kelompok":"kesehatan","nama":"Sisir plastik","satuan":"buah","kuantitas":null,"catatan":""},{"kelompok":"transportasi","nama":"Angkutan umum (kerja dan lainnya)","satuan":"bulan","kuantitas":1,"catatan":""},{"kelompok":"komunikasi","nama":"Paket pulsa & data HP (setara 2 GB)","satuan":"bulan","kuantitas":1,"catatan":"Komponen baru pada Permenaker 18/2020"},{"kelompok":"rekreasi_tabungan","nama":"Rekreasi dalam kota/kabupaten","satuan":"kali/bulan","kuantitas":null,"catatan":""},{"kelompok":"rekreasi_tabungan","nama":"Tabungan (2% dari total pengeluaran)","satuan":"persen","kuantitas":2,"catatan":""},{"kelompok":"rekreasi_tabungan","nama":"Jaminan sosial (2% dari total pengeluaran)","satuan":"persen","kuantitas":2,"catatan":""}]},"asumsi":{"asumsi_rumah_tangga":{"jumlah_art":4,"art_bekerja":1,"catatan":"Asumsi yang dipakai aplikasi untuk menurunkan konsumsi per kapita dari angka KHL provinsi. Kemnaker tidak mempublikasikan angka ART per provinsi secara rinci, jadi ini ASUMSI yang bisa diubah pengguna, bukan angka resmi."},"garis_kemiskinan_nasional":{"nilai_per_kapita_per_bulan":609160,"sumber":"BPS, Susenas Maret 2025","catatan":"Ambang MISKIN, bukan ambang LAYAK. Jauh di bawah KHL."},"standar_hidup_layak_bps":{"nilai_per_kapita_per_bulan":1028333,"sumber":"BPS 2024 (pengeluaran riil per kapita Rp 12,34 juta/tahun untuk komponen IPM)","catatan":"BPS menegaskan angka ini BUKAN kriteria layak/tidak layak, hanya komponen IPM."}}};
+
+        /* --- packages/domain-khl/src/rumus/hitung-khl-acuan.js --- */
+        /**
+         * M-01 · Menghitung KHL rumah tangga dari angka acuan provinsi.
+         *
+         * KHL = KEBUTUHAN HIDUP LAYAK -> standar PENGELUARAN layak per bulan.
+         * Ini BUKAN aset, BUKAN logam mulia.
+         *
+         * Rumus Kemnaker (metode berbasis studi ILO 2025):
+         *     KHL = (konsumsi per kapita x jumlah ART) / jumlah ART yang bekerja
+         *
+         * Angka KHL yang dirilis Kemnaker memakai rumah tangga acuan. Untuk menyesuaikan
+         * dengan rumah tangga pengguna, konsumsi per kapita diturunkan lebih dulu:
+         *     konsumsi_per_kapita = KHL_provinsi x ART_bekerja_acuan / ART_acuan
+         *
+         * Catatan jujur: ART acuan (4 orang, 1 bekerja) adalah ASUMSI aplikasi karena
+         * Kemnaker tidak merinci komposisi rumah tangga per provinsi. Asumsi ini terbuka
+         * untuk diubah pengguna dan selalu ditampilkan di layar.
+         */
+
+        const ART_ACUAN = 4;
+        const ART_BEKERJA_ACUAN = 1;
+
+        function konsumsiPerKapita(khlProvinsi, artAcuan = ART_ACUAN, artBekerjaAcuan = ART_BEKERJA_ACUAN) {
+          if (!(khlProvinsi > 0)) throw new Error('khlProvinsi harus lebih besar dari 0');
+          if (!(artAcuan > 0)) throw new Error('artAcuan harus lebih besar dari 0');
+          return (khlProvinsi * artBekerjaAcuan) / artAcuan;
+        }
+
+        /**
+         * @param {object} p
+         * @param {number} p.khlProvinsi   angka KHL resmi provinsi (rupiah/bulan)
+         * @param {number} p.jumlahArt     jumlah anggota rumah tangga pengguna
+         * @param {number} p.artBekerja    jumlah anggota rumah tangga yang bekerja
+         * @returns {{khlRumahTangga:number, khlPerPekerja:number, konsumsiPerKapita:number,
+         *            jumlahArt:number, artBekerja:number, disesuaikan:boolean}}
+         */
+        function hitungKhlAcuan({ khlProvinsi, jumlahArt = ART_ACUAN, artBekerja = ART_BEKERJA_ACUAN }) {
+          if (!(khlProvinsi > 0)) throw new Error('khlProvinsi harus lebih besar dari 0');
+          if (!Number.isFinite(jumlahArt) || jumlahArt < 1) throw new Error('jumlahArt minimal 1');
+          if (!Number.isFinite(artBekerja) || artBekerja < 0) throw new Error('artBekerja tidak boleh negatif');
+          if (artBekerja > jumlahArt) throw new Error('artBekerja tidak boleh melebihi jumlahArt');
+
+          const perKapita = konsumsiPerKapita(khlProvinsi);
+          const khlRumahTangga = Math.round(perKapita * jumlahArt);
+          const pembagi = Math.max(artBekerja, 1);
+
+          return {
+            khlRumahTangga,
+            khlPerPekerja: Math.round(khlRumahTangga / pembagi),
+            konsumsiPerKapita: Math.round(perKapita),
+            jumlahArt,
+            artBekerja,
+            disesuaikan: jumlahArt !== ART_ACUAN || artBekerja !== ART_BEKERJA_ACUAN
+          };
+        }
+
+
+        /* --- packages/domain-khl/src/rumus/hitung-kesenjangan.js --- */
+        /**
+         * M-01 · Kesenjangan antara penghasilan rumah tangga dan Kebutuhan Hidup Layak.
+         *
+         *   kesenjangan     = KHL rumah tangga - penghasilan bersih rumah tangga
+         *   rasio pemenuhan = penghasilan bersih rumah tangga / KHL rumah tangga
+         *
+         * Kesenjangan POSITIF berarti KURANG (penghasilan belum menutup kebutuhan hidup layak).
+         */
+
+        function hitungKesenjangan({ khlRumahTangga, penghasilanBersihRt }) {
+          if (!(khlRumahTangga > 0)) throw new Error('khlRumahTangga harus lebih besar dari 0');
+          const penghasilan = Number(penghasilanBersihRt) || 0;
+          if (penghasilan < 0) throw new Error('penghasilan tidak boleh negatif');
+
+          const kesenjangan = khlRumahTangga - penghasilan;
+          const rasio = penghasilan / khlRumahTangga;
+
+          return {
+            khlRumahTangga: Math.round(khlRumahTangga),
+            penghasilanBersihRt: Math.round(penghasilan),
+            kesenjangan: Math.round(kesenjangan),
+            kurang: kesenjangan > 0,
+            surplus: kesenjangan < 0 ? Math.round(-kesenjangan) : 0,
+            rasioPemenuhan: Number(rasio.toFixed(4)),
+            persenPemenuhan: Number((rasio * 100).toFixed(1))
+          };
+        }
+
+        /**
+         * Kesenjangan per orang: berapa rupiah kekurangan yang ditanggung tiap anggota rumah tangga.
+         * Dipakai untuk kalimat "untuk satu orang saja masih kurang, apalagi seluruh tanggungan".
+         */
+        function kesenjanganPerOrang({ kesenjangan, jumlahArt }) {
+          if (!(jumlahArt >= 1)) throw new Error('jumlahArt minimal 1');
+          return Math.round(kesenjangan / jumlahArt);
+        }
+
+
+        /* --- packages/domain-khl/src/rumus/tentukan-status.js --- */
+        /**
+         * M-01 · Status pemenuhan Kebutuhan Hidup Layak.
+         *
+         *   rasio < 0,60  -> KRITIS
+         *   0,60 - 0,85   -> DI BAWAH KHL
+         *   0,85 - 1,00   -> MENDEKATI KHL
+         *   1,00 - 1,50   -> LAYAK
+         *   > 1,50        -> LAYAK + SURPLUS
+         */
+
+        const STATUS_KHL = [
+          {
+            kode: 'KRITIS',
+            label: 'KRITIS — jauh di bawah hidup layak',
+            batasBawah: 0,
+            batasAtas: 0.6,
+            warna: 'merah',
+            penjelasan:
+              'Penghasilan rumah tangga belum menutup 60% kebutuhan hidup layak. Ini bukan soal gaya hidup; ' +
+              'ini soal penghasilan yang memang belum cukup. Fokus: menambah penghasilan dan mengamankan ' +
+              'pangan, tempat tinggal, serta jaminan kesehatan.'
+          },
+          {
+            kode: 'DI_BAWAH_KHL',
+            label: 'DI BAWAH KHL',
+            batasBawah: 0.6,
+            batasAtas: 0.85,
+            warna: 'oranye',
+            penjelasan:
+              'Penghasilan masih di bawah standar Kebutuhan Hidup Layak provinsi Anda. Investasi ditunda ' +
+              'dulu; yang lebih mendesak adalah menutup kekurangan kebutuhan dasar.'
+          },
+          {
+            kode: 'MENDEKATI_KHL',
+            label: 'MENDEKATI KHL',
+            batasBawah: 0.85,
+            batasAtas: 1.0,
+            warna: 'kuning',
+            penjelasan:
+              'Tinggal sedikit lagi mencapai kebutuhan hidup layak. Amankan BPJS dan kumpulkan dana ' +
+              'darurat satu bulan sebelum bicara investasi.'
+          },
+          {
+            kode: 'LAYAK',
+            label: 'LAYAK',
+            batasBawah: 1.0,
+            batasAtas: 1.5,
+            warna: 'hijau',
+            penjelasan:
+              'Penghasilan sudah menutup Kebutuhan Hidup Layak. Sisa di atas KHL bisa mulai dialokasikan ' +
+              'ke dana darurat, pelunasan utang, lalu investasi sesuai fase ekonomi.'
+          },
+          {
+            kode: 'LAYAK_SURPLUS',
+            label: 'LAYAK + SURPLUS',
+            batasBawah: 1.5,
+            batasAtas: Infinity,
+            warna: 'biru',
+            penjelasan:
+              'Penghasilan jauh di atas Kebutuhan Hidup Layak. Ruang untuk membangun aset besar — ' +
+              'dan untuk membantu orang lain yang penghasilannya masih di bawah KHL.'
+          }
+        ];
+
+        function tentukanStatus(rasioPemenuhan) {
+          const r = Number(rasioPemenuhan);
+          if (!Number.isFinite(r) || r < 0) throw new Error('rasioPemenuhan tidak valid');
+          const s = STATUS_KHL.find((x) => r >= x.batasBawah && r < x.batasAtas) || STATUS_KHL[STATUS_KHL.length - 1];
+          return { kode: s.kode, label: s.label, warna: s.warna, penjelasan: s.penjelasan };
+        }
+
+
+        /* --- packages/domain-khl/src/rumus/hitung-khl-survei.js --- */
+        /**
+         * M-01 · KHL versi survei mandiri, memakai 64 komponen Permenaker 18/2020.
+         *
+         *   subtotal = jumlah (kuantitas x harga) seluruh komponen non-persentase
+         *   tabungan        = 2% dari subtotal
+         *   jaminan sosial  = 2% dari subtotal
+         *   KHL survei      = subtotal + tabungan + jaminan sosial
+         *
+         * Komponen tahunan (satuan mengandung "/tahun") otomatis dibagi 12 supaya
+         * semuanya setara per bulan.
+         */
+
+        const PERSEN_TABUNGAN = 0.02;
+        const PERSEN_JAMINAN_SOSIAL = 0.02;
+
+        function setaraBulanan(nilai, satuan) {
+          const s = String(satuan || '').toLowerCase();
+          if (s.includes('/tahun')) return nilai / 12;
+          return nilai;
+        }
+
+        /**
+         * @param {Array<{kelompok:string,nama:string,satuan:string,kuantitas:number,harga:number}>} isian
+         */
+        function hitungKhlSurvei(isian = []) {
+          const perKelompok = {};
+          let subtotal = 0;
+          let terisi = 0;
+
+          for (const item of isian) {
+            const kuantitas = Number(item.kuantitas) || 0;
+            const harga = Number(item.harga) || 0;
+            if (kuantitas < 0 || harga < 0) throw new Error(`Nilai negatif pada komponen "${item.nama}"`);
+            const satuan = String(item.satuan || '').toLowerCase();
+            if (satuan === 'persen') continue; // tabungan & jaminan sosial dihitung terpisah
+            const nilai = setaraBulanan(kuantitas * harga, item.satuan);
+            if (nilai > 0) terisi += 1;
+            subtotal += nilai;
+            perKelompok[item.kelompok] = (perKelompok[item.kelompok] || 0) + nilai;
+          }
+
+          const tabungan = subtotal * PERSEN_TABUNGAN;
+          const jaminanSosial = subtotal * PERSEN_JAMINAN_SOSIAL;
+
+          return {
+            subtotal: Math.round(subtotal),
+            tabungan: Math.round(tabungan),
+            jaminanSosial: Math.round(jaminanSosial),
+            khlSurvei: Math.round(subtotal + tabungan + jaminanSosial),
+            perKelompok: Object.fromEntries(Object.entries(perKelompok).map(([k, v]) => [k, Math.round(v)])),
+            komponenTerisi: terisi,
+            lengkap: terisi >= 40,
+            catatan:
+              terisi >= 40
+                ? 'Survei cukup lengkap untuk dipakai sebagai pembanding angka acuan Kemnaker.'
+                : 'Survei belum lengkap. Angka acuan Kemnaker tetap dipakai sebagai dasar perhitungan.'
+          };
+        }
+
+
+        /* --- packages/domain-khl/src/rumus/proyeksi-tahun-tercapai.js --- */
+        /**
+         * M-01 · Berapa lama lagi penghasilan mencapai KHL bila naik x% per tahun.
+         *
+         *   tahun = ln(KHL / penghasilan) / ln(1 + kenaikan_tahunan)
+         *
+         * KHL sendiri ikut naik tiap tahun. Kalau `kenaikanKhlTahunan` diisi, yang dipakai
+         * adalah selisih pertumbuhan (pertumbuhan riil penghasilan terhadap KHL) — kalau
+         * penghasilan naik lebih lambat daripada KHL, jaraknya justru melebar dan itu
+         * dikatakan apa adanya.
+         */
+
+        function proyeksiTahunTercapai({
+          khlRumahTangga,
+          penghasilanBersihRt,
+          kenaikanPenghasilanTahunan = 0.06,
+          kenaikanKhlTahunan = 0
+        }) {
+          if (!(khlRumahTangga > 0)) throw new Error('khlRumahTangga harus lebih besar dari 0');
+          if (penghasilanBersihRt <= 0) {
+            return { tercapai: false, tahun: null, alasan: 'Belum ada penghasilan tercatat.' };
+          }
+          if (penghasilanBersihRt >= khlRumahTangga) {
+            return { tercapai: true, tahun: 0, alasan: 'Penghasilan sudah mencapai KHL.' };
+          }
+
+          const g = (1 + kenaikanPenghasilanTahunan) / (1 + kenaikanKhlTahunan) - 1;
+          if (g <= 0) {
+            return {
+              tercapai: false,
+              tahun: null,
+              pertumbuhanRiil: Number(g.toFixed(4)),
+              alasan:
+                'Kenaikan penghasilan tidak melampaui kenaikan KHL. Dengan laju ini jaraknya tidak ' +
+                'akan tertutup — yang dibutuhkan bukan berhemat, tapi menaikkan penghasilan atau ' +
+                'menambah anggota rumah tangga yang bekerja.'
+            };
+          }
+
+          const tahun = Math.log(khlRumahTangga / penghasilanBersihRt) / Math.log(1 + g);
+          return {
+            tercapai: true,
+            tahun: Number(tahun.toFixed(1)),
+            bulan: Math.round(tahun * 12),
+            pertumbuhanRiil: Number(g.toFixed(4)),
+            alasan: `Dengan kenaikan penghasilan ${(kenaikanPenghasilanTahunan * 100).toFixed(1)}% per tahun.`
+          };
+        }
+
+        /** Berapa kenaikan penghasilan per bulan yang dibutuhkan agar KHL tercapai dalam N bulan. */
+        function kenaikanDibutuhkan({ kesenjangan, bulanTarget = 12 }) {
+          if (!(bulanTarget > 0)) throw new Error('bulanTarget harus lebih besar dari 0');
+          if (kesenjangan <= 0) return { perluTambahan: 0, catatan: 'Sudah tidak ada kekurangan.' };
+          return {
+            perluTambahan: Math.round(kesenjangan),
+            perBulanNaikBertahap: Math.round(kesenjangan / bulanTarget),
+            catatan: `Untuk menutup kekurangan dalam ${bulanTarget} bulan.`
+          };
+        }
+
+
+        /* --- packages/domain-khl/src/rumus/rencana-tutup-kesenjangan.js --- */
+        /**
+         * M-01.8 · Rencana menutup kesenjangan KHL.
+         *
+         * Ini pengganti nasihat "hemat" yang tidak berguna bagi orang yang penghasilannya
+         * memang di bawah kebutuhan hidup layak. Isinya langkah yang menambah penghasilan,
+         * memindahkan beban, atau mengambil hak yang memang tersedia — masing-masing
+         * dengan perkiraan rupiahnya, bukan sekadar imbauan.
+         */
+
+        function rencanaTutupKesenjangan({
+          kesenjangan,
+          khlRumahTangga,
+          penghasilanBersihRt,
+          jumlahArt = 1,
+          artBekerja = 1,
+          umpProvinsi = 0,
+          punyaBpjs = false
+        }) {
+          if (kesenjangan <= 0) {
+            return {
+              perlu: false,
+              langkah: [],
+              ringkasan: 'Penghasilan sudah menutup Kebutuhan Hidup Layak rumah tangga Anda.'
+            };
+          }
+
+          const langkah = [];
+          const konsumsiPerKapita = khlRumahTangga / Math.max(jumlahArt, 1);
+
+          // 1. Menambah pencari nafkah — dampaknya paling besar dan paling langsung
+          const artTidakBekerja = Math.max(jumlahArt - artBekerja, 0);
+          if (artTidakBekerja > 0 && umpProvinsi > 0) {
+            langkah.push({
+              kode: 'TAMBAH_PENCARI_NAFKAH',
+              judul: 'Tambah satu anggota rumah tangga yang bekerja',
+              penjelasan:
+                `Ada ${artTidakBekerja} anggota rumah tangga yang belum berpenghasilan. ` +
+                'Satu penghasilan setara upah minimum provinsi akan mengubah posisi rumah tangga secara langsung.',
+              perkiraanDampak: Math.round(umpProvinsi),
+              satuan: 'per bulan',
+              tingkat: 'besar'
+            });
+          }
+
+          // 2. Menaikkan penghasilan utama sampai setidaknya UMP
+          if (umpProvinsi > 0 && penghasilanBersihRt < umpProvinsi) {
+            langkah.push({
+              kode: 'NAIK_KE_UMP',
+              judul: 'Penghasilan Anda masih di bawah upah minimum provinsi',
+              penjelasan:
+                'Upah minimum adalah batas terendah yang sah untuk pekerja formal. Bila Anda pekerja ' +
+                'formal dan dibayar di bawah angka ini, itu bisa diadukan ke dinas ketenagakerjaan setempat.',
+              perkiraanDampak: Math.round(umpProvinsi - penghasilanBersihRt),
+              satuan: 'per bulan',
+              tingkat: 'besar'
+            });
+          }
+
+          // 3. Penghasilan tambahan
+          langkah.push({
+            kode: 'PENGHASILAN_TAMBAHAN',
+            judul: 'Bangun satu sumber penghasilan tambahan',
+            penjelasan:
+              'Kekurangan sebesar ini tidak bisa ditutup dengan berhemat, karena yang kurang adalah ' +
+              'kebutuhan dasar. Yang bisa menutup hanyalah penghasilan tambahan.',
+            perkiraanDampak: Math.round(kesenjangan),
+            satuan: 'per bulan (target)',
+            tingkat: 'besar'
+          });
+
+          // 4. Jaminan kesehatan — premi kecil, dampak besar
+          if (!punyaBpjs) {
+            langkah.push({
+              kode: 'BPJS',
+              judul: 'Aktifkan BPJS Kesehatan (atau daftar PBI bila memenuhi syarat)',
+              penjelasan:
+                'Satu kali sakit tanpa jaminan kesehatan bisa menghapus tabungan bertahun-tahun. ' +
+                'Bagi rumah tangga tidak mampu, iurannya ditanggung pemerintah lewat skema PBI.',
+              perkiraanDampak: 0,
+              satuan: 'mencegah kerugian besar',
+              tingkat: 'wajib'
+            });
+          }
+
+          // 5. Program bantuan yang mungkin menjadi hak
+          const dibawahGarisKemiskinan = konsumsiPerKapita > 0 && penghasilanBersihRt / Math.max(jumlahArt, 1) < 800000;
+          if (dibawahGarisKemiskinan) {
+            langkah.push({
+              kode: 'BANTUAN_PEMERINTAH',
+              judul: 'Periksa hak atas program bantuan pemerintah',
+              penjelasan:
+                'Pengeluaran per orang di rumah tangga Anda berada di kisaran garis kemiskinan. ' +
+                'Periksa kepesertaan di DTKS untuk PKH, bantuan pangan, KIP, dan BPJS PBI. ' +
+                'Ini hak, bukan belas kasihan.',
+              perkiraanDampak: 0,
+              satuan: 'bervariasi',
+              tingkat: 'periksa'
+            });
+          }
+
+          // 6. Restrukturisasi utang
+          langkah.push({
+            kode: 'RESTRUKTURISASI_UTANG',
+            judul: 'Ajukan restrukturisasi bila ada cicilan berbunga tinggi',
+            penjelasan:
+              'Bunga pinjaman jangka pendek bisa menghabiskan porsi besar penghasilan. ' +
+              'Perpanjangan tenor atau penurunan bunga memberi napas bulanan.',
+            perkiraanDampak: 0,
+            satuan: 'tergantung utang',
+            tingkat: 'sedang'
+          });
+
+          const totalDampak = langkah.reduce((a, l) => a + (l.perkiraanDampak || 0), 0);
+
+          return {
+            perlu: true,
+            kesenjangan: Math.round(kesenjangan),
+            langkah,
+            totalPerkiraanDampak: Math.round(totalDampak),
+            cukup: totalDampak >= kesenjangan,
+            ringkasan:
+              `Kekurangan Rp ${Math.round(kesenjangan).toLocaleString('id-ID')} per bulan. ` +
+              'Kekurangan kebutuhan dasar tidak bisa ditutup dengan berhemat — yang menutup adalah ' +
+              'penghasilan tambahan dan hak-hak yang memang tersedia.'
+          };
+        }
+
+
+        /* --- packages/domain-khl/src/aturan/mode-anggaran.js --- */
+        /**
+         * M-11 · Mode anggaran ditentukan oleh rasio pemenuhan KHL — BUKAN oleh rumus 50/30/20.
+         *
+         * Alasan 50/30/20 ditolak:
+         *  1. Mengandaikan penghasilan sudah di atas biaya hidup layak.
+         *     Untuk penghasilan Rp 3 juta di Jakarta (KHL Rp 5,89 juta), "50% kebutuhan" = Rp 1,5 juta:
+         *     mustahil dipakai hidup.
+         *  2. Buta terhadap inflasi dan suku bunga.
+         *  3. Buta terhadap jumlah tanggungan.
+         *
+         * Persentase di MODE BERTUMBUH dihitung dari SISA setelah KHL dan cicilan wajib,
+         * bukan dari penghasilan kotor.
+         */
+
+        const MODE = {
+          BERTAHAN: 'BERTAHAN',
+          STABILISASI: 'STABILISASI',
+          BERTUMBUH: 'BERTUMBUH'
+        };
+
+        /** Alokasi sisa (setelah KHL & cicilan wajib) menurut fase ekonomi. Jumlah tiap baris = 100. */
+        const ALOKASI_PER_FASE = {
+          pemulihan:  { danaDarurat: 10, lunasiUtang: 15, investasiBertumbuh: 60, lindungNilai: 15 },
+          ekspansi:   { danaDarurat: 10, lunasiUtang: 10, investasiBertumbuh: 65, lindungNilai: 15 },
+          puncak:     { danaDarurat: 20, lunasiUtang: 30, investasiBertumbuh: 30, lindungNilai: 20 },
+          kontraksi:  { danaDarurat: 35, lunasiUtang: 25, investasiBertumbuh: 25, lindungNilai: 15 },
+          stagflasi:  { danaDarurat: 25, lunasiUtang: 30, investasiBertumbuh: 15, lindungNilai: 30 }
+        };
+
+        const PRIORITAS_BAWAH_KHL = [
+          'Pangan, tempat tinggal, air, listrik — tidak boleh dipangkas',
+          'BPJS Kesehatan (kelas 3, atau PBI bila memenuhi syarat)',
+          'Transportasi kerja & pulsa/data untuk mencari penghasilan',
+          'Cicilan berbunga tertinggi — ajukan restrukturisasi bila perlu',
+          'Tabung berapa pun yang bisa, sekecil apa pun'
+        ];
+
+        function tentukanMode({ rasioPemenuhan, sisaSetelahKhl }) {
+          const r = Number(rasioPemenuhan);
+          if (!Number.isFinite(r) || r < 0) throw new Error('rasioPemenuhan tidak valid');
+          if (r < 0.85) return MODE.BERTAHAN;
+          if (r < 1.0) return MODE.STABILISASI;
+          if (Number.isFinite(sisaSetelahKhl) && sisaSetelahKhl <= 0) return MODE.STABILISASI;
+          return MODE.BERTUMBUH;
+        }
+
+        /**
+         * Rencana alokasi rupiah. Untuk mode BERTAHAN/STABILISASI, alokasi investasi = 0.
+         * @returns {{mode:string, sisa:number, alokasi:object, prioritas:string[], investasiDibuka:boolean}}
+         */
+        function susunAlokasi({
+          penghasilanBersihRt,
+          khlRumahTangga,
+          cicilanWajib = 0,
+          faseEkonomi = 'ekspansi',
+          rasioPemenuhan
+        }) {
+          const rasio = Number.isFinite(rasioPemenuhan)
+            ? rasioPemenuhan
+            : penghasilanBersihRt / khlRumahTangga;
+          const sisa = Math.round(penghasilanBersihRt - khlRumahTangga - cicilanWajib);
+          const mode = tentukanMode({ rasioPemenuhan: rasio, sisaSetelahKhl: sisa });
+
+          if (mode !== MODE.BERTUMBUH) {
+            return {
+              mode,
+              sisa,
+              alokasi: { danaDarurat: 0, lunasiUtang: 0, investasiBertumbuh: 0, lindungNilai: 0 },
+              prioritas: PRIORITAS_BAWAH_KHL,
+              investasiDibuka: false,
+              catatan:
+                mode === MODE.BERTAHAN
+                  ? 'Penghasilan belum menutup Kebutuhan Hidup Layak. Modul investasi ditutup sementara.'
+                  : 'Sudah dekat/di atas KHL tapi belum ada sisa. Amankan dana darurat satu bulan dulu.'
+            };
+          }
+
+          const persen = ALOKASI_PER_FASE[faseEkonomi] || ALOKASI_PER_FASE.ekspansi;
+          const alokasi = {};
+          for (const [pos, p] of Object.entries(persen)) alokasi[pos] = Math.round((sisa * p) / 100);
+
+          return {
+            mode,
+            sisa,
+            alokasi,
+            persen,
+            prioritas: [],
+            investasiDibuka: true,
+            catatan: `Alokasi dihitung dari SISA setelah KHL & cicilan wajib, mengikuti fase ekonomi "${faseEkonomi}".`
+          };
+        }
+
+
+        /* --- packages/domain-khl/src/aturan/kunci-modul-investasi.js --- */
+        /**
+         * M-01.7 · Aturan keras produk ini:
+         * selama penghasilan rumah tangga belum menutup Kebutuhan Hidup Layak,
+         * modul investasi DITUTUP.
+         *
+         * Alasannya bukan moral, tapi matematis: menyisihkan uang untuk investasi
+         * sementara kebutuhan dasar belum tertutup berarti menambal kekurangan itu
+         * dengan utang berbunga, dan bunga utang konsumtif hampir selalu lebih besar
+         * daripada imbal hasil investasi.
+         *
+         * Aplikasi juga DILARANG menyalahkan gaya hidup pengguna yang penghasilannya
+         * di bawah KHL. Di 32 dari 38 provinsi, upah minimum resmi pun masih di bawah KHL.
+         */
+
+        const MODUL_INVESTASI = ['screening', 'fundamental', 'teknikal', 'dividen'];
+
+        function kunciModulInvestasi({ rasioPemenuhan }) {
+          const terkunci = Number(rasioPemenuhan) < 1;
+          return {
+            terkunci,
+            modul: terkunci ? MODUL_INVESTASI.slice() : [],
+            alasan: terkunci
+              ? 'Penghasilan rumah tangga belum mencapai Kebutuhan Hidup Layak. ' +
+                'Menutup kekurangan kebutuhan dasar lebih mendesak — dan lebih menguntungkan — ' +
+                'daripada mengejar imbal hasil investasi.'
+              : '',
+            pesanSopan: terkunci
+              ? 'Modul investasi dibuka otomatis begitu rasio pemenuhan KHL mencapai 100%.'
+              : 'Modul investasi terbuka. Urutannya tetap: dana darurat dan proteksi dulu.'
+          };
+        }
+
+        /** Kalimat yang tidak boleh dipakai aplikasi kepada pengguna di bawah KHL. */
+        const KALIMAT_TERLARANG = [
+          'kurangi ngopi',
+          'berhenti jajan',
+          'kamu boros',
+          'makanya nabung',
+          'investasi sekarang atau menyesal'
+        ];
+
+        function periksaKalimat(teks) {
+          const rendah = String(teks).toLowerCase();
+          const melanggar = KALIMAT_TERLARANG.filter((k) => rendah.includes(k));
+          return { aman: melanggar.length === 0, melanggar };
+        }
+
+
+        /* --- packages/domain-khl/src/index.js --- */
+        /**
+         * PAKET DOMAIN: KHL (Kebutuhan Hidup Layak) — modul M-01.
+         *
+         * PENTING: KHL adalah standar PENGELUARAN layak per bulan.
+         * KHL BUKAN aset. Emas, perak, tanah, properti, SBN, reksadana, saham = ASET (modul M-02).
+         * Dua-duanya ada di aplikasi ini, bukan salah satu.
+         *
+         * Seluruh rumus di paket ini murni fungsi tanpa efek samping, supaya bisa dites
+         * satu per satu dan dipakai baik di server (Node) maupun di dalam preview.html
+         * (disuntik oleh apps/preview/bangun-preview.js).
+         */
+
+
+
+        /**
+         * Satu pintu: dari data provinsi + data rumah tangga -> seluruh hasil M-01.
+         */
+        function analisisKhl({
+          khlProvinsi,
+          umpProvinsi = 0,
+          namaProvinsi = '',
+          jumlahArt = 4,
+          artBekerja = 1,
+          penghasilanBersihRt = 0,
+          cicilanWajib = 0,
+          faseEkonomi = 'ekspansi',
+          punyaBpjs = false,
+          kenaikanPenghasilanTahunan = 0.06,
+          kenaikanKhlTahunan = 0.05
+        }) {
+          const acuan = hitungKhlAcuan({ khlProvinsi, jumlahArt, artBekerja });
+          const gap = hitungKesenjangan({
+            khlRumahTangga: acuan.khlRumahTangga,
+            penghasilanBersihRt
+          });
+          const status = tentukanStatus(gap.rasioPemenuhan);
+          const kunci = kunciModulInvestasi({ rasioPemenuhan: gap.rasioPemenuhan });
+          const alokasi = susunAlokasi({
+            penghasilanBersihRt,
+            khlRumahTangga: acuan.khlRumahTangga,
+            cicilanWajib,
+            faseEkonomi,
+            rasioPemenuhan: gap.rasioPemenuhan
+          });
+          const proyeksi = proyeksiTahunTercapai({
+            khlRumahTangga: acuan.khlRumahTangga,
+            penghasilanBersihRt,
+            kenaikanPenghasilanTahunan,
+            kenaikanKhlTahunan
+          });
+          const rencana = rencanaTutupKesenjangan({
+            kesenjangan: gap.kesenjangan,
+            khlRumahTangga: acuan.khlRumahTangga,
+            penghasilanBersihRt,
+            jumlahArt,
+            artBekerja,
+            umpProvinsi,
+            punyaBpjs
+          });
+
+          return {
+            provinsi: namaProvinsi,
+            khlProvinsi,
+            umpProvinsi,
+            umpMenutupiKhl: umpProvinsi > 0 ? umpProvinsi >= khlProvinsi : null,
+            ...acuan,
+            ...gap,
+            kesenjanganPerOrang: kesenjanganPerOrang({ kesenjangan: gap.kesenjangan, jumlahArt }),
+            status,
+            kunciInvestasi: kunci,
+            anggaran: alokasi,
+            proyeksi,
+            rencana,
+            dihitungPada: new Date().toISOString()
+          };
+        }
+
+
+        return { DATA_KHL, ALOKASI_PER_FASE, ART_ACUAN, ART_BEKERJA_ACUAN, KALIMAT_TERLARANG, MODE, MODUL_INVESTASI, PERSEN_JAMINAN_SOSIAL, PERSEN_TABUNGAN, PRIORITAS_BAWAH_KHL, STATUS_KHL, analisisKhl, hitungKesenjangan, hitungKhlAcuan, hitungKhlSurvei, kenaikanDibutuhkan, kesenjanganPerOrang, konsumsiPerKapita, kunciModulInvestasi, periksaKalimat, proyeksiTahunTercapai, rencanaTutupKesenjangan, susunAlokasi, tentukanMode, tentukanStatus };
+      })();
+      /* PB:SUNTIK-KHL:SELESAI */
+
       /* ===================== SHA-256 murni (FIPS-180), sinkron — works di file:// & http ===================== */
       function sha256(message) {
         const bytes = new TextEncoder().encode(message);
@@ -1272,6 +2056,292 @@
       });
 
       refresh(); renderLedger();
+
+      /* ============================================================
+         M-01 · ANTARMUKA KHL (Kebutuhan Hidup Layak)
+         Rumus TIDAK ditulis di sini — dipanggil dari objek KHL yang
+         disuntik dari packages/domain-khl (lihat apps/preview/bangun-preview.js).
+         ============================================================ */
+      const KHL_KEY = 'pb_khl';
+      let khlUrut = { kolom: 'khl', naik: false };
+      let khlHasilTerakhir = null;
+
+      function khlIsiProvinsi() {
+        const sel = document.getElementById('khl-prov');
+        if (sel.options.length) return;
+        KHL.DATA_KHL.provinsi
+          .slice()
+          .sort((a, b) => a.nama.localeCompare(b.nama, 'id'))
+          .forEach(p => {
+            const o = document.createElement('option');
+            o.value = p.kode; o.textContent = p.nama; sel.appendChild(o);
+          });
+        sel.value = '31';
+      }
+
+      function khlBacaForm() {
+        return {
+          kode: document.getElementById('khl-prov').value,
+          jumlahArt: Math.max(1, Number(document.getElementById('khl-art').value) || 1),
+          artBekerja: Math.max(0, Number(document.getElementById('khl-kerja').value) || 0),
+          penghasilan: Math.max(0, Number(document.getElementById('khl-penghasilan').value) || 0),
+          cicilan: Math.max(0, Number(document.getElementById('khl-cicilan').value) || 0),
+          bpjs: document.getElementById('khl-bpjs').value === 'ya'
+        };
+      }
+
+      function khlSimpan(f) { try { localStorage.setItem(KHL_KEY, JSON.stringify(f)); } catch (e) {} }
+      function khlMuat() {
+        let f = null; try { f = JSON.parse(localStorage.getItem(KHL_KEY)); } catch (e) {}
+        if (!f) return;
+        document.getElementById('khl-prov').value = f.kode || '31';
+        document.getElementById('khl-art').value = f.jumlahArt || 4;
+        document.getElementById('khl-kerja').value = f.artBekerja ?? 1;
+        document.getElementById('khl-penghasilan').value = f.penghasilan || '';
+        document.getElementById('khl-cicilan').value = f.cicilan || 0;
+        document.getElementById('khl-bpjs').value = f.bpjs ? 'ya' : 'tidak';
+      }
+
+      /* Ambil penghasilan dari modul Keuangan bila pengguna sudah mengisinya di sana */
+      function khlPenghasilanDariKeuangan() {
+        try {
+          const f = JSON.parse(localStorage.getItem('pb_fin') || 'null');
+          if (!f || !Array.isArray(f.incomes)) return 0;
+          return f.incomes.reduce((a, i) => a + (Number(i.amount) || 0), 0);
+        } catch (e) { return 0; }
+      }
+
+      function khlFaseEkonomiSaatIni() {
+        try {
+          const c = JSON.parse(localStorage.getItem('pb_rt_cache') || '{}');
+          const f = c.macro && c.macro.phase && c.macro.phase.key;
+          const peta = { recovery: 'pemulihan', expansion: 'ekspansi', peak: 'puncak', contraction: 'kontraksi', stagflation: 'stagflasi' };
+          return peta[f] || (KHL.ALOKASI_PER_FASE[f] ? f : 'ekspansi');
+        } catch (e) { return 'ekspansi'; }
+      }
+
+      function khlBaris(nama, nilai, maks, kelas) {
+        const lebar = maks > 0 ? Math.min(100, (nilai / maks) * 100) : 0;
+        return `<div class="bar-row"><div class="nm">${nama}</div>` +
+          `<div class="bar-track"><div class="bar-fill ${kelas}" style="width:${lebar.toFixed(1)}%"></div></div>` +
+          `<div class="nilai">${fmt(nilai)}</div></div>`;
+      }
+
+      function khlRender() {
+        const f = khlBacaForm();
+        if (f.artBekerja > f.jumlahArt) {
+          document.getElementById('khl-kerja').value = f.jumlahArt;
+          f.artBekerja = f.jumlahArt;
+        }
+        khlSimpan(f);
+        const prov = KHL.DATA_KHL.provinsi.find(p => p.kode === f.kode);
+        if (!prov) return;
+
+        const h = KHL.analisisKhl({
+          khlProvinsi: prov.khl,
+          umpProvinsi: prov.ump,
+          namaProvinsi: prov.nama,
+          jumlahArt: f.jumlahArt,
+          artBekerja: f.artBekerja,
+          penghasilanBersihRt: f.penghasilan,
+          cicilanWajib: f.cicilan,
+          faseEkonomi: khlFaseEkonomiSaatIni(),
+          punyaBpjs: f.bpjs
+        });
+        khlHasilTerakhir = h;
+
+        const gk = KHL.DATA_KHL.asumsi.garis_kemiskinan_nasional.nilai_per_kapita_per_bulan * f.jumlahArt;
+        const maks = Math.max(h.khlRumahTangga, prov.ump, f.penghasilan, gk);
+
+        let html = '';
+        html += `<div class="khl-hero">`;
+        html += `<div class="box"><div class="lbl">KHL rumah tangga Anda</div><div class="val">${fmt(h.khlRumahTangga)}</div><div class="muted" style="font-size:12px">${f.jumlahArt} orang · ${prov.nama}</div></div>`;
+        html += `<div class="box"><div class="lbl">Penghasilan bersih</div><div class="val">${fmt(h.penghasilanBersihRt)}</div><div class="muted" style="font-size:12px">${f.artBekerja} orang bekerja</div></div>`;
+        html += `<div class="box"><div class="lbl">${h.kurang ? 'Kekurangan' : 'Surplus'}</div><div class="val" style="color:${h.kurang ? '#ff8a9c' : '#35e0a1'}">${fmt(Math.abs(h.kesenjangan))}</div><div class="muted" style="font-size:12px">${h.kurang ? fmt(h.kesenjanganPerOrang) + ' per orang' : 'di atas KHL'}</div></div>`;
+        html += `<div class="box"><div class="lbl">Rasio pemenuhan</div><div class="val">${h.persenPemenuhan}%</div><div class="muted" style="font-size:12px">${h.anggaran.mode === 'BERTUMBUH' ? 'Mode Bertumbuh' : h.anggaran.mode === 'STABILISASI' ? 'Mode Stabilisasi' : 'Mode Bertahan'}</div></div>`;
+        html += `</div>`;
+
+        html += `<div style="margin:12px 0 6px"><span class="khl-status ${h.status.warna}">${h.status.label}</span></div>`;
+        html += `<p class="muted" style="margin:6px 0 14px">${h.status.penjelasan}</p>`;
+
+        html += `<div class="mkt-section"><h3>Perbandingan (per bulan, untuk ${f.jumlahArt} orang)</h3>`;
+        html += khlBaris('KHL Kemnaker', h.khlRumahTangga, maks, 'khl');
+        html += khlBaris('UMP ' + prov.nama, prov.ump, maks, 'ump');
+        html += khlBaris('Penghasilan Anda', f.penghasilan, maks, 'saya');
+        html += khlBaris('Garis kemiskinan BPS', gk, maks, 'miskin');
+        html += `</div>`;
+
+        if (prov.ump < prov.khl) {
+          html += `<div class="phase-box"><h3>⚠️ Upah minimum resmi pun belum mencapai KHL</h3>` +
+            `<p class="muted" style="margin:0">UMP ${prov.nama} ${fmt(prov.ump)} masih <b>${fmt(prov.khl - prov.ump)}</b> di bawah KHL ${fmt(prov.khl)}. ` +
+            `Artinya pekerja yang digaji sesuai aturan pun belum tentu mencapai hidup layak. Kekurangan Anda bukan semata soal cara mengatur uang.</p></div>`;
+        }
+
+        if (h.proyeksi.tahun !== null && h.proyeksi.tahun > 0) {
+          html += `<div class="phase-box"><h3>⏳ Proyeksi</h3><p class="muted" style="margin:0">Bila penghasilan naik 6%/tahun sementara KHL naik 5%/tahun, KHL tercapai dalam <b>± ${h.proyeksi.tahun} tahun</b>.</p></div>`;
+        } else if (!h.proyeksi.tercapai && h.kurang) {
+          html += `<div class="phase-box"><h3>⏳ Proyeksi</h3><p class="muted" style="margin:0">${h.proyeksi.alasan}</p></div>`;
+        }
+
+        html += `<div class="khl-sumber">Sumber KHL: ${KHL.DATA_KHL.meta.khl.sumber} (rilis ${KHL.DATA_KHL.meta.khl.tanggal_rilis}), metode ${KHL.DATA_KHL.meta.khl.metode}. ` +
+          `Sumber UMP: ${KHL.DATA_KHL.meta.ump.sumber}. Garis kemiskinan: ${KHL.DATA_KHL.asumsi.garis_kemiskinan_nasional.sumber}. ` +
+          `Rumah tangga acuan ${KHL.DATA_KHL.meta.asumsi_rumah_tangga_acuan.jumlah_art} orang / ${KHL.DATA_KHL.meta.asumsi_rumah_tangga_acuan.art_bekerja} bekerja adalah <b>asumsi aplikasi</b>, bukan angka resmi. Angka belum diverifikasi ke dokumen resmi.</div>`;
+
+        document.getElementById('khl-hasil').innerHTML = html;
+
+        /* ---- rencana / alokasi ---- */
+        const kartu = document.getElementById('khl-rencana-card');
+        const judul = document.getElementById('khl-rencana-judul');
+        const isi = document.getElementById('khl-rencana');
+        kartu.style.display = 'block';
+
+        if (h.rencana.perlu) {
+          judul.textContent = '🧭 Rencana Menutup Kekurangan KHL';
+          let r = `<p class="muted">${h.rencana.ringkasan}</p>`;
+          h.rencana.langkah.forEach(l => {
+            r += `<div class="langkah"><div class="jd">${l.judul}</div><div class="muted">${l.penjelasan}</div>` +
+              (l.perkiraanDampak > 0 ? `<div class="dmp">+ ${fmt(l.perkiraanDampak)} ${l.satuan}</div>` : `<div class="dmp">${l.satuan}</div>`) +
+              `</div>`;
+          });
+          r += `<div class="phase-box"><h3>🔒 Modul investasi dikunci sementara</h3><p class="muted" style="margin:0">${h.kunciInvestasi.alasan} ${h.kunciInvestasi.pesanSopan}</p></div>`;
+          isi.innerHTML = r;
+        } else {
+          judul.textContent = '💰 Alokasi Sisa di Atas KHL';
+          const a = h.anggaran;
+          let r = `<p class="muted">${a.catatan} Sisa setelah KHL & cicilan wajib: <b>${fmt(a.sisa)}</b>.</p>`;
+          if (a.investasiDibuka) {
+            const nama = { danaDarurat: 'Dana darurat', lunasiUtang: 'Lunasi utang', investasiBertumbuh: 'Investasi bertumbuh', lindungNilai: 'Lindung nilai (emas/SBN)' };
+            r += `<div class="asset-grid">`;
+            Object.entries(a.alokasi).forEach(([k, v]) => {
+              r += `<div class="mkt-card"><b>${nama[k] || k}</b><br><span style="font-size:17px;font-weight:800">${fmt(v)}</span><br><span class="muted">${a.persen[k]}% dari sisa</span></div>`;
+            });
+            r += `</div><p class="muted" style="margin-top:10px">Persentase ini mengikuti fase ekonomi, bukan rumus 50/30/20.</p>`;
+          } else {
+            r += `<ol class="muted">` + a.prioritas.map(p => `<li>${p}</li>`).join('') + `</ol>`;
+          }
+          isi.innerHTML = r;
+        }
+
+        khlKunciTab(h.kunciInvestasi.terkunci);
+        khlRenderTabel(f.kode);
+      }
+
+      function khlKunciTab(terkunci) {
+        ['screening'].forEach(v => {
+          const t = document.querySelector(`[data-view="${v}"]`);
+          if (!t) return;
+          t.classList.toggle('terkunci', terkunci);
+          t.title = terkunci
+            ? 'Penghasilan rumah tangga belum mencapai KHL. Tutup kekurangan kebutuhan dasar dulu.'
+            : '';
+        });
+      }
+
+      function khlRenderTabel(kodeSaya) {
+        const body = document.querySelector('#khl-tabel tbody');
+        const data = KHL.DATA_KHL.provinsi.map(p => ({
+          ...p, selisih: p.ump - p.khl, rasio: p.ump / p.khl
+        }));
+        const k = khlUrut.kolom, naik = khlUrut.naik;
+        data.sort((a, b) => (k === 'nama'
+          ? a.nama.localeCompare(b.nama, 'id') * (naik ? 1 : -1)
+          : (a[k] - b[k]) * (naik ? 1 : -1)));
+        body.innerHTML = data.map(p => `
+          <tr class="${p.kode === kodeSaya ? 'saya' : ''}">
+            <td>${p.nama}</td>
+            <td>${fmtNum(p.khl)}</td>
+            <td>${fmtNum(p.ump)}</td>
+            <td class="${p.selisih < 0 ? 'kurang' : 'cukup'}">${p.selisih < 0 ? '−' : '+'}${fmtNum(Math.abs(p.selisih))}</td>
+            <td class="${p.selisih < 0 ? 'kurang' : 'cukup'}">${(p.rasio * 100).toFixed(1)}%</td>
+          </tr>`).join('');
+
+        const dibawah = data.filter(p => p.selisih < 0);
+        const terparah = dibawah.slice().sort((a, b) => a.rasio - b.rasio)[0];
+        document.getElementById('khl-ringkas-nasional').innerHTML =
+          `<h3>📉 ${dibawah.length} dari ${data.length} provinsi: UMP di bawah KHL</h3>` +
+          `<p class="muted" style="margin:0">Jarak terlebar di <b>${terparah.nama}</b> — UMP ${fmtNum(terparah.ump)} vs KHL ${fmtNum(terparah.khl)} ` +
+          `(baru ${(terparah.rasio * 100).toFixed(1)}% dari kebutuhan hidup layak). Ini data resmi, bukan opini.</p>`;
+      }
+
+      /* ---- survei mandiri 64 komponen ---- */
+      function khlRenderSurvei() {
+        const wrap = document.getElementById('khl-survei-list');
+        if (wrap.dataset.siap) return;
+        wrap.dataset.siap = '1';
+        const kel = KHL.DATA_KHL.komponen.kelompok;
+        const komp = KHL.DATA_KHL.komponen.komponen;
+        let html = '';
+        kel.forEach(g => {
+          html += `<div class="komp-kel">${g.nama} <span class="muted" style="font-weight:400">(${g.jumlah} jenis)</span></div>`;
+          html += `<div class="komp-row muted"><div>Komponen</div><div>Kuantitas</div><div>Harga satuan</div><div>Nilai/bulan</div></div>`;
+          komp.filter(c => c.kelompok === g.kode).forEach((c, i) => {
+            const id = `${g.kode}-${i}`;
+            const nonaktif = c.satuan === 'persen' ? 'disabled' : '';
+            html += `<div class="komp-row" data-kel="${g.kode}" data-satuan="${c.satuan}" data-nama="${c.nama.replace(/"/g, '&quot;')}">
+              <div>${c.nama}<br><span class="muted" style="font-size:11px">${c.satuan}${c.catatan ? ' · ' + c.catatan : ''}</span></div>
+              <div><input type="number" min="0" class="khl-q" id="q-${id}" value="${c.kuantitas ?? ''}" ${nonaktif} /></div>
+              <div><input type="number" min="0" class="khl-h" id="h-${id}" placeholder="0" ${nonaktif} /></div>
+              <div class="khl-n muted" style="text-align:right">${c.satuan === 'persen' ? 'otomatis 2%' : '—'}</div>
+            </div>`;
+          });
+        });
+        wrap.innerHTML = html;
+      }
+
+      function khlHitungSurvei() {
+        const rows = [...document.querySelectorAll('#khl-survei-list .komp-row[data-kel]')];
+        const isian = rows.map(r => ({
+          kelompok: r.dataset.kel,
+          nama: r.dataset.nama,
+          satuan: r.dataset.satuan,
+          kuantitas: Number(r.querySelector('.khl-q')?.value) || 0,
+          harga: Number(r.querySelector('.khl-h')?.value) || 0
+        }));
+        rows.forEach((r, i) => {
+          const sel = r.querySelector('.khl-n');
+          if (!sel || isian[i].satuan === 'persen') return;
+          let n = isian[i].kuantitas * isian[i].harga;
+          if (String(isian[i].satuan).includes('/tahun')) n = n / 12;
+          sel.textContent = n > 0 ? fmt(n) : '—';
+        });
+        const h = KHL.hitungKhlSurvei(isian);
+        const prov = KHL.DATA_KHL.provinsi.find(p => p.kode === document.getElementById('khl-prov').value);
+        const banding = prov ? ` · acuan Kemnaker ${prov.nama}: <b>${fmt(prov.khl)}</b>` : '';
+        document.getElementById('khl-survei-total').innerHTML =
+          `Subtotal <b>${fmt(h.subtotal)}</b> + tabungan 2% ${fmt(h.tabungan)} + jaminan sosial 2% ${fmt(h.jaminanSosial)} = ` +
+          `<b style="color:#a58bff">${fmt(h.khlSurvei)}</b> (${h.komponenTerisi}/64 terisi)${banding}<br><span class="muted">${h.catatan}</span>`;
+      }
+
+      /* ---- pemasangan ---- */
+      document.getElementById('khl-hitung').addEventListener('click', khlRender);
+      ['khl-prov', 'khl-art', 'khl-kerja', 'khl-penghasilan', 'khl-cicilan', 'khl-bpjs'].forEach(id => {
+        document.getElementById(id).addEventListener('change', khlRender);
+      });
+      document.getElementById('khl-survei-hitung').addEventListener('click', khlHitungSurvei);
+      document.querySelectorAll('#khl-tabel th[data-urut]').forEach(th => {
+        th.addEventListener('click', () => {
+          const k = th.dataset.urut;
+          khlUrut = { kolom: k, naik: khlUrut.kolom === k ? !khlUrut.naik : (k === 'nama') };
+          khlRenderTabel(document.getElementById('khl-prov').value);
+        });
+      });
+      document.querySelector('[data-view="khl"]').addEventListener('click', () => {
+        khlIsiProvinsi();
+        if (!document.getElementById('khl-prov').dataset.dimuat) {
+          document.getElementById('khl-prov').dataset.dimuat = '1';
+          khlMuat();
+          const dariKeuangan = khlPenghasilanDariKeuangan();
+          const inp = document.getElementById('khl-penghasilan');
+          if (!Number(inp.value) && dariKeuangan > 0) inp.value = dariKeuangan;
+          if (!Number(inp.value) && STORE.household && STORE.household.income) inp.value = STORE.household.income;
+          khlRenderSurvei();
+        }
+        khlRender();
+      });
+      khlIsiProvinsi();
+      khlMuat();
+      khlRenderTabel(document.getElementById('khl-prov').value);
+
     </script>
   </body>
 </html>

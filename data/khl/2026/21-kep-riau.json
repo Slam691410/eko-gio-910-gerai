@@ -1,0 +1,25 @@
+{
+  "tahun": 2026,
+  "kode_provinsi": "21",
+  "nama_provinsi": "Kepulauan Riau",
+  "slug": "kep-riau",
+  "pulau": "Sumatera",
+  "khl_bulanan": 5717082,
+  "konsumsi_per_kapita_turunan": 1429271,
+  "asumsi_rumah_tangga": {
+    "jumlah_art": 4,
+    "art_bekerja": 1,
+    "catatan": "Asumsi yang dipakai aplikasi untuk menurunkan konsumsi per kapita dari angka KHL provinsi. Kemnaker tidak mempublikasikan angka ART per provinsi secara rinci, jadi ini ASUMSI yang bisa diubah pengguna, bukan angka resmi."
+  },
+  "sumber": "Kementerian Ketenagakerjaan RI",
+  "metode": "Berbasis studi ILO 2025 — (konsumsi per kapita x ART) / ART bekerja",
+  "kelompok_konsumsi": [
+    "makanan",
+    "kesehatan dan pendidikan",
+    "perumahan",
+    "kebutuhan pokok lainnya"
+  ],
+  "tanggal_rilis": "2025-12-20",
+  "terverifikasi": false,
+  "catatan_verifikasi": "Salinan dari rilis Kemnaker. Cocokkan ulang dengan dokumen resmi."
+}

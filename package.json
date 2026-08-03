@@ -6,7 +6,11 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "dev": "node --watch server.js"
+    "dev": "node --watch server.js",
+    "test": "node --test \"packages/*/test/*.test.js\"",
+    "seed:khl": "node infra/seed/tulis-data-khl.js",
+    "build:preview": "node apps/preview/bangun-preview.js",
+    "build": "npm run seed:khl && npm run build:preview"
   },
   "engines": {
     "node": ">=18"
