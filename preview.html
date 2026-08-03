@@ -74,7 +74,7 @@
       .dep-row { display: grid; grid-template-columns: 1.4fr 1fr 1fr auto; gap: 8px; align-items: end; margin-bottom: 8px; }
       .dep-row input { padding: 9px 10px; }
       .dep-row.wide { grid-template-columns: 1.3fr 1fr 0.7fr 0.7fr 0.7fr auto; }
-      .dep-list label { font-size: 12px; }
+      .dep-list textarea, textarea { width: 100%; background: rgba(255,255,255,0.05); border: 1px solid var(--border); color: var(--text); border-radius: 10px; padding: 9px 10px; font-family: inherit; font-size: 13px; resize: vertical; }
       .mini-btn { margin-top: 0; padding: 8px 12px; font-size: 13px; }
       .score-pill { display: inline-block; font-size: 12px; padding: 3px 10px; border-radius: 999px; font-weight: 700; }
       .score-good { background: rgba(54,211,153,0.18); color: var(--good); }
@@ -285,6 +285,14 @@
           </p>
           <div id="realtimeBody" class="mkt-body"></div>
         </div>
+        <div class="card">
+          <h2>🏷️ Aset Lain (Tanah / Properti / SBN / Reksadana / Saham)</h2>
+          <p class="muted">Feed real-time untuk aset ini butuh API berbayar/partner. Catat secara manual — nilai masuk ringkasan portofolio Anda.</p>
+          <div id="manualAssets" class="dep-list"></div>
+          <button class="btn ghost mini-btn" id="ma-add">+ Tambah Aset</button>
+          <div id="maSummary" class="muted" style="margin-top:8px"></div>
+          <button class="btn primary" id="ma-save">💾 Simpan Aset</button>
+        </div>
       </section>
 
       <section class="view" id="view-profil">
@@ -333,12 +341,18 @@
         </div>
         <div class="card">
           <h2>🧮 Fundamental Analysis</h2>
-          <p class="muted">Framework penilaian perusahaan. <b>Integrasi data riil</b> (riwayat manajemen &amp; pemegang saham mayoritas, riwayat &amp; afiliasi perusahaan, red flag laporan keuangan, corporate action) menyusul — untuk kini gunakan penilaian Anda.</p>
+          <p class="muted">Framework penilaian perusahaan — isi riwayat &amp; catatan di bawah. <b>Integrasi data riil otomatis</b> (scraping laporan keuangan, tracking corporate action) adalah penyempurnaan lanjutan; struktur penilaian sudah tersedia.</p>
           <div class="grid-3">
             <label>Nama Emiten/Aset <input id="fa-name" type="text" placeholder="PT Contoh Tbk" /></label>
             <label>Skor Manajemen &amp; Pemegang Saham (1-5) <input id="fa-mgmt" type="number" min="1" max="5" value="3" /></label>
             <label>Skor Riwayat &amp; Afiliasi (1-5) <input id="fa-hist" type="number" min="1" max="5" value="3" /></label>
           </div>
+          <label style="margin-top:10px">Riwayat Manajemen &amp; Pemegang Saham Mayoritas
+            <textarea id="fa-mgmt-notes" rows="2" placeholder="mis. komisaris pernah terlibat kasus; kepemilikan terkonsentrasi di 1 pihak; track record buyback rutin..."></textarea>
+          </label>
+          <label style="margin-top:10px">Riwayat Perusahaan &amp; Afiliasi
+            <textarea id="fa-hist-notes" rows="2" placeholder="mis. anak usaha di industri berbeda; related-party transactions; restrukturisasi..."></textarea>
+          </label>
           <div class="checklist" style="margin-top:10px">
             <label><input type="checkbox" class="fa-rf" checked /> Pendapatan berkualitas (nyata, bukan jual aset)</label>
             <label><input type="checkbox" class="fa-rf" checked /> Utang wajar &amp; terjangkau (DSCR sehat)</label>
@@ -354,6 +368,9 @@
               <option value="right">Right issue</option>
               <option value="spin">Spin-off / akuisisi</option>
             </select>
+          </label>
+          <label style="margin-top:10px">Catatan Efek Corporate Action
+            <textarea id="fa-corp-notes" rows="2" placeholder="mis. right issue menambah likuiditas tapi dilute kepemilikan; buyback sinyal undervaluation..."></textarea>
           </label>
           <button class="btn primary" id="fa-score">🧮 Hitung Skor Fundamental</button>
           <div id="faResult" class="mkt-body"></div>
@@ -851,8 +868,7 @@
           html += `<div class="asset"><div class="name">Ξ Ethereum</div><div class="val">Rp ${fmtNum(market.crypto.eth)}</div></div>`;
         }
         html += `</div>`;
-          html += `<div style="margin-top:10px"><span class="chip">🪨 Tanah — menyusul</span><span class="chip">🏢 Properti — menyusul</span><span class="chip">🏛️ SBN — menyusul</span><span class="chip">📈 Saham/ETF (IDX) — menyusul</span><span class="chip">📊 Reksadana — menyusul</span><span class="chip">🪙 Obligasi — menyusul</span><span class="chip">₿ Kripto lain — menyusul</span><span class="chip">🛢️ Komoditas — menyusul</span></div>`;
-        html += `<div class="muted" style="margin-top:8px">Logam mulia & aset dikonversi ke Rupiah via kurs real-time. Feed Tanah / Properti / SBN sedang dalam pengembangan.</div></div>`;
+          html += `<div class="muted" style="margin-top:8px">Logam mulia & kripto di atas real-time. Aset Tanah / Properti / SBN / Reksadana / Saham dilacak manual di kartu "Aset Lain" di bawah (feed otomatis butuh API berbayar/partner).</div></div>`;
         // MACRO
         if (macro) {
           html += `<div class="mkt-section"><h3>🌐 Makro & Siklus Ekonomi Indonesia ${statusBadge(macro.status)}</h3><div class="asset-grid">`;
@@ -875,8 +891,35 @@
       document.getElementById('btn-rt').addEventListener('click', loadRealtime);
       document.querySelector('[data-view="realtime"]').addEventListener('click', () => {
         const b = document.getElementById('realtimeBody');
-        if (!b.dataset.loaded) { b.dataset.loaded = '1'; loadRealtime(); }
+        if (!b.dataset.loaded) {
+          b.dataset.loaded = '1'; loadRealtime();
+          const ml = JSON.parse(localStorage.getItem(MA_KEY) || '[]');
+          document.getElementById('manualAssets').innerHTML = '';
+          ml.forEach(buildManualRow); renderManualSummary(ml);
+        }
       });
+
+      /* Manual asset tracker (Tanah / Properti / SBN / Reksadana / Saham) */
+      const MA_KEY = 'pb_assets';
+      function buildManualRow(d) {
+        d = d || {};
+        const row = finRow('', `<input class="m-name" placeholder="Nama aset" value="${d.name || ''}">
+          <input class="m-type" placeholder="Jenis" value="${d.type || ''}">
+          <input class="m-val" type="number" placeholder="Nilai Rp" value="${d.value || ''}">
+          <input class="m-chg" type="number" step="0.1" placeholder="% / thn" value="${d.change || ''}">`);
+        document.getElementById('manualAssets').appendChild(row);
+      }
+      function renderManualSummary(list) {
+        const total = (list || []).reduce((s, x) => s + (x.value || 0), 0);
+        document.getElementById('maSummary').innerHTML = `Total nilai tercatat: <b>Rp ${fmtNum(total)}</b> · ${(list || []).length} aset.`;
+      }
+      function saveManualAssets() {
+        const list = rows('manualAssets', r => ({ name: r.querySelector('.m-name').value, type: r.querySelector('.m-type').value, value: num(r.querySelector('.m-val').value), change: num(r.querySelector('.m-chg').value) }));
+        localStorage.setItem(MA_KEY, JSON.stringify(list));
+        renderManualSummary(list); toast('Aset tersimpan 💾');
+      }
+      document.getElementById('ma-add').addEventListener('click', () => buildManualRow());
+      document.getElementById('ma-save').addEventListener('click', saveManualAssets);
 
       /* ===================== PROFIL, DANA DARURAT & TUJUAN INVESTASI ===================== */
       const PF_KEY = 'pb_profil';
@@ -1010,6 +1053,12 @@
         const total = Math.round(clamp(mgmt + hist + rf + corpAdj, 0, 100));
         const rating = total >= 70 ? 'Kuat' : total >= 45 ? 'Moderat' : 'Lemah';
         const rc = total >= 70 ? 'score-good' : total >= 45 ? 'score-mid' : 'score-bad';
+        const notes = [
+          ['Riwayat Manajemen & Pemegang Saham', document.getElementById('fa-mgmt-notes').value],
+          ['Riwayat & Afiliasi Perusahaan', document.getElementById('fa-hist-notes').value],
+          ['Efek Corporate Action', document.getElementById('fa-corp-notes').value],
+        ].filter(n => (n[1] || '').trim());
+        const notesHtml = notes.length ? `<div class="goal-card"><b>📝 Catatan Analis</b><ul class="muted" style="margin:6px 0 0;padding-left:18px">${notes.map(n => `<li><b>${n[0]}:</b> ${n[1]}</li>`).join('')}</ul></div>` : '';
         document.getElementById('faResult').innerHTML = `
           <div class="goal-card"><b>${document.getElementById('fa-name').value || 'Emiten'}</b> — Skor Fundamental: <span class="score-pill ${rc}">${rating} (${total}/100)</span>
             <ul class="muted" style="margin:8px 0 0;padding-left:18px">
@@ -1019,7 +1068,8 @@
               <li>Corporate action (${corp}): ${corpAdj >= 0 ? '+' : ''}${corpAdj} poin</li>
             </ul>
           </div>
-          <div class="section-note">Framework ini pakai penilaian Anda. <b>Integrasi data riil</b> — riwayat manajemen & pemegang saham mayoritas, riwayat & afiliasi perusahaan, deteksi red flag laporan keuangan otomatis, dan efek corporate action — menyusul (perlu feed data & NLP).</div>`;
+          ${notesHtml}
+          <div class="section-note">Penilaian di atas dari input Anda. <b>Integrasi data riil otomatis</b> (riwayat manajemen & pemegang saham mayoritas, riwayat & afiliasi, deteksi red flag, efek corporate action) adalah pengembangan lanjutan — struktur & perhitungan sudah ada.</div>`;
       }
       const avg = (a) => a.reduce((s, x) => s + x, 0) / a.length;
       function rsi14(closes) {
