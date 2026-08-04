@@ -1,39 +1,79 @@
 const cluster = require('cluster');
 const os = require('os');
+const fs = require('fs');
+const path = require('path');
+
+const LOG_FILE = path.join(__dirname, 'server.log');
+
+// Helper to write formatted centralized server logs to physical log files
+function logEvent(level, msg, errorDetails = null) {
+  const timestamp = new Date().toISOString();
+  const workerPid = process.pid;
+  let logLine = `[${timestamp}] [Worker PID: ${workerPid}] [${level}] ${msg}\n`;
+  if (errorDetails) {
+    logLine += `[Details] ${errorDetails}\n`;
+  }
+  
+  // Write to terminal stdout
+  if (level === 'ERROR' || level === 'CRITICAL') {
+    console.error(logLine.trim());
+  } else {
+    console.log(logLine.trim());
+  }
+
+  // Append physically to server.log for audit trails
+  try {
+    fs.appendFileSync(LOG_FILE, logLine, 'utf8');
+  } catch (err) {
+    console.error('Error writing to server.log:', err);
+  }
+}
 
 // -----------------------------------------------------------------
 // ENTERPRISE HIGH-AVAILABILITY CLUSTERING, LOAD BALANCING & SELF-HEALING SCALING ENGINE
 if (cluster.isMaster) {
   const numCPUs = os.cpus().length || 1;
-  console.log(`[Master Cloud Load Balancer] Active on PID: ${process.pid}`);
-  console.log(`[Horizontal Scaling] Spawning ${numCPUs} parallel Express Worker instances to utilize all CPU cores...`);
+  logEvent('INFO', `[Master Cloud Load Balancer] Active on PID: ${process.pid}`);
+  logEvent('INFO', `[Horizontal Scaling] Spawning ${numCPUs} parallel Express Worker instances...`);
 
   // Fork a worker process for each CPU core
   for (let i = 0; i < numCPUs; i++) {
     cluster.fork();
   }
 
-  // SELF-HEALING AUTO-RECOVERY (FAILOVER SCALING):
-  // If any worker process crashes or exits, the Master Load Balancer detects it instantly,
-  // logs the exit, and automatically forks a brand-new Worker Process in its place to guarantee 100% uptime with zero downtime!
+  // SELF-HEALING FAILOVER SCALING
   cluster.on('exit', (worker, code, signal) => {
-    console.warn(`[Failover Scaling Alert] Worker process ${worker.process.pid} exited with code: ${code}.`);
-    console.log(`[Self-Healing] Automatically spawning a replacement Express Worker node...`);
+    logEvent('CRITICAL', `[Failover Scaling Alert] Worker process ${worker.process.pid} exited with code: ${code}.`);
+    logEvent('INFO', `[Self-Healing] Automatically spawning a replacement Express Worker node...`);
     cluster.fork();
   });
 
+  // Global uncaught exceptions handler on Master
+  process.on('uncaughtException', (err) => {
+    logEvent('CRITICAL', `Uncaught Exception on Master: ${err.message}`, err.stack);
+  });
+
 } else {
-  // WORKER PROCESS: This runs the actual high-performance Express server instance
+  // WORKER PROCESS: Runs the actual Express server instance with full telemetry logging
   const express = require('express');
   const cors = require('cors');
-  const fs = require('fs');
-  const path = require('path');
 
   const app = express();
   const PORT = process.env.PORT || 3000;
 
   app.use(cors());
   app.use(express.json());
+
+  // GLOBAL ERROR TRACKING FOR UNCAUGHT WORKER EXCEPTIONS
+  process.on('uncaughtException', (err) => {
+    logEvent('CRITICAL', `Uncaught Exception on Worker: ${err.message}`, err.stack);
+    // Exit worker gracefully to let Master Load Balancer trigger Self-Healing auto-recovery!
+    process.exit(1);
+  });
+
+  process.on('unhandledRejection', (reason, promise) => {
+    logEvent('ERROR', `Unhandled Promise Rejection at: ${promise}, reason: ${reason}`);
+  });
 
   // ADVANCED HTTP STATIC ASSETS CACHING & ETAG MANAGEMENT
   const STATIC_CACHE_AGE_MS = 24 * 60 * 60 * 1000; 
@@ -55,7 +95,7 @@ if (cluster.isMaster) {
       const data = fs.readFileSync(DB_PATH, 'utf8');
       return JSON.parse(data);
     } catch (err) {
-      console.error('Error reading database.json:', err);
+      logEvent('ERROR', `Failed to read database.json`, err.message);
       return {};
     }
   }
@@ -65,7 +105,7 @@ if (cluster.isMaster) {
       fs.writeFileSync(DB_PATH, JSON.stringify(data, null, 2), 'utf8');
       return true;
     } catch (err) {
-      console.error('Error writing database.json:', err);
+      logEvent('ERROR', `Failed to write database.json`, err.message);
       return false;
     }
   }
@@ -97,7 +137,7 @@ if (cluster.isMaster) {
 
     clientData.count++;
     if (clientData.count > RATE_LIMIT_MAX_REQUESTS) {
-      console.warn(`[Rate Limit Triggered] Blocked request from IP: ${ip} on Worker Process PID: ${process.pid}`);
+      logEvent('WARN', `Rate Limit Exceeded for IP: ${ip} on path: ${req.path}`);
       return res.status(429).json({
         error: 'Too Many Requests',
         message: 'Deteksi Aktivitas Tidak Wajar: Server Komputasi Awan (Cloud Compute) memblokir sementara IP Anda karena melebihi kuota pemanggilan aman (Maksimum 15 pemanggilan per 10 detik). Silakan tunggu beberapa detik.'
@@ -120,17 +160,37 @@ if (cluster.isMaster) {
     const db = readDB();
     const updated = { ...db, ...req.body };
     if (writeDB(updated)) {
+      logEvent('INFO', `Database updated successfully via POST /api/db`);
       res.json({ success: true, message: 'Database updated successfully', db: updated });
     } else {
       res.status(500).json({ success: false, message: 'Failed to write to database' });
     }
   });
 
+  // CENTRAL TELEMETRY: GET System Logs endpoint (Authorized for logs visualization)
+  app.get('/api/logs', (req, res) => {
+    try {
+      if (!fs.existsSync(LOG_FILE)) {
+        return res.json({ logs: [] });
+      }
+      const rawText = fs.readFileSync(LOG_FILE, 'utf8');
+      const lines = rawText.trim().split('\n').slice(-100); // Return last 100 log entries
+      res.json({ logs: lines });
+    } catch (err) {
+      res.status(500).json({ error: 'Failed to read log file' });
+    }
+  });
+
+  // CENTRAL TELEMETRY: POST Client/Browser Error Reports (Distributed Sentry-style Error Tracking!)
+  app.post('/api/logs/report', (req, res) => {
+    const { type, message, details } = req.body;
+    logEvent('CLIENT_ERROR', `[${type}] ${message}`, details);
+    res.json({ success: true });
+  });
+
   // 3. Simulated real-time market data generator
   app.get('/api/market-data', (req, res) => {
     const t = Date.now();
-    
-    // Real-time fluctuating pricing per August 3, 2026
     const goldBase = 2610000; 
     const silverBase = 39450; 
     const ihsgBase = 7248.5; 
@@ -360,6 +420,6 @@ Saya adalah asisten AI finansial yang dirancang khusus untuk menganalisis kekaya
   });
 
   app.listen(PORT, '0.0.0.0', () => {
-    console.log(`[Worker Process] Active on PID: ${process.pid}. Server is running at http://localhost:${PORT}`);
+    logEvent('INFO', `[Worker Process] Active on PID: ${process.pid}. Server is running at http://localhost:${PORT}`);
   });
 }
