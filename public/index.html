@@ -1884,6 +1884,108 @@
                 </div>
               </div>
 
+              <!-- WEB3 AUTONOMOUS SMART TREASURY & ON-CHAIN ESTATE (WARIS DECENTRALIZED) -->
+              <div class="bg-cyber-card border border-brand-500 rounded-2xl p-6 space-y-4 shadow-2xl relative overflow-hidden">
+                <div class="absolute top-0 right-0 bg-brand-500 text-slate-900 font-extrabold text-[8px] uppercase tracking-widest px-3 py-1 rounded-bl-xl animate-pulse">AUTOPILOT / WEB3</div>
+                
+                <div class="flex items-center gap-2 pb-3 border-b border-cyber-border/40">
+                  <div class="p-1.5 bg-brand-500/10 rounded-lg border border-brand-500/30">
+                    <i data-lucide="cpu" class="w-5 h-5 text-brand-500"></i>
+                  </div>
+                  <div>
+                    <h3 class="font-extrabold text-sm text-slate-100">Smart Treasury & Autonomous Estate (Waris Blockchain)</h3>
+                    <p class="text-[11px] text-slate-500">Kontrak pintar otonom yang mengalirkan laba ke dana cadangan anti-pailit & melakukan pewarisan on-chain otomatis.</p>
+                  </div>
+                </div>
+
+                <!-- Web3 contract information HUD -->
+                <div class="grid grid-cols-2 gap-3 text-xs">
+                  <div class="bg-slate-950 p-2.5 rounded-xl border border-cyber-border/30">
+                    <span class="block text-[9px] text-slate-500 uppercase font-bold">Contract Deploy State</span>
+                    <strong class="text-emerald-400 font-mono flex items-center gap-1 mt-0.5">
+                      <span class="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-ping"></span> ACTIVE ON-CHAIN
+                    </strong>
+                  </div>
+                  <div class="bg-slate-950 p-2.5 rounded-xl border border-cyber-border/30">
+                    <span class="block text-[9px] text-slate-500 uppercase font-bold">Network RPC Provider</span>
+                    <strong class="text-blue-400 font-mono block mt-0.5">Polygon POS Mainnet</strong>
+                  </div>
+                </div>
+
+                <!-- Estate planning Heartbeat (Dead man's switch) -->
+                <div class="bg-slate-950 p-4 rounded-xl border border-cyber-border/50 space-y-3">
+                  <div class="flex justify-between items-center text-xs">
+                    <span class="text-slate-400 font-semibold flex items-center gap-1">
+                      <i data-lucide="shield-alert" class="w-3.5 h-3.5 text-yellow-500"></i> Owner Heartbeat Countdown
+                    </span>
+                    <span class="font-mono text-yellow-500 font-bold" id="dev-heartbeat-countdown">365 Hari Tersisa</span>
+                  </div>
+                  <div class="w-full bg-slate-900 rounded-full h-1.5 border border-cyber-border/20">
+                    <div class="bg-yellow-500 h-1.5 rounded-full" style="width: 100%" id="dev-heartbeat-bar"></div>
+                  </div>
+                  <p class="text-[10px] text-slate-400 leading-relaxed">
+                    Jika pemilik tidak melakukan <strong>Heartbeat Check-In</strong> sebelum timer habis (menandakan meninggal dunia/sakit keras), seluruh sisa saldo kas treasury platform secara otonom diwariskan ke dompet keluarga terdaftar sesuai Faraid KHI!
+                  </p>
+                  <div class="flex gap-2">
+                    <button onclick="triggerOwnerHeartbeat()" class="flex-1 bg-yellow-600 hover:bg-yellow-500 text-slate-950 font-extrabold py-2 rounded-lg text-[10px] uppercase tracking-wider transition flex items-center justify-center gap-1">
+                      <i data-lucide="heart" class="w-3.5 h-3.5"></i> Kirim Heartbeat (Check-In)
+                    </button>
+                    <button onclick="triggerSimulatedTimePass()" class="bg-slate-800 hover:bg-slate-700 text-slate-300 border border-cyber-border py-2 px-3 rounded-lg text-[10px] font-bold transition flex items-center gap-1">
+                      <i data-lucide="fast-forward" class="w-3.5 h-3.5"></i> Simulasikan +365 Hari
+                    </button>
+                  </div>
+                </div>
+
+                <!-- Active Heirs (Faraid Compliant) -->
+                <div class="space-y-2">
+                  <span class="block text-[10px] text-slate-500 uppercase font-bold tracking-wider">Ahli Waris Terdaftar di Blockchain (Sesuai KHI)</span>
+                  <div class="bg-slate-950 p-3 rounded-xl border border-cyber-border/30 space-y-2 text-xs font-mono" id="dev-blockchain-heirs-list">
+                    <!-- Dynamic loaded heirs conforming to Faraid ratio (2:1) -->
+                  </div>
+                </div>
+
+                <!-- Simulate On-Chain Smart Revenue Split -->
+                <div class="space-y-2.5 pt-2 border-t border-cyber-border/30">
+                  <span class="block text-[10px] text-slate-500 uppercase font-bold tracking-wider">Simulasi Alokasi Autopilot (Anti-Pailit Treasury)</span>
+                  <div class="bg-slate-950 p-3 rounded-xl border border-cyber-border/30 space-y-2">
+                    <div class="flex justify-between items-center text-xs">
+                      <span class="text-slate-400">Kas Masuk (Langganan SaaS):</span>
+                      <strong class="text-brand-500 font-mono">$10.000 USDT</strong>
+                    </div>
+                    
+                    <div class="grid grid-cols-3 gap-2 text-[10px]">
+                      <div class="bg-slate-900 border border-cyber-border/40 p-2 rounded-lg text-center">
+                        <span class="text-slate-500 block">40% Emas Cadangan</span>
+                        <strong class="text-yellow-500 font-mono block mt-0.5">$4.000</strong>
+                      </div>
+                      <div class="bg-slate-900 border border-cyber-border/40 p-2 rounded-lg text-center">
+                        <span class="text-slate-500 block">40% Operasional</span>
+                        <strong class="text-blue-400 font-mono block mt-0.5">$4.000</strong>
+                      </div>
+                      <div class="bg-slate-900 border border-cyber-border/40 p-2 rounded-lg text-center">
+                        <span class="text-slate-500 block">20% Buyback Pool</span>
+                        <strong class="text-purple-400 font-mono block mt-0.5">$2.000</strong>
+                      </div>
+                    </div>
+
+                    <button onclick="triggerSimulatedSmartSplit()" class="w-full bg-gradient-to-r from-brand-600 to-brand-500 hover:from-brand-500 hover:to-brand-400 text-white font-bold py-2 rounded-lg text-[10px] uppercase tracking-wider transition flex items-center justify-center gap-1.5">
+                      <i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i> Eksekusi Alokasi Autopilot On-Chain
+                    </button>
+                  </div>
+                </div>
+
+                <!-- Smart Contract source code drawer -->
+                <div class="space-y-1.5">
+                  <button onclick="toggleSoliditySourceCode()" class="w-full bg-slate-950 hover:bg-slate-900 border border-cyber-border/60 text-slate-400 text-xs py-2 px-3 rounded-lg font-bold flex justify-between items-center transition">
+                    <span class="flex items-center gap-1.5 font-mono"><i data-lucide="file-text" class="w-4 h-4 text-orange-500"></i> Gerai910SmartTreasury.sol</span>
+                    <span id="dev-sol-btn-lbl" class="text-[10px] text-brand-500">TAMPILKAN SOURCE CODE</span>
+                  </button>
+                  <pre id="dev-solidity-code-block" class="hidden bg-slate-950 border border-cyber-border text-slate-400 font-mono text-[9px] p-3 rounded-lg max-h-64 overflow-y-auto leading-relaxed select-all">
+// Memuat berkas kontrak pintar...
+                  </pre>
+                </div>
+              </div>
+
               <!-- HIGH AVAILABILITY CLUSTER FAILOVER & RESILIENCE -->
               <div class="bg-cyber-card border border-cyber-border rounded-2xl p-6 space-y-4">
                 <div class="flex items-center gap-2 pb-3 border-b border-cyber-border/40">

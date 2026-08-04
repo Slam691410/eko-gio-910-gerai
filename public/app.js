@@ -1142,6 +1142,9 @@ async function initDeveloperConsole() {
       document.getElementById('dev-commission-split-label').innerText = `${s.creatorCommissionPercent}% Kreator / ${s.platformFeePercent}% Master Platform`;
     }
 
+    // Initialize Web3 Estate Countdown
+    updateHeartbeatUI();
+
   } catch (err) {
     console.error('Failed to initialize Developer Console metrics:', err);
   }
@@ -1493,5 +1496,154 @@ function clearSandboxTerminal() {
   const term = document.getElementById('dev-sandbox-terminal');
   if (term) {
     term.innerHTML = '<span class="text-slate-500 italic">Terminal dibersihkan. Silakan lakukan pemanggilan API di atas.</span>';
+  }
+}
+
+// --- WEB3 AUTONOMOUS ESTATE & SMART TREASURY INTERACTIVE CONSOLE ---
+
+let devSimulatedHeartbeatDays = 365;
+
+function updateHeartbeatUI() {
+  const lbl = document.getElementById('dev-heartbeat-countdown');
+  const bar = document.getElementById('dev-heartbeat-bar');
+  if (!lbl || !bar) return;
+
+  if (devSimulatedHeartbeatDays > 0) {
+    lbl.innerText = `${devSimulatedHeartbeatDays} Hari Tersisa`;
+    lbl.className = "font-mono text-yellow-500 font-bold";
+    bar.className = "bg-yellow-500 h-1.5 rounded-full animate-pulse";
+    const pct = (devSimulatedHeartbeatDays / 365) * 100;
+    bar.style.width = `${pct}%`;
+  } else {
+    lbl.innerText = "0 Hari (PEMILIK INAKTIF / WARIS SIAP KLAIM)";
+    lbl.className = "font-mono text-red-500 font-black animate-pulse";
+    bar.className = "bg-red-500 h-1.5 rounded-full";
+    bar.style.width = `100%`;
+  }
+  
+  renderBlockchainHeirs();
+}
+
+function renderBlockchainHeirs() {
+  const container = document.getElementById('dev-blockchain-heirs-list');
+  if (!container) return;
+
+  container.innerHTML = '';
+  
+  // Simulated Faraid Heir calculation from database dependents
+  const heirsList = [
+    { name: "Rizky Gio", relation: "Anak Laki-Laki Utama", address: "0x82A180905e467C3098defB751B7401B5f6d1476B", share: "66.67% (2/3 Ashabah)" },
+    { name: "Alya Gio", relation: "Anak Perempuan Kedua", address: "0x4B30D93EC7ab88b098defB751B7401B5f6d1476B", share: "33.33% (1/3 Ashabah)" }
+  ];
+
+  heirsList.forEach(heir => {
+    const div = document.createElement('div');
+    div.className = "flex justify-between items-center bg-slate-900 p-2 rounded border border-cyber-border/20 text-[11px]";
+    
+    let actionBtn = "";
+    if (devSimulatedHeartbeatDays <= 0) {
+      actionBtn = `<button onclick="executeSimulatedInheritanceClaim('${heir.name}', '${heir.share}')" class="bg-red-950 hover:bg-red-800 text-red-400 border border-red-800/40 px-2 py-0.5 rounded text-[9px] font-bold uppercase transition">Klaim Waris</button>`;
+    } else {
+      actionBtn = `<span class="text-[9px] text-slate-500 font-bold uppercase tracking-wider">Locked</span>`;
+    }
+
+    div.innerHTML = `
+      <div>
+        <div class="flex items-center gap-1.5">
+          <span class="w-1.5 h-1.5 bg-brand-500 rounded-full"></span>
+          <strong class="text-slate-200">${heir.name}</strong> 
+          <span class="text-[9px] text-slate-500">(${heir.relation})</span>
+        </div>
+        <span class="text-[10px] text-slate-400 font-mono block mt-0.5">${heir.address}</span>
+        <span class="text-[10px] text-brand-400 block font-bold mt-0.5">Porsi Waris: ${heir.share}</span>
+      </div>
+      <div>
+        ${actionBtn}
+      </div>
+    `;
+    container.appendChild(div);
+  });
+}
+
+function triggerOwnerHeartbeat() {
+  devSimulatedHeartbeatDays = 365;
+  updateHeartbeatUI();
+  
+  writeToSandboxTerminal(`[WEB3] Owner Heartbeat Check-In berhasil dikirim ke Polygon POS Mainnet!`);
+  writeToSandboxTerminal(`[WEB3] Blok transaksi dicatat. Masa tunggu kepemilikan di-reset kembali ke 365 Hari.`);
+  
+  alert(`💖 Owner Heartbeat Check-In Berhasil!\n\nSinyal kehadiran Anda telah direkam di blockchain. Timer masa tunggu klaim waris ahli waris telah di-reset kembali ke 365 hari.`);
+}
+
+function triggerSimulatedTimePass() {
+  devSimulatedHeartbeatDays = 0;
+  updateHeartbeatUI();
+  
+  writeToSandboxTerminal(`[WARN] Simulasi penambahan waktu +365 Hari dilakukan.`);
+  writeToSandboxTerminal(`[WARN] Pemilik terdeteksi tidak aktif selama >365 Hari. Hak waris otomatis terbuka secara on-chain!`);
+  
+  alert(`⚠️ Simulasi Waktu Dipercepat!\n\nKini pemilik dianggap tidak aktif selama lebih dari 365 hari. Tombol "Klaim Waris" kini AKTIF untuk seluruh ahli waris terdaftar sesuai asas Faraid KHI.`);
+}
+
+function executeSimulatedInheritanceClaim(heirName, share) {
+  writeToSandboxTerminal(`[CLAIM] Ahli waris [${heirName}] meluncurkan klaim waris otomatis ke Gerai910SmartTreasury...`);
+  
+  // Calculate total balance from database
+  let totalPlatformFees = 0;
+  if (appState.db && appState.db.affiliateData && appState.db.affiliateData.history) {
+    appState.db.affiliateData.history.forEach(item => {
+      const pShare = item.platformShare || Math.round(item.amount * (30/70));
+      totalPlatformFees += pShare;
+    });
+  }
+
+  const claimPct = heirName.includes('Rizky') ? (2/3) : (1/3);
+  const claimAmount = Math.round(totalPlatformFees * claimPct);
+
+  setTimeout(() => {
+    writeToSandboxTerminal(`[CLAIM] SUCCESS! Kontrak pintar memvalidasi tanda tangan kriptografi ahli waris.`);
+    writeToSandboxTerminal(`[CLAIM] Mentransfer ${share} dari sisa kas treasury ke dompet [${heirName}].`);
+    writeToSandboxTerminal(`[CLAIM] Nominal Ditransfer: Rp ${claimAmount.toLocaleString('id-ID')}`);
+    
+    alert(`🔥 EKSEKUSI WARIS ON-CHAIN BERHASIL!\n\nAhli Waris: ${heirName}\nPorsi Sah: ${share}\nDana Cair: Rp ${claimAmount.toLocaleString('id-ID')}\n\nAset digital dan hak administratif platform otonom berhasil diwariskan lintas generasi di Polygon Mainnet!`);
+  }, 1000);
+}
+
+function triggerSimulatedSmartSplit() {
+  writeToSandboxTerminal(`[AUTOPILOT] Mengeksekusi pembagian hasil langganan SaaS otonom ($10.000 USDT)...`);
+  
+  setTimeout(() => {
+    writeToSandboxTerminal(`[AUTOPILOT] ➜ 40% ($4.000 USDT) dikonversi menjadi PAXG (Emas Fisik Token) dan dikirim ke dompet cadangan aman anti-pailit.`);
+    writeToSandboxTerminal(`[AUTOPILOT] ➜ 40% ($4.000 USDT) dikirim ke dompet operasional cloud computing.`);
+    writeToSandboxTerminal(`[AUTOPILOT] ➜ 20% ($2.000 USDT) dikirim ke liqudity pool untuk pembelian kembali token platform (buyback).`);
+    writeToSandboxTerminal(`[AUTOPILOT] SUCCESS! Seluruh alokasi dana kas cadangan didelegasikan 100% tanpa campur tangan manusia.`);
+    
+    alert(`🛡️ Alokasi Autopilot Sukses!\n\nKontrak Pintar otomatis membagi pemasukan platform SaaS sebesar $10.000 USDT secara real-time:\n  - Rp 65.400.000 (PAXG Emas) masuk ke Dana Abadi Cadangan Anti-Pailit\n  - Rp 65.400.000 masuk Kas Operasional Cloud Server\n  - Rp 32.700.000 masuk Pool Likuiditas Buyback Token\n\nSistem Anda kini memiliki pertahanan kas absolut yang melindunginya dari risiko pailit!`);
+  }, 1200);
+}
+
+async function toggleSoliditySourceCode() {
+  const block = document.getElementById('dev-solidity-code-block');
+  const btn = document.getElementById('dev-sol-btn-lbl');
+  if (!block || !btn) return;
+
+  if (block.classList.contains('hidden')) {
+    block.classList.remove('hidden');
+    btn.innerText = "SEMBUNYIKAN SOURCE CODE";
+    
+    try {
+      const res = await fetch('/contracts/Gerai910SmartTreasury.sol');
+      if (res.ok) {
+        const text = await res.text();
+        block.innerText = text;
+      } else {
+        block.innerText = "// Gagal membaca file dari server.";
+      }
+    } catch (err) {
+      block.innerText = "// Gagal memuat file kontrak pintar.";
+    }
+  } else {
+    block.classList.add('hidden');
+    btn.innerText = "TAMPILKAN SOURCE CODE";
   }
 }

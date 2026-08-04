@@ -117,6 +117,8 @@ if (cluster.isMaster) {
     }
   }));
 
+  app.use('/contracts', express.static(path.join(__dirname, 'contracts')));
+
   const DB_PATH = path.join(__dirname, 'database.json');
 
   function readDB() {
