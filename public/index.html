@@ -157,14 +157,27 @@
     <aside class="w-80 bg-slate-900 border-r border-cyber-border flex flex-col justify-between flex-shrink-0 z-40">
       
       <!-- Brand & Profile Header -->
-      <div class="p-6 border-b border-cyber-border">
-        <div class="flex items-center gap-3 mb-6">
+      <div class="p-6 border-b border-cyber-border space-y-4">
+        <div class="flex items-center gap-3">
           <div class="bg-gradient-to-tr from-brand-600 to-blue-600 p-2 rounded-xl shadow-lg">
             <i data-lucide="gem" class="w-7 h-7 text-white"></i>
           </div>
           <div>
             <h1 class="text-xl font-black bg-gradient-to-r from-white via-slate-100 to-brand-500 bg-clip-text text-transparent tracking-tight">GERAI 910</h1>
             <p class="text-[10px] text-slate-400 uppercase tracking-widest font-semibold">Web3 & AI Financial Hub</p>
+          </div>
+        </div>
+
+        <!-- SAAS MODE SWITCHER (EXPLICIT SEPARATION BETWEEN CUSTOMER AND ADMIN) -->
+        <div class="pt-2">
+          <label class="block text-[9px] text-slate-500 font-bold uppercase tracking-widest mb-1.5">SaaS Mode Selector</label>
+          <div class="bg-slate-950 p-1 rounded-xl border border-cyber-border flex">
+            <button id="btn-saas-customer" onclick="setSaaSMode('customer')" class="flex-1 py-2 rounded-lg text-[9px] font-extrabold uppercase tracking-wider transition duration-150 text-white bg-blue-600 shadow-md flex items-center justify-center gap-1">
+              <i data-lucide="user" class="w-3.5 h-3.5"></i> Customer
+            </button>
+            <button id="btn-saas-admin" onclick="setSaaSMode('admin')" class="flex-1 py-2 rounded-lg text-[9px] font-extrabold uppercase tracking-wider transition duration-150 text-slate-400 flex items-center justify-center gap-1">
+              <i data-lucide="shield" class="w-3.5 h-3.5"></i> Admin
+            </button>
           </div>
         </div>
 
@@ -190,68 +203,68 @@
 
       <!-- Navigation Menu -->
       <nav class="flex-1 overflow-y-auto px-4 py-6 space-y-1.5" id="sidebar-nav">
-        <!-- 1. Konten/Ugc/Afiliasi/Grup -->
-        <button onclick="switchTab('tab-ugc')" class="nav-btn w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium text-slate-400 hover:bg-slate-800/50 hover:text-white transition duration-150 active" data-tab="tab-ugc">
+        <!-- 1. KONTEN (CUSTOMER MODE ONLY) -->
+        <button onclick="switchTab('tab-ugc')" class="nav-btn w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium text-slate-400 hover:bg-slate-800/50 hover:text-white transition duration-150 active" data-tab="tab-ugc" id="nav-ugc">
           <i data-lucide="play" class="w-4 h-4"></i>
           <span>1. GeraiTok Video & Link</span>
         </button>
 
-        <!-- 2. POS/CRM + Panduan -->
-        <button onclick="switchTab('tab-pos')" class="nav-btn w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium text-slate-400 hover:bg-slate-800/50 hover:text-white transition duration-150" data-tab="tab-pos">
+        <!-- 2. POS & CRM (ADMIN MODE ONLY) -->
+        <button onclick="switchTab('tab-pos')" class="nav-btn w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium text-slate-400 hover:bg-slate-800/50 hover:text-white transition duration-150" data-tab="tab-pos" id="nav-pos">
           <i data-lucide="shopping-cart" class="w-4 h-4"></i>
           <span>2. POS Kasir & CRM Toko</span>
         </button>
 
-        <!-- 3. Penghasilan & Aset -->
-        <button onclick="switchTab('tab-assets')" class="nav-btn w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium text-slate-400 hover:bg-slate-800/50 hover:text-white transition duration-150" data-tab="tab-assets">
+        <!-- 3. Penghasilan & Aset (CUSTOMER MODE ONLY) -->
+        <button onclick="switchTab('tab-assets')" class="nav-btn w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium text-slate-400 hover:bg-slate-800/50 hover:text-white transition duration-150" data-tab="tab-assets" id="nav-assets">
           <i data-lucide="coins" class="w-4 h-4"></i>
           <span>3. Aliran Kas & Aset</span>
         </button>
 
-        <!-- 4. KHL/Barometer/Budget/Hutang/Darurat -->
-        <button onclick="switchTab('tab-budget')" class="nav-btn w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium text-slate-400 hover:bg-slate-800/50 hover:text-white transition duration-150" data-tab="tab-budget">
+        <!-- 4. KHL/Barometer/Budget/Hutang/Darurat (CUSTOMER MODE ONLY) -->
+        <button onclick="switchTab('tab-budget')" class="nav-btn w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium text-slate-400 hover:bg-slate-800/50 hover:text-white transition duration-150" data-tab="tab-budget" id="nav-budget">
           <i data-lucide="activity" class="w-4 h-4"></i>
           <span>4. KHL & Budget Fleksibel</span>
         </button>
 
-        <!-- 5. Asuransi -->
-        <button onclick="switchTab('tab-insurance')" class="nav-btn w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium text-slate-400 hover:bg-slate-800/50 hover:text-white transition duration-150" data-tab="tab-insurance">
+        <!-- 5. Asuransi (CUSTOMER MODE ONLY) -->
+        <button onclick="switchTab('tab-insurance')" class="nav-btn w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium text-slate-400 hover:bg-slate-800/50 hover:text-white transition duration-150" data-tab="tab-insurance" id="nav-insurance">
           <i data-lucide="shield" class="w-4 h-4"></i>
           <span>5. Proteksi Asuransi</span>
         </button>
 
-        <!-- 6. Tujuan Investasi -->
-        <button onclick="switchTab('tab-goals')" class="nav-btn w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium text-slate-400 hover:bg-slate-800/50 hover:text-white transition duration-150" data-tab="tab-goals">
+        <!-- 6. Tujuan Investasi (CUSTOMER MODE ONLY) -->
+        <button onclick="switchTab('tab-goals')" class="nav-btn w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium text-slate-400 hover:bg-slate-800/50 hover:text-white transition duration-150" data-tab="tab-goals" id="nav-goals">
           <i data-lucide="target" class="w-4 h-4"></i>
           <span>6. Rencana & Pendidikan</span>
         </button>
 
-        <!-- 7. Makro + Screening -->
-        <button onclick="switchTab('tab-macro')" class="nav-btn w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium text-slate-400 hover:bg-slate-800/50 hover:text-white transition duration-150" data-tab="tab-macro">
+        <!-- 7. Makro + Screening (CUSTOMER MODE ONLY) -->
+        <button onclick="switchTab('tab-macro')" class="nav-btn w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium text-slate-400 hover:bg-slate-800/50 hover:text-white transition duration-150" data-tab="tab-macro" id="nav-macro">
           <i data-lucide="search" class="w-4 h-4"></i>
           <span>7. Makro & Screener TD</span>
         </button>
 
-        <!-- 8. Deviden -->
-        <button onclick="switchTab('tab-dividend')" class="nav-btn w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium text-slate-400 hover:bg-slate-800/50 hover:text-white transition duration-150" data-tab="tab-dividend">
+        <!-- 8. Deviden (CUSTOMER MODE ONLY) -->
+        <button onclick="switchTab('tab-dividend')" class="nav-btn w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium text-slate-400 hover:bg-slate-800/50 hover:text-white transition duration-150" data-tab="tab-dividend" id="nav-dividend">
           <i data-lucide="calendar" class="w-4 h-4"></i>
           <span>8. Kalender Dividen Riil</span>
         </button>
 
-        <!-- 9. Pensiun/Hibah/Waris -->
-        <button onclick="switchTab('tab-inheritance')" class="nav-btn w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium text-slate-400 hover:bg-slate-800/50 hover:text-white transition duration-150" data-tab="tab-inheritance">
+        <!-- 9. Pensiun/Hibah/Waris (CUSTOMER MODE ONLY) -->
+        <button onclick="switchTab('tab-inheritance')" class="nav-btn w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium text-slate-400 hover:bg-slate-800/50 hover:text-white transition duration-150" data-tab="tab-inheritance" id="nav-inheritance">
           <i data-lucide="landmark" class="w-4 h-4"></i>
           <span>9. Pensiun & Faraid/Waris</span>
         </button>
 
-        <!-- 10. Profil/Settingan -->
-        <button onclick="switchTab('tab-settings')" class="nav-btn w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium text-slate-400 hover:bg-slate-800/50 hover:text-white transition duration-150" data-tab="tab-settings">
+        <!-- 10. Profil/Settingan (BOTH MODES - SYSTEM TERMINAL IN ADMIN) -->
+        <button onclick="switchTab('tab-settings')" class="nav-btn w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium text-slate-400 hover:bg-slate-800/50 hover:text-white transition duration-150" data-tab="tab-settings" id="nav-settings">
           <i data-lucide="settings" class="w-4 h-4"></i>
-          <span>10. Profil & Jaringan Web3</span>
+          <span id="nav-settings-text">10. Profil & Jaringan Web3</span>
         </button>
 
-        <!-- 11. Membership & Afiliasi -->
-        <button onclick="switchTab('tab-membership')" class="nav-btn w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium text-slate-400 hover:bg-slate-800/50 hover:text-white transition duration-150" data-tab="tab-membership">
+        <!-- 11. Membership & Afiliasi (CUSTOMER MODE ONLY) -->
+        <button onclick="switchTab('tab-membership')" class="nav-btn w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium text-slate-400 hover:bg-slate-800/50 hover:text-white transition duration-150" data-tab="tab-membership" id="nav-membership">
           <i data-lucide="award" class="w-4 h-4"></i>
           <span>11. Kemitraan & Afiliasi</span>
         </button>
@@ -1430,12 +1443,12 @@
         <section id="tab-settings" class="tab-panel hidden space-y-8">
           <div>
             <span class="text-xs font-bold text-brand-500 uppercase tracking-widest">KATEGORI 10</span>
-            <h2 class="text-3xl font-extrabold tracking-tight">Profil Pengguna & Keluarga Terintegrasi</h2>
-            <p class="text-slate-400 mt-1">Konfigurasikan status pernikahan, rencana Haji, data tanggungan pendidikan anak-anak, profil risiko, dan integrasikan wallet Web3 Anda.</p>
+            <h2 class="text-3xl font-extrabold tracking-tight" id="settings-heading-title">Profil Pengguna & Keluarga Terintegrasi</h2>
+            <p class="text-slate-400 mt-1" id="settings-heading-desc">Konfigurasikan status pernikahan, rencana Haji, data tanggungan pendidikan anak-anak, profil risiko, dan integrasikan wallet Web3 Anda.</p>
           </div>
 
-          <!-- USER FAMILY & DEPENDENTS FORM PANEL -->
-          <div class="bg-cyber-card border border-cyber-border rounded-2xl p-6 space-y-6">
+          <!-- USER FAMILY & DEPENDENTS FORM PANEL (CUSTOMER MODE ONLY) -->
+          <div class="bg-cyber-card border border-cyber-border rounded-2xl p-6 space-y-6" id="settings-family-panel">
             <h3 class="font-bold text-lg flex items-center gap-2 text-slate-100 border-b border-cyber-border pb-3">
               <i data-lucide="users" class="w-5 h-5 text-blue-500"></i> Hubungan Keluarga & Tanggungan Pendidikan Anak
             </h3>
@@ -1549,6 +1562,26 @@
                   </tbody>
                 </table>
               </div>
+            </div>
+          </div>
+
+          <!-- ADMIN CENTRAL TELEMETRY TERMINAL (ADMIN MODE ONLY - HIDDEN IN CUSTOMER) -->
+          <div class="bg-[#111622] border-2 border-red-500/30 rounded-2xl p-6 space-y-4 hidden shadow-2xl relative" id="settings-admin-logs-panel">
+            <div class="absolute top-0 right-0 bg-red-500/10 text-red-400 border-l border-b border-red-500/20 px-3 py-1 rounded-bl-xl font-bold text-[9px] tracking-widest uppercase">SECURITY TELEMETRY</div>
+            <h3 class="font-bold text-lg text-slate-100 flex items-center gap-1.5">
+              <i data-lucide="terminal" class="w-5 h-5 text-red-500"></i> Konsol Pemantau Log Server & Pelacakan Galat (Telemetry Console)
+            </h3>
+            <p class="text-xs text-slate-400">
+              Menampilkan 100 log sistem rill terakhir dari berkas fisik <code class="font-mono bg-slate-950 text-red-400 px-1.5 py-0.5 rounded">server.log</code>. Memantau aktivitas klaster thread worker, penyerangan bot, blok transaksi, dan pelaporan galat klien otomatis (*Sentry Distributed Tracker*).
+            </p>
+            <!-- Log Console terminal -->
+            <div class="bg-black text-slate-300 font-mono text-[10px] p-4 rounded-xl border border-red-950 h-64 overflow-y-auto space-y-1.5 shadow-inner" id="admin-telemetry-console">
+              <!-- Loaded dynamically -->
+            </div>
+            <div class="flex justify-end">
+              <button onclick="fetchServerLogs()" class="bg-red-950/20 hover:bg-red-900/30 border border-red-800/30 text-red-400 font-bold px-3 py-1.5 rounded-lg text-xs flex items-center gap-1.5 transition">
+                <i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i> Refresh Telemetri Log
+              </button>
             </div>
           </div>
 
@@ -2122,7 +2155,7 @@
     </div>
   </div>
 
-  <!-- Modal: SaaS Premium Membership Checkout (aligned with User feedback on affiliate integration) -->
+  <!-- Modal: SaaS Premium Membership Checkout -->
   <div id="modal-membership-checkout" class="fixed inset-0 bg-black/75 backdrop-blur-md flex items-center justify-center z-50 hidden">
     <div class="bg-[#111622] border border-cyber-border rounded-3xl w-full max-w-md p-6 space-y-6">
       <div class="flex items-center justify-between border-b border-cyber-border/60 pb-3">
