@@ -60,9 +60,22 @@ router.post('/ai-chat', handleAIChat);
 router.post('/blockchain/mint', mintToken);
 
 // 6. Developer Console & Super Admin endpoints
+const { getAutopilotState, setAutopilotState } = require('../services/autopilotService');
+
 router.get('/dev/status', getSystemStatus);
 router.get('/dev/env', getEnvConfig);
 router.post('/dev/env', saveEnvConfig);
 router.post('/dev/crash', forceCrashWorker);
+
+// Autopilot state routes
+router.get('/dev/autopilot', (req, res) => {
+  res.json({ success: true, ...getAutopilotState() });
+});
+
+router.post('/dev/autopilot', (req, res) => {
+  const { growth, heartbeat } = req.body;
+  const state = setAutopilotState(growth === true, heartbeat === true);
+  res.json({ success: true, ...state });
+});
 
 module.exports = router;

@@ -1,11 +1,15 @@
 const cluster = require('cluster');
 const os = require('os');
 const { logEvent } = require('./db');
+const { startAutopilotDaemon } = require('../services/autopilotService');
 
 function initCluster(bootWorkerApp) {
   if (cluster.isMaster) {
     const numCPUs = os.cpus().length || 1;
     logEvent('INFO', `[Master Cloud Load Balancer] Active on PID: ${process.pid}`);
+    
+    // Start Autopilot Daemon on the Master process
+    startAutopilotDaemon();
     
     logEvent('INFO', '==================================================');
     logEvent('INFO', '⚙️ VERIFIKASI KUNCI INTEGRASI PRODUKSI SAAS GERAITOK 910:');
