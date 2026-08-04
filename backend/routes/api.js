@@ -1,7 +1,7 @@
 const express = require('express');
 const fs = require('fs');
 const { readDB, writeDB, LOG_FILE, logEvent } = require('../config/db');
-const { getMarketData, getDynamicScreenerData } = require('../controllers/marketDataController');
+const { getMarketData, getDynamicScreenerData, getGlobalStockAudit } = require('../controllers/marketDataController');
 const { handleAIChat } = require('../controllers/aiChatController');
 const { mintToken } = require('../controllers/web3Controller');
 const { 
@@ -53,6 +53,7 @@ router.post('/logs/report', (req, res) => {
 // 3. Market and macroeconomic feeds
 router.get('/market-data', getMarketData);
 router.get('/screener', getDynamicScreenerData);
+router.get('/screener/audit', getGlobalStockAudit);
 
 // 4. AI Chat Assistant
 router.post('/ai-chat', handleAIChat);

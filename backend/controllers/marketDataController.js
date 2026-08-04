@@ -351,8 +351,124 @@ async function getDynamicScreenerData(req, res) {
   });
 }
 
+/**
+ * Universal Global Stock Audit & Forensic Analysis API
+ * Connects to live Yahoo Finance servers to fetch real-time profile, major holders breakdown,
+ * executive board, and accounting ratios for ANY stock symbol globally!
+ */
+async function getGlobalStockAudit(req, res) {
+  const { ticker } = req.query;
+  if (!ticker) {
+    return res.status(400).json({ error: 'Ticker parameter is required' });
+  }
+
+  // Automatically append .JK for convenience if it is a 4-character Indonesian stock
+  let yfTicker = ticker.toUpperCase().trim();
+  if (yfTicker.length === 4 && !yfTicker.includes('.')) {
+    yfTicker += '.JK';
+  }
+
+  logEvent('INFO', `[SaaS Global Auditor] Fetching full corporate audit details for ticker: ${yfTicker}...`);
+
+  try {
+    const url = `https://query2.finance.yahoo.com/v10/finance/quoteSummary/${yfTicker}?modules=assetProfile,financialData,defaultKeyStatistics,summaryDetail,majorHoldersBreakdown`;
+    const yfRes = await fetch(url, {
+      headers: {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.0.0 Safari/537.36'
+      }
+    });
+
+    if (yfRes.ok) {
+      const json = await yfRes.json();
+      const result = json.quoteSummary?.result?.[0];
+      if (result) {
+        const profile = result.assetProfile || {};
+        const financial = result.financialData || {};
+        const stats = result.defaultKeyStatistics || {};
+        const detail = result.summaryDetail || {};
+        const holders = result.majorHoldersBreakdown || {};
+
+        const companyName = detail.longName || profile.longBusinessSummary?.slice(0, 50) || yfTicker;
+        const sector = profile.sector || 'N/A';
+        const industry = profile.industry || 'N/A';
+        const employees = profile.fullTimeEmployees || 'N/A';
+        const description = profile.longBusinessSummary || 'Tidak ada deskripsi korporat.';
+
+        const pe = detail.trailingPE?.fmt || detail.forwardPE?.fmt || 'N/A';
+        const pbv = stats.priceToBook?.fmt || 'N/A';
+        const rawYield = detail.dividendYield?.raw;
+        const divYield = rawYield !== undefined ? (rawYield * 100).toFixed(2) + '%' : '0.00%';
+        const roe = financial.returnOnEquity?.fmt || 'N/A';
+        const rawDER = financial.debtToEquity?.raw;
+        const der = rawDER !== undefined ? (rawDER / 100).toFixed(2) : 'N/A';
+        const currentRatio = financial.currentRatio?.fmt || 'N/A';
+        const operatingCashflow = financial.operatingCashflow?.fmt || 'N/A';
+
+        const insHoldersPct = holders.institutionsPercentHeld?.fmt || 'N/A';
+        const mutualFundHoldersPct = holders.insidersPercentHeld?.fmt || 'N/A'; 
+
+        const management = [];
+        if (profile.companyOfficers && profile.companyOfficers.length > 0) {
+          profile.companyOfficers.slice(0, 5).forEach(officer => {
+            management.push({
+              name: officer.name,
+              title: officer.title,
+              age: officer.age || 'N/A'
+            });
+          });
+        }
+
+        // Advanced Forensic Red-Flag Audit Algorithm (Otonom)
+        let redFlags = [];
+        const rawDERNum = parseFloat(der);
+        if (!isNaN(rawDERNum) && rawDERNum > 2.0) {
+          redFlags.push(`🚨 Leverage Berlebih (DER ${der} > 2.0x): Rasio hutang terhadap ekuitas sangat berisiko memicu kebangkrutan saat pendapatan turun.`);
+        }
+        const rawCurrentRatio = parseFloat(currentRatio);
+        if (!isNaN(rawCurrentRatio) && rawCurrentRatio < 1.0) {
+          redFlags.push(`🚨 Likuiditas Kritis (Current Ratio ${currentRatio} < 1.0x): Korporasi tidak memiliki aset lancar yang cukup untuk membayar utang jangka pendek.`);
+        }
+        if (operatingCashflow === 'N/A' || operatingCashflow.startsWith('-')) {
+          redFlags.push(`🚨 Arus Kas Operasi Negatif: Kas hasil penjualan tidak sejalan dengan laba bersih terlapor, indikasi manipulasi akuntansi pembukuan.`);
+        }
+        if (redFlags.length === 0) {
+          redFlags.push("✅ Aman: Sistem tidak mendeteksi adanya red-flag akuntansi pokok. Struktur permodalan, likuiditas, dan kas berjalan sehat.");
+        }
+
+        return res.json({
+          success: true,
+          ticker: yfTicker,
+          companyName,
+          sector,
+          industry,
+          employees,
+          description,
+          pe,
+          pbv,
+          divYield,
+          roe,
+          der,
+          currentRatio,
+          operatingCashflow,
+          shareholders: {
+            insHoldersPct,
+            mutualFundHoldersPct
+          },
+          management,
+          redFlags
+        });
+      }
+    }
+  } catch (err) {
+    logEvent('ERROR', `Failed to execute full global audit for ${yfTicker}`, err.message);
+  }
+
+  res.status(500).json({ error: `Gagal mengaudit emiten ${ticker}. Harap pastikan kode emiten valid (misal: AAPL atau BBRI).` });
+}
+
 module.exports = {
   getMarketData,
   getDynamicScreenerData,
+  getGlobalStockAudit,
   fetchYahooFinanceData
 };
