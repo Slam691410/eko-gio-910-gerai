@@ -1,0 +1,425 @@
+{
+  "profile": {
+    "name": "Eko Gio",
+    "email": "ekogio.investor@gmail.com",
+    "phone": "+62 812-3456-7890",
+    "riskProfile": "Moderate",
+    "web3Address": "0x71C7656EC7ab88b098defB751B7401B5f6d1476B",
+    "premiumTier": "Pro",
+    "affiliateCode": "EKOGERAI910",
+    "maritalStatus": "Belum Menikah",
+    "weddingPlan": {
+      "hasPlan": true,
+      "targetYear": 2028,
+      "estimatedCost": 75000000
+    },
+    "hajiPlan": {
+      "hajiStatus": "Belum Haji",
+      "hasPlan": true,
+      "targetYear": 2032,
+      "estimatedCost": 110000000,
+      "waitingTimeYears": 18
+    },
+    "dependents": [
+      {
+        "id": 1,
+        "name": "Rizky Gio",
+        "relation": "Anak Kesatu",
+        "age": 4,
+        "schoolStatus": "Belum Sekolah"
+      },
+      {
+        "id": 2,
+        "name": "Alya Gio",
+        "relation": "Anak Kedua",
+        "age": 10,
+        "schoolStatus": "SD"
+      }
+    ]
+  },
+  "income": {
+    "utama": 15000000,
+    "bisnis": 8500000,
+    "passive": 3200000,
+    "lainnya": 1800000
+  },
+  "assets": {
+    "gold": {
+      "grams": 15,
+      "avgBuyPrice": 1850000
+    },
+    "silver": {
+      "grams": 250,
+      "avgBuyPrice": 14200
+    },
+    "mutualFunds": [
+      {
+        "id": 1,
+        "name": "Reksadana Pasar Uang Syariah Mandiri",
+        "category": "Money Market",
+        "balance": 25000000,
+        "yieldYtd": 5.45
+      },
+      {
+        "id": 2,
+        "name": "Reksadana Pendapatan Tetap Sucorinvest BBNI",
+        "category": "Fixed Income",
+        "balance": 35000000,
+        "yieldYtd": 7.12
+      },
+      {
+        "id": 3,
+        "name": "Reksadana Saham Pratama Equity",
+        "category": "Equity",
+        "balance": 20000000,
+        "yieldYtd": 11.35
+      }
+    ],
+    "sbn": [
+      {
+        "id": 1,
+        "name": "Sukuk Ritel SR020",
+        "balance": 30000000,
+        "yield": 6.30,
+        "maturity": "2027-03-10"
+      },
+      {
+        "id": 2,
+        "name": "Obligasi Ritel ORI025",
+        "balance": 20000000,
+        "yield": 6.25,
+        "maturity": "2027-02-15"
+      }
+    ],
+    "deposits": [
+      {
+        "id": 1,
+        "bank": "Bank Syariah Indonesia (BSI)",
+        "balance": 40000000,
+        "yield": 4.75,
+        "period": "12 Bulan"
+      }
+    ],
+    "property": [
+      {
+        "id": 1,
+        "name": "Tanah Kavling Jonggol, Bogor",
+        "balance": 180000000,
+        "appreciation": 8.5
+      },
+      {
+        "id": 2,
+        "name": "Ruko Niaga Sawangan, Depok",
+        "balance": 550000000,
+        "appreciation": 6.2
+      }
+    ],
+    "stocks": [
+      {
+        "code": "BBRI",
+        "name": "Bank Rakyat Indonesia",
+        "shares": 10000,
+        "avgPrice": 4650
+      },
+      {
+        "code": "TLKM",
+        "name": "Telkom Indonesia",
+        "shares": 5000,
+        "avgPrice": 3120
+      },
+      {
+        "code": "ASII",
+        "name": "Astra International",
+        "shares": 3000,
+        "avgPrice": 4800
+      }
+    ]
+  },
+  "khl": {
+    "target": 6800000,
+    "region": "DKI Jakarta"
+  },
+  "budget": {
+    "needs": 50,
+    "wants": 30,
+    "savings": 20
+  },
+  "debts": [
+    {
+      "id": 1,
+      "name": "KPR Bank Syariah Indonesia",
+      "remaining": 280000000,
+      "interestRate": 7.25,
+      "minPayment": 3150000
+    },
+    {
+      "id": 2,
+      "name": "Cicilan Modal Kerja Toko",
+      "remaining": 25000000,
+      "interestRate": 9.5,
+      "minPayment": 1200000
+    }
+  ],
+  "emergencyFund": {
+    "current": 35000000,
+    "targetMonths": 6
+  },
+  "insurance": [
+    {
+      "id": 1,
+      "type": "BPJS Kesehatan Kelas 1",
+      "provider": "BPJS Kesehatan",
+      "premium": 150000,
+      "status": "Active"
+    },
+    {
+      "id": 2,
+      "type": "Asuransi Kesehatan Swasta Pro",
+      "provider": "Manulife",
+      "premium": 850000,
+      "status": "Active"
+    },
+    {
+      "id": 3,
+      "type": "Asuransi Jiwa Term-Life",
+      "provider": "Prudential",
+      "premium": 450000,
+      "status": "Active"
+    }
+  ],
+  "goals": [
+    {
+      "id": 101,
+      "name": "Renovasi Ruko Niaga Sawangan",
+      "target": 50000000,
+      "saved": 15000000,
+      "targetYear": 2027
+    }
+  ],
+  "posProducts": [
+    {
+      "id": 1,
+      "sku": "LM-ANT-1G",
+      "name": "Emas Batangan 1 Gram Antam Certi",
+      "price": 2610000,
+      "stock": 42,
+      "category": "Logam Mulia"
+    },
+    {
+      "id": 2,
+      "sku": "LM-ANT-5G",
+      "name": "Emas Batangan 5 Gram Antam Certi",
+      "price": 12825000,
+      "stock": 18,
+      "category": "Logam Mulia"
+    },
+    {
+      "id": 3,
+      "sku": "AG-VAL-100G",
+      "name": "Perak Murni Batangan 100 Gram",
+      "price": 1500000,
+      "stock": 25,
+      "category": "Logam Mulia"
+    },
+    {
+      "id": 4,
+      "sku": "BK-FIN-SYR",
+      "name": "Buku Panduan Finansial Syariah & Waris",
+      "price": 125000,
+      "stock": 88,
+      "category": "Buku & Panduan"
+    },
+    {
+      "id": 5,
+      "sku": "SRV-AI-CONS",
+      "name": "Sesi Konsultasi AI Finansial Premium",
+      "price": 250000,
+      "stock": 9999,
+      "category": "Layanan"
+    },
+    {
+      "id": 6,
+      "sku": "MEM-PRE-1Y",
+      "name": "Membership Premium 1 Tahun",
+      "price": 999000,
+      "stock": 9999,
+      "category": "Layanan"
+    }
+  ],
+  "crmCustomers": [
+    {
+      "id": 1,
+      "name": "Budi Santoso",
+      "email": "budi.santoso@gmail.com",
+      "phone": "+62 812-9876-5432",
+      "tier": "Gold",
+      "totalSpent": 35400000,
+      "address": "Menteng, Jakarta Pusat",
+      "lastActive": "2026-08-01"
+    },
+    {
+      "id": 2,
+      "name": "Siti Rahma Syarifah",
+      "email": "siti.rahma@yahoo.co.id",
+      "phone": "+62 819-1234-5678",
+      "tier": "Platinum",
+      "totalSpent": 132000000,
+      "address": "Kebayoran Baru, Jakarta Selatan",
+      "lastActive": "2026-08-03"
+    },
+    {
+      "id": 3,
+      "name": "Ahmad Hidayat",
+      "email": "ahmad.h@outlook.com",
+      "phone": "+62 856-7891-2345",
+      "tier": "Regular",
+      "totalSpent": 375000,
+      "address": "Sawangan, Depok",
+      "lastActive": "2026-07-28"
+    }
+  ],
+  "posTransactions": [
+    {
+      "id": "TX-1001",
+      "timestamp": "2026-08-02T14:23:45.000Z",
+      "customerId": 1,
+      "customerName": "Budi Santoso",
+      "items": [
+        {
+          "productId": 1,
+          "name": "Emas Batangan 1 Gram Antam Certi",
+          "price": 2610000,
+          "qty": 2,
+          "subtotal": 5220000
+        },
+        {
+          "productId": 4,
+          "name": "Buku Panduan Finansial Syariah & Waris",
+          "price": 125000,
+          "qty": 1,
+          "subtotal": 125000
+        }
+      ],
+      "discount": 50000,
+      "tax": 582450,
+      "total": 5877450,
+      "paymentMethod": "QRIS",
+      "status": "Completed"
+    },
+    {
+      "id": "TX-1002",
+      "timestamp": "2026-08-03T09:12:00.000Z",
+      "customerId": 2,
+      "customerName": "Siti Rahma Syarifah",
+      "items": [
+        {
+          "productId": 2,
+          "name": "Emas Batangan 5 Gram Antam Certi",
+          "price": 12825000,
+          "qty": 1,
+          "subtotal": 12825000
+        }
+      ],
+      "discount": 100000,
+      "tax": 1399750,
+      "total": 14124750,
+      "paymentMethod": "Crypto Token",
+      "status": "Completed"
+    }
+  ],
+  "posts": [
+    {
+      "id": 1,
+      "author": "Rian_Wealth_Advisor",
+      "title": "Analisis Makro Agustus 2026: Mengapa Emas Antam Menyentuh Rp2,61 Juta/Gram?",
+      "content": "Kenaikan harga emas batangan domestik dipicu oleh ketidakpastian geopolitik global dan penyesuaian suku bunga Federal Reserve di rentang 3.5-3.75%. Di sisi lain, inflasi Indonesia stabil di 2.42% (Mei 2026), menjadikan emas pelindung nilai (safe-haven) yang sangat superior saat ini dibandingkan instrumen berisiko tinggi lainnya.",
+      "likes": 42,
+      "comments": 7,
+      "category": "Makro",
+      "timestamp": "2026-08-03T08:15:22.000Z"
+    },
+    {
+      "id": 2,
+      "author": "Khadijah_Syar",
+      "title": "Panduan Praktis Pembagian Waris (Faraid) Menggunakan KHI Indonesia",
+      "content": "Banyak dari kita yang sering bingung membedakan antara Hibah (pemberian saat hidup) dan Waris (pembagian setelah wafat). Sesuai Kompilasi Hukum Islam (KHI), anak laki-laki mendapatkan bagian 2 banding 1 dengan anak perempuan. Mari diskusikan detail perhitungan porsi Ibu, Ayah, Istri, atau Suami jika ada ahli waris yang terhalang (hijab)!",
+      "likes": 56,
+      "comments": 12,
+      "category": "Pensiun & Waris",
+      "timestamp": "2026-08-02T19:40:00.000Z"
+    },
+    {
+      "id": 3,
+      "author": "Agus_UMKM_Ritel",
+      "title": "Tips Mengelola Kas & Stok Toko Emas / Ritel Menggunakan Sistem POS Terintegrasi",
+      "content": "Sebagai pemilik gerai, integrasi CRM sangat krusial. Saya baru menyadari melacak total belanja pelanggan emas (seperti membaginya dalam tier Gold & Platinum) membantu kita memberikan diskon eksklusif dan meluncurkan program afiliasi yang menaikkan penjualan bulanan hingga 30%.",
+      "likes": 29,
+      "comments": 3,
+      "category": "POS & CRM",
+      "timestamp": "2026-08-01T11:05:00.000Z"
+    }
+  ],
+  "blockchainLedger": [
+    {
+      "block": 3284091,
+      "hash": "0x8fae31b6cc2cf871694f4c2c5c1d7693fb18fe7c82a7223e7cbfa978a67df6ba",
+      "from": "0x0000000000000000000000000000000000000000",
+      "to": "0x71C7656EC7ab88b098defB751B7401B5f6d1476B",
+      "token": "gGMR (geraiGold)",
+      "value": "15.0000 g",
+      "status": "Confirmed",
+      "timestamp": "2026-08-02T10:14:00.000Z"
+    },
+    {
+      "block": 3284102,
+      "hash": "0x2da2b7a8f1589c3b889502bcbe386ff0b6bfd1c3a647ffbc9891823ab26e5e40",
+      "from": "0x0000000000000000000000000000000000000000",
+      "to": "0x71C7656EC7ab88b098defB751B7401B5f6d1476B",
+      "token": "gSLV (geraiSilver)",
+      "value": "250.0000 g",
+      "status": "Confirmed",
+      "timestamp": "2026-08-02T10:15:30.000Z"
+    }
+  ],
+  "affiliateData": {
+    "clicks": 348,
+    "signups": 42,
+    "earnings": 4195000,
+    "links": [
+      {
+        "id": 1,
+        "name": "Gerai Gold Batangan Antam",
+        "url": "https://gerai.id/ref=EKOGERAI910&prod=gold",
+        "clicks": 185
+      },
+      {
+        "id": 2,
+        "name": "E-Learning Waris & Makro",
+        "url": "https://gerai.id/ref=EKOGERAI910&prod=course",
+        "clicks": 98
+      },
+      {
+        "id": 3,
+        "name": "Membership Premium Pro",
+        "url": "https://gerai.id/ref=EKOGERAI910&prod=premium",
+        "clicks": 65
+      }
+    ],
+    "history": [
+      {
+        "id": 1,
+        "date": "2026-08-02",
+        "source": "UGC Post (Analisis Makro)",
+        "amount": 250000,
+        "status": "Approved"
+      },
+      {
+        "id": 2,
+        "date": "2026-08-03",
+        "source": "Grup WA Komunitas",
+        "amount": 99900,
+        "status": "Pending"
+      }
+    ]
+  }
+}
