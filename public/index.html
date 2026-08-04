@@ -1520,6 +1520,19 @@
                 <h4 class="font-bold text-slate-300 uppercase tracking-wider block mb-2"><i data-lucide="heart" class="inline-block w-4 h-4 text-rose-400 mr-1"></i> Status Pasangan & Pernikahan</h4>
                 
                 <div>
+                  <label class="block text-slate-400 mb-1">Provinsi Domisili (Penentu KHL/UMR)</label>
+                  <select id="prof-province-select" onchange="saveRiskProfile()" class="w-full bg-slate-900 border border-cyber-border rounded-xl px-3 py-2 text-slate-200 focus:outline-none mb-3">
+                    <option value="DKI Jakarta" selected>DKI Jakarta (UMR Rp 5.067.381)</option>
+                    <option value="Jawa Barat">Jawa Barat (UMR Rp 2.057.495)</option>
+                    <option value="Jawa Tengah">Jawa Tengah (UMR Rp 2.036.947)</option>
+                    <option value="DI Yogyakarta">DI Yogyakarta (UMR Rp 2.125.897)</option>
+                    <option value="Bali">Bali (UMR Rp 2.813.672)</option>
+                    <option value="Kalimantan Timur">Kalimantan Timur (UMR Rp 3.360.858)</option>
+                    <option value="Sulawesi Selatan">Sulawesi Selatan (UMR Rp 3.431.862)</option>
+                  </select>
+                </div>
+
+                <div>
                   <label class="block text-slate-400 mb-1">Status Pernikahan</label>
                   <select id="prof-marital-status" onchange="toggleWeddingFormPlan()" class="w-full bg-slate-900 border border-cyber-border rounded-xl px-3 py-2 text-slate-200 focus:outline-none">
                     <option value="Belum Menikah" selected>Belum Menikah (Lajang)</option>

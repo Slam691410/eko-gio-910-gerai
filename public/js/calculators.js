@@ -56,13 +56,17 @@ function generateContextualBudgetAdvice(income, needs, wants, savings) {
   const el = document.getElementById('budget-ai-advice-box');
   if (!el) return;
 
+  const provSelect = document.getElementById('prof-province-select');
+  const province = provSelect ? provSelect.value : 'DKI Jakarta';
+  const baseKhl = provincialKHLDatabase[province] || 5067381;
+
   let advice = "";
-  if (income > 100000000) { // Miliaran vs Pas-Pasan
-    advice = `💡 **Rekomendasi AI (Kelompok Pendapatan Tinggi):** Mengingat pendapatan Anda yang luar biasa (Rp ${income.toLocaleString('id-ID')}), alokasi Keinginan (${wants}%) dan Kebutuhan (${needs}%) Anda dapat ditekan lebih lanjut. Kami menyarankan meningkatkan alokasi **Tabungan/Investasi hingga >50%** guna mempercepat ekspansi Smart Treasury emas Anda di blockchain.`;
-  } else if (income < 10000000) {
-    advice = `⚠️ **Rekomendasi AI (Kelompok Pendapatan Ketat):** Dengan total pendapatan Rp ${income.toLocaleString('id-ID')}, alokasi kebutuhan pokok (${needs}%) sangat menyita anggaran Anda. Prioritaskan alokasi Tabungan (${savings}%) khusus untuk **Dana Darurat** terlebih dahulu sebelum membeli instrumen berisiko.`;
+  if (income < baseKhl * 1.5) { // Income is near or below local living cost
+    advice = `🛑 **Analisis Taktis AI: ATURAN 50/30/20 ADALAH ILMU SESAT UNTUK ANDA!** <br><br>Dengan pendapatan bulanan Rp ${income.toLocaleString('id-ID')} yang hampir menyamai atau di bawah batas hidup layak (KHL) ${province} (Rp ${baseKhl.toLocaleString('id-ID')}), Anda **TIDAK BOLEH** mengalokasikan 30% untuk Keinginan (*Wants*)! <br><br>*   **Saran Otonom**: Alokasikan 90% langsung untuk Kebutuhan Pokok (*Needs*) untuk bertahan hidup, sisakan 10% untuk **Tabungan Dana Darurat mikro**, dan tekan Keinginan menjadi **0%**. Memaksa aturan 50/30/20 hanya akan memicu utang konsumtif dan kepailitan.`;
+  } else if (income > 100000000) { // Billionaires / Trillionaires
+    advice = `💡 **Analisis Taktis AI: ATURAN 50/30/20 TERLALU BOROS UNTUK ANDA!** <br><br>Pendapatan harian/bulanan Anda mencapai tingkat triliunan/miliaran (Rp ${income.toLocaleString('id-ID')} IDR). Di kelompok ini, menghabiskan 50% untuk kebutuhan pokok dan 30% untuk keinginan adalah bentuk inefisiensi kapital yang fatal.<br><br>*   **Saran Otonom**: Tekan kebutuhan pokok Anda hingga **di bawah 5%**, sisihkan keinginan di bawah 10%, dan alokasikan **85% langsung ke Tabungan/Investasi Hard-Asset (Emas PAXG & SBN)** guna melipatgandakan dana abadi otonom di Smart Treasury Singapura!`;
   } else {
-    advice = `✅ **Rekomendasi AI (Kelompok Pendapatan Menengah):** Alokasi anggaran Anda yang seimbang (${needs}/${wants}/${savings}) menunjukkan ketahanan kas yang prima. Pertahankan konsistensi investasi bulanan ke emas fisik.`;
+    advice = `✅ **Analisis Taktis AI (Kelompok Menengah):** Aturan 50/30/20 dapat dijadikan sebagai acuan awal, namun alokasi Anda yang saat ini (${needs}/${wants}/${savings}) menunjukkan adaptasi yang prima terhadap fluktuasi ekonomi riil di ${province}. Teruskan konsistensi menabung emas bulanan.`;
   }
   
   el.innerHTML = advice;
@@ -70,23 +74,36 @@ function generateContextualBudgetAdvice(income, needs, wants, savings) {
 
 // -------------------------------------------------------------
 // KHL & DYNAMIC AUTO-FEED GOALS CALCULATOR
+const provincialKHLDatabase = {
+  "DKI Jakarta": 5067381,
+  "Jawa Barat": 2057495,
+  "Jawa Tengah": 2036947,
+  "DI Yogyakarta": 2125897,
+  "Bali": 2813672,
+  "Kalimantan Timur": 3360858,
+  "Sulawesi Selatan": 3431862
+};
+
 function calculateKHL() {
   if (!appState.db) return;
 
   const dependents = appState.db.profile.dependents || [];
   const marriageStatus = appState.db.profile.maritalStatus;
 
-  // Formula KHL: Jumlah Orang * KHL per Orang (KHL per person is Rp 3.200.000)
+  // Formula KHL: Jumlah Orang * KHL per Orang (Dynamic provincial UMR)
   let totalPeople = 1; // Mandiri
   if (marriageStatus !== 'Belum Menikah') {
     totalPeople += 1; // Spouse
   }
   totalPeople += dependents.length; // Kids/Dependents
 
-  const baseKhlPerPerson = 3200000;
+  const provSelect = document.getElementById('prof-province-select');
+  const province = provSelect ? provSelect.value : 'DKI Jakarta';
+  const baseKhlPerPerson = provincialKHLDatabase[province] || 5067381;
+
   const estimatedKhlFamily = totalPeople * baseKhlPerPerson;
 
-  document.getElementById('khl-count-people').innerText = `${totalPeople} Orang`;
+  document.getElementById('khl-count-people').innerText = `${totalPeople} Orang (${province})`;
   document.getElementById('khl-total-rupiah').innerText = `Rp ${estimatedKhlFamily.toLocaleString('id-ID')}`;
 
   // Dynamically configure Emergency Fund target: 6 months for single, 12 months for married

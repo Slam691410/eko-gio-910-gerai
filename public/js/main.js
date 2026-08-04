@@ -36,6 +36,11 @@ async function fetchDatabase(showToast = false) {
     document.getElementById('user-tier').innerText = `${db.profile.premiumTier.toUpperCase()} MEMBER`;
     document.getElementById('profile-info-email').innerText = db.profile.email;
     document.getElementById('profile-info-phone').innerText = db.profile.phone;
+
+    const provSelect = document.getElementById('prof-province-select');
+    if (provSelect && db.profile.province) {
+      provSelect.value = db.profile.province;
+    }
     
     updateWeb3WalletWidget();
     renderUGCFeed();
@@ -704,6 +709,11 @@ async function saveRiskProfile() {
   if (!select) return;
   
   appState.db.profile.riskProfile = select.value;
+
+  const provSelect = document.getElementById('prof-province-select');
+  if (provSelect) {
+    appState.db.profile.province = provSelect.value;
+  }
   
   const weddingStatus = document.getElementById('prof-marital-status').value;
   appState.db.profile.maritalStatus = weddingStatus;
