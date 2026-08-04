@@ -1448,6 +1448,56 @@
               </div>
             </div>
           </div>
+
+          <!-- ON-CHAIN ESTATE REGISTRY (WEB3 INTEGRATION) -->
+          <div class="bg-gradient-to-r from-slate-950 via-slate-900 to-blue-950 border border-brand-500/30 rounded-2xl p-6 space-y-4">
+            <div class="flex justify-between items-center pb-3 border-b border-cyber-border/40">
+              <div class="flex items-center gap-2">
+                <div class="p-1.5 bg-brand-500/10 rounded-lg border border-brand-500/30">
+                  <i data-lucide="cpu" class="w-5 h-5 text-brand-500"></i>
+                </div>
+                <div>
+                  <h3 class="font-extrabold text-sm text-slate-100">Smart Treasury & On-Chain Estate Registry (Waris Blockchain)</h3>
+                  <p class="text-[11px] text-slate-400">Hubungkan warisan digital dan fisik Anda ke kontrak pintar otonom Polygon Mainnet untuk perlindungan kekayaan lintas generasi.</p>
+                </div>
+              </div>
+              <span class="px-2 py-0.5 rounded text-[8px] font-extrabold bg-blue-950 text-blue-400 border border-blue-800 uppercase">Polygon POS Mainnet</span>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-xs">
+              <!-- Heartbeat tracker -->
+              <div class="bg-slate-950 p-4 rounded-xl border border-cyber-border/50 space-y-3">
+                <div class="flex justify-between items-center">
+                  <span class="text-slate-400 font-semibold flex items-center gap-1">
+                    <i data-lucide="shield-alert" class="w-3.5 h-3.5 text-yellow-500"></i> Owner Heartbeat Countdown
+                  </span>
+                  <strong class="text-yellow-500 font-mono" id="main-heartbeat-lbl">365 Hari Tersisa</strong>
+                </div>
+                <div class="w-full bg-slate-900 rounded-full h-1 border border-cyber-border/20">
+                  <div id="main-heartbeat-bar" class="bg-yellow-500 h-1 rounded-full" style="width: 100%"></div>
+                </div>
+                <p class="text-[10px] text-slate-500 leading-relaxed">
+                  Sebagai pemilik platform, Anda harus check-in sekali setahun. Jika Anda inaktif (meninggal/sakit), saldo kas platform holding Singapura otomatis didistribusikan ke dompet waris keluarga terdaftar di bawah!
+                </p>
+                <div class="flex gap-2">
+                  <button onclick="triggerMainOwnerHeartbeat()" class="flex-1 bg-yellow-600 hover:bg-yellow-500 text-slate-950 font-extrabold py-1.5 rounded-lg text-[9px] uppercase tracking-wider transition">
+                    Check-In (Heartbeat)
+                  </button>
+                  <button onclick="triggerMainSimulateTimePass()" class="bg-slate-800 hover:bg-slate-700 text-slate-300 border border-cyber-border py-1.5 px-2.5 rounded-lg text-[9px] transition">
+                    Simulasikan +365 Hari
+                  </button>
+                </div>
+              </div>
+
+              <!-- Heirs registry list -->
+              <div class="bg-slate-950 p-4 rounded-xl border border-cyber-border/50 space-y-3">
+                <span class="block text-[10px] text-slate-500 uppercase font-bold tracking-wider">Ahli Waris Terdaftar di Blockchain (Sesuai KHI)</span>
+                <div class="space-y-2" id="main-blockchain-heirs-list">
+                  <!-- Dynamic rendered heirs with claim actions when countdown is 0 -->
+                </div>
+              </div>
+            </div>
+          </div>
         </section>
 
         <!-- ==================== TAB 10: PROFIL & SETTINGAN WEB3 ==================== -->
@@ -1699,6 +1749,64 @@
               <button onclick="openMembershipCheckout('Enterprise')" class="w-full bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold py-2.5 rounded-xl text-xs transition mt-6">Langganan Enterprise</button>
             </div>
 
+          </div>
+
+          <!-- STANDALONE HYPER-GROWTH VIRAL REFERRAL LOOP -->
+          <div class="bg-gradient-to-r from-slate-950 via-slate-900 to-purple-950 border border-purple-500/30 rounded-2xl p-6 space-y-4">
+            <div class="flex justify-between items-center pb-3 border-b border-cyber-border/40">
+              <div class="flex items-center gap-2">
+                <div class="p-1.5 bg-purple-500/10 rounded-lg border border-purple-500/30">
+                  <i data-lucide="rocket" class="w-5 h-5 text-purple-400"></i>
+                </div>
+                <div>
+                  <h3 class="font-extrabold text-sm text-slate-100">Growth-Hacking & Viral Referral Loop</h3>
+                  <p class="text-[11px] text-slate-400">Sebarkan rapor kesehatan finansial Anda untuk merekrut teman dan dapatkan bonus saldo emas PAXG rill!</p>
+                </div>
+              </div>
+              <span class="px-2 py-0.5 rounded text-[8px] font-extrabold bg-purple-900/50 text-purple-400 border border-purple-800 uppercase animate-pulse">VIRAL ENGINE ACTIVE</span>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <!-- Left side: Shareable Rapor Card -->
+              <div class="bg-gradient-to-br from-slate-900 to-purple-900/20 p-4 rounded-xl border border-cyber-border/30 space-y-3 relative">
+                <div class="absolute top-2 right-2 flex items-center gap-1 text-[8px] font-bold text-emerald-400 bg-emerald-950/80 px-2 py-0.5 rounded-full border border-emerald-800">
+                  <span class="w-1 h-1 bg-emerald-400 rounded-full animate-ping"></span> VERIFIED
+                </div>
+                
+                <div class="space-y-1.5 text-xs">
+                  <span class="text-[9px] text-slate-500 font-bold uppercase tracking-wider block">Kartu Rujukan Finansial Saya</span>
+                  <div class="text-sm font-extrabold text-slate-200" id="dev-referral-user-name">📈 Rapor Finansial Eko Gio</div>
+                  <p class="text-[11px] text-slate-400">Keluarga Prima dengan Kemandirian Pensiun Sejahtera & Wasiat Terlindungi Blockchain.</p>
+                  
+                  <div class="grid grid-cols-2 gap-3 py-2 border-t border-b border-cyber-border/30 my-1 text-[10px] font-mono">
+                    <div>
+                      <span class="text-slate-500 block">KHL Barometer</span>
+                      <strong class="text-emerald-400" id="dev-referral-khl">9.600.000 / bln</strong>
+                    </div>
+                    <div>
+                      <span class="text-slate-500 block">Waris Blockchain</span>
+                      <strong class="text-yellow-500">KHI Compliant</strong>
+                    </div>
+                  </div>
+
+                  <div class="flex justify-between items-center text-[10px] bg-slate-950/80 p-2 rounded border border-cyber-border/20">
+                    <span class="text-slate-400">Kode Referral: <strong class="text-purple-400 font-mono" id="aff-coupon-code-rapor">EKOGERAI910</strong></span>
+                    <button onclick="copyToClipboard('aff-coupon-code')" class="text-brand-500 hover:text-brand-400 font-bold">Salin Link</button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Right side: Simulator actions -->
+              <div class="flex flex-col justify-between space-y-4">
+                <p class="text-xs text-slate-400 leading-relaxed">
+                  Gunakan simulator ini untuk membuktikan bagaimana roda pertumbuhan kita bergerak secara organik. Meniru penulisan share link rujukan media sosial, klik di bawah akan mendaftarkan 5 pendaftar baru yang langsung checkout premium, mendistribusikan bonus 10% rill ke dompet Anda, serta menyetor cadangan emas ke platform!
+                </p>
+
+                <button onclick="executeSimulatedReferralLoop()" class="w-full bg-purple-600 hover:bg-purple-500 text-white font-extrabold py-2.5 rounded-xl text-xs uppercase tracking-wider transition flex items-center justify-center gap-1.5 shadow-lg shadow-purple-950/30">
+                  <i data-lucide="share-2" class="w-4 h-4"></i> Bagikan Rapor (Simulasikan 5 Pendaftar Baru)
+                </button>
+              </div>
+            </div>
           </div>
 
           <!-- Detailed Affiliate Commissions Reports -->

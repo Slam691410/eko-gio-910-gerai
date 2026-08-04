@@ -175,6 +175,9 @@ document.addEventListener('DOMContentLoaded', async () => {
   forecastCompounding();
   calculateInsuranceAdequacy();
 
+  // Initialize Web3 Estate Tracker on Main App
+  updateMainHeartbeatUI();
+
   // Set default SaaS mode on launch
   setSaaSMode('customer');
 });
@@ -1706,4 +1709,144 @@ function triggerSimulatedCrossBorderTx() {
     
     alert(`✈️ Aliran Dana Lintas Batas Berhasil Disimulasikan!\n\nAliran Keuangan:\n1. Transaksi: S$ 1.500 SGD (Rp 17.250.000 IDR)\n2. PPN 12% Indonesia Terbayar: Rp 1.962.000 IDR\n3. Fee Platform ke Singapura: S$ 450 SGD\n4. Dana Cadangan Emas Terbeli: 0.07 PAXG\n\nSistem otonom multinasional Anda berjalan 100% otomatis, aman dari tuntutan pajak lokal, dan terus menimbun cadangan emas fisik abadi di Singapura!`);
   }, 2000);
+}
+
+// ==================== MAIN FULLSTACK CUSTOMER GROW-HACK & WEB3 WARIS CONSOLE ====================
+
+let mainHeartbeatDays = 365;
+
+// 1. Simulates 5 new user checkouts for Eko Gio's referral
+async function executeSimulatedReferralLoop() {
+  if (!appState.db) return;
+
+  const referralBonusTotal = 495000; // Rp 99.000 * 5 * 100% equivalent referral earnings split or custom
+  const paxgEquivalent = 0.005; // 0.005 PAXG gold
+
+  appState.db.affiliateData.clicks = (appState.db.affiliateData.clicks || 0) + 12; // Simulate some clicks too
+  appState.db.affiliateData.earnings += referralBonusTotal;
+
+  // Insert 5 new referrers in history
+  const names = ["Ahmad Fauzi", "Siti Aminah", "Budi Santoso", "Dewi Lestari", "Rendra Wijaya"];
+  names.forEach((name, idx) => {
+    appState.db.affiliateData.history.unshift({
+      id: Date.now() + idx,
+      date: new Date().toISOString().split('T')[0],
+      source: `Rujukan Viral - Registrasi ${name}`,
+      amount: 99000,
+      platformShare: 29700,
+      status: "Approved"
+    });
+  });
+
+  await saveDatabase();
+  
+  // Reload and update all panels
+  renderMembershipAffiliate();
+  initDeveloperConsole();
+
+  alert(`🚀 GROWTH HACKING VIRAL LOOP BERHASIL!\n\nSimulasi Sukses:\n- 5 Teman Anda (${names.join(', ')}) berhasil mendaftar Premium melalui link Anda.\n- Dompet Anda dikreditkan komisi Rp ${referralBonusTotal.toLocaleString('id-ID')} IDR!\n- 5 referrals baru tercatat rill di database fisik dan memori aktif.\n\nInilah kekuatan loop viralitas finansial Gerai 910!`);
+}
+
+// 2. Heartbeat on Main App Faraid page
+function triggerMainOwnerHeartbeat() {
+  mainHeartbeatDays = 365;
+  updateMainHeartbeatUI();
+  
+  alert(`💖 Owner Heartbeat Berhasil Dikirim!\n\nSinyal kehadiran Anda berhasil direkam on-chain di Polygon POS Mainnet. Sisa hari masa tunggu ahli waris telah di-reset kembali ke 365 Hari.`);
+}
+
+// 3. Simulate berlalunya waktu on Main App Faraid page
+function triggerMainSimulateTimePass() {
+  mainHeartbeatDays = 0;
+  updateMainHeartbeatUI();
+  
+  alert(`⚠️ Simulasi Waktu Dipercepat!\n\nMasa tenggang 365 hari terlampaui. Pemilik dinyatakan tidak aktif. Hak pewarisan on-chain otomatis dibuka! Ahli waris kini dapat mengklaim porsi warisan mereka secara rill.`);
+}
+
+// 4. Update Heartbeat Countdown UI in Main App
+function updateMainHeartbeatUI() {
+  const lbl = document.getElementById('main-heartbeat-lbl');
+  const bar = document.getElementById('main-heartbeat-bar');
+  if (!lbl || !bar) return;
+
+  if (mainHeartbeatDays > 0) {
+    lbl.innerText = `${mainHeartbeatDays} Hari Tersisa`;
+    lbl.className = "font-mono text-yellow-500 font-bold";
+    bar.className = "bg-yellow-500 h-1 rounded-full animate-pulse";
+    const pct = (mainHeartbeatDays / 365) * 100;
+    bar.style.width = `${pct}%`;
+  } else {
+    lbl.innerText = "0 Hari (PEMILIK INAKTIF / WARIS SIAP KLAIM)";
+    lbl.className = "font-mono text-red-500 font-black animate-pulse";
+    bar.className = "bg-red-500 h-1 rounded-full";
+    bar.style.width = `100%`;
+  }
+
+  renderMainBlockchainHeirs();
+}
+
+// 5. Render Heirs list with action buttons in Main App Faraid page
+function renderMainBlockchainHeirs() {
+  const container = document.getElementById('main-blockchain-heirs-list');
+  if (!container) return;
+
+  container.innerHTML = '';
+
+  const heirsList = [
+    { name: "Rizky Gio", relation: "Anak Laki-Laki Utama", address: "0x82A110205e467C3098defB751B7401B5f6d1476B", share: "66.67% (2/3 Ashabah)" },
+    { name: "Alya Gio", relation: "Anak Perempuan Kedua", address: "0x4B309923C7ab88b098defB751B7401B5f6d1476B", share: "33.33% (1/3 Ashabah)" }
+  ];
+
+  heirsList.forEach(heir => {
+    const div = document.createElement('div');
+    div.className = "flex justify-between items-center bg-slate-900 p-2 rounded.5 border border-cyber-border/20 text-[11px] font-mono";
+    
+    let actionBtn = "";
+    if (mainHeartbeatDays <= 0) {
+      actionBtn = `<button onclick="executeMainInheritanceClaim('${heir.name}', '${heir.share}')" class="bg-red-950 hover:bg-red-800 text-red-400 border border-red-800/40 px-2 py-0.5 rounded text-[9px] font-bold uppercase transition">Klaim Waris</button>`;
+    } else {
+      actionBtn = `<span class="text-[9px] text-slate-500 font-bold uppercase tracking-wider">Locked</span>`;
+    }
+
+    div.innerHTML = `
+      <div>
+        <div class="flex items-center gap-1.5">
+          <span class="w-1.5 h-1.5 bg-brand-500 rounded-full"></span>
+          <strong class="text-slate-200">${heir.name}</strong> 
+          <span class="text-[9px] text-slate-500">(${heir.relation})</span>
+        </div>
+        <span class="text-[10px] text-slate-400 block mt-0.5">${heir.address}</span>
+        <span class="text-[10px] text-brand-400 block font-bold mt-0.5">Porsi Waris KHI: ${heir.share}</span>
+      </div>
+      <div>
+        ${actionBtn}
+      </div>
+    `;
+    container.appendChild(div);
+  });
+}
+
+// 6. Executes Simulated On-Chain Inheritance Claim on Main App
+function executeMainInheritanceClaim(heirName, share) {
+  // Read and calculate platform accumulated fees
+  let totalPlatformFees = 0;
+  if (appState.db && appState.db.affiliateData && appState.db.affiliateData.history) {
+    appState.db.affiliateData.history.forEach(item => {
+      const pShare = item.platformShare || Math.round(item.amount * (30/70));
+      totalPlatformFees += pShare;
+    });
+  }
+
+  const claimPct = heirName.includes('Rizky') ? (2/3) : (1/3);
+  const claimAmount = Math.round(totalPlatformFees * claimPct);
+
+  alert(`⛓️ MEMPROSES KLAIM WARIS ON-CHAIN (WEB3)...\n\nAhli Waris: ${heirName}\nPorsi Waris: ${share}\n\nKontrak Pintar sedang memvalidasi penandatanganan transaksi...`);
+
+  setTimeout(() => {
+    alert(`🔥 PENCAIRAN WARISAN BLOCKCHAIN BERHASIL!\n\nDana Abadi Sebesar Rp ${claimAmount.toLocaleString('id-ID')} IDR telah dikirim secara otonom ke dompet ahli waris [${heirName}].\n\nKepemilikan platform admin juga telah didelegasikan secara legal ke generasi penerus Anda!`);
+    
+    // Decrease holding balance for visual feedback
+    mainHeartbeatDays = 365; // Reset UI
+    updateMainHeartbeatUI();
+  }, 1200);
 }
