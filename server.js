@@ -133,10 +133,12 @@ if (cluster.isMaster) {
 
   function writeDB(data) {
     try {
-      fs.writeFileSync(DB_PATH, JSON.stringify(data, null, 2), 'utf8');
+      const tmpPath = DB_PATH + '.tmp';
+      fs.writeFileSync(tmpPath, JSON.stringify(data, null, 2), 'utf8');
+      fs.renameSync(tmpPath, DB_PATH); // OS-level atomic write
       return true;
     } catch (err) {
-      logEvent('ERROR', `Failed to write database.json`, err.message);
+      logEvent('ERROR', `Failed to write database.json atomically`, err.message);
       return false;
     }
   }

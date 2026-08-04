@@ -31,6 +31,15 @@ contract Gerai910SmartTreasury {
     
     Heir[] public heirs;
     bool public isEstateDisbursed;
+    
+    // SECURITY REENTRANCY GUARD
+    bool private locked;
+    modifier nonReentrant() {
+        require(!locked, "ReentrancyGuard: reentrant call");
+        locked = true;
+        _;
+        locked = false;
+    }
 
     // ATURAN PENGEMBANGAN DANA CADANGAN SAAS (ANTI-PAILIT RESERVES)
     uint256 public creatorSplitPercent = 70; // Komisi Kreator/Sub-Affiliate
@@ -138,7 +147,7 @@ contract Gerai910SmartTreasury {
      * @notice Memproses penerimaan biaya langganan SaaS (USDT/USDC/Coin) secara otonom
      *         dan memecahnya langsung ke cadangan anti-pailit sesuai persentase aman.
      */
-    function processSaaSPayment(uint256 _amount, address _tokenAddress) external {
+    function processSaaSPayment(uint256 _amount, address _tokenAddress) external nonReentrant {
         require(_amount > 0, "Nominal pembayaran harus lebih besar dari nol");
         
         IERC20 token = IERC20(_tokenAddress);
@@ -170,7 +179,7 @@ contract Gerai910SmartTreasury {
         uint256 _totalCommission, 
         address _creatorWallet, 
         address _tokenAddress
-    ) external {
+    ) external nonReentrant {
         require(_totalCommission > 0, "Komisi tidak boleh nol");
         
         IERC20 token = IERC20(_tokenAddress);
@@ -205,15 +214,28 @@ contract Gerai910SmartTreasury {
      *         fungsi ini untuk mencairkan seluruh sisa dana kas treasury ke dompet waris masing-masing
      *         dan mentransfer kepemilikan platform secara otonom tanpa memerlukan proses pengadilan kaku!
      */
-    function claimInheritance(address _tokenAddress) external {
+    /**
+     * @notice EKSEKUSI PEWARISAN OTOMATIS (Dead Man's Switch - Waris Lintas Generasi).
+     *         Jika pemilik tidak check-in dalam 365 hari, ahli waris terdaftar dapat memanggil
+     *         fungsi ini untuk mencairkan seluruh sisa dana kas treasury ke dompet waris masing-masing
+     *         dan mentransfer kepemilikan platform secara otonom tanpa memerlukan proses pengadilan kaku!
+     */
+    function claimInheritance(address _tokenAddress) external nonReentrant {
         require(block.timestamp > lastHeartbeat + HEARTBEAT_TIMEOUT, "🚫 Pemilik Platform Masih Aktif: Hak waris belum terbuka.");
         require(heirs.length > 0, "Belum ada ahli waris yang didaftarkan oleh admin.");
+        require(!isEstateDisbursed, "🚫 Warisan sudah pernah dicairkan.");
         
         IERC20 token = IERC20(_tokenAddress);
         uint256 totalBalance = token.balanceOf(address(this));
         require(totalBalance > 0, "Kas treasury kosong, tidak ada aset token untuk diwariskan.");
 
-        // Distribusikan aset digital rill secara otonom sesuai persentase Faraid yang sah
+        // EFFECTS (State change first to prevent reentrancy)
+        isEstateDisbursed = true;
+        address primaryHeir = heirs[0].wallet;
+        platformOwner = primaryHeir;
+        lastHeartbeat = block.timestamp; // Reset heartbeat di tangan pemilik baru
+
+        // INTERACTIONS (Token transfer last)
         for (uint256 i = 0; i < heirs.length; i++) {
             if (heirs[i].exists && heirs[i].wallet != address(0)) {
                 uint256 heirShare = (totalBalance * heirs[i].sharePercentage) / 10000;
@@ -222,13 +244,7 @@ contract Gerai910SmartTreasury {
                 }
             }
         }
-
-        // Alihkan kepemilikan administrator platform ke ahli waris utama (indeks ke-0)
-        address primaryHeir = heirs[0].wallet;
-        platformOwner = primaryHeir;
-        lastHeartbeat = block.timestamp; // Reset heartbeat di tangan pemilik baru (generasi penerus)
         
-        isEstateDisbursed = true;
         emit InheritanceClaimed(primaryHeir, totalBalance);
     }
 
