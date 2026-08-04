@@ -1,4 +1,4 @@
-# 🗺️ PANDUAN PELUNCURAN GLOBAL & BLUEPRINT BISNIS ABADI: GERAI 910
+# 🗺️ PANDUAN PELUNCURAN GLOBAL & CETAK BIRU KEBERLANJUTAN BISNIS ABADI: GERAI 910
 > **Dokumen Strategis Eksekutif**: Dari Modular Sandbox ke Komersialiasi Skala Dunia, Kepatuhan Regulasi Multinasional, serta Ketahanan Keberlanjutan Lintas Generasi.
 
 Platform **Gerai 910** saat ini telah bertransformasi dari prototipe monolitik menjadi arsitektur modular **Enterprise-Grade Clean Architecture** yang stabil di port 3000. Untuk membawa platform ini dari sandbox menuju pasar global menjadi gurita bisnis bernilai miliaran dolar (*unicorn*) yang kebal terhadap risiko kepailitan, berikut adalah panduan taktis end-to-end yang harus Anda eksekusi.
@@ -35,14 +35,12 @@ Sebelum meluncurkan platform ke publik, arsitektur sandbox harus ditingkatkan ke
 ```
 
 ### 1. Migrasi Basis Data Fisik (`database.json` ke PostgreSQL & MongoDB)
-*   **Masalah**: File `database.json` sangat baik untuk persistensi sandbox, namun tidak optimal untuk melayani jutaan transaksi konkuren secara global.
 *   **Tindakan**:
     *   **Data Transaksional & Keuangan (Relasional)**: Pindahkan skema profile, income, debts, goals, dan posTransactions ke **PostgreSQL** (Gunakan layanan terkelola seperti **AWS RDS dengan Multi-AZ** untuk replikasi real-time). Terapkan **Row-Level Security (RLS)** untuk melindungi data pengguna.
     *   **Data UGC GeraiTok & Media (Dokumen)**: Pindahkan skema video feeds, komentar, dan posts ke **MongoDB Atlas** untuk skalabilitas query horizontal yang fleksibel.
     *   **Penyimpanan File Video**: Simpan file video mentah GeraiTok ke **AWS S3** yang dienkripsi dan didistribusikan secara global melalui CDN **Cloudflare / AWS CloudFront**.
 
 ### 2. Peningkatan Caching & State Sharing (Redis Integration)
-*   **Masalah**: Klaster worker Express Anda saat ini berjalan pada memori lokal yang terisolasi.
 *   **Tindakan**: Pasang **Redis Enterprise Cluster** sebagai media caching pusat. Pindahkan peta rate-limiting (`rateLimitMap`), session status pembeli, dan lock transaksi POS dari memori lokal proses ke Redis. Ini menjamin data sinkron 100% di seluruh ribuan container server.
 
 ### 3. Audit & Verifikasi Smart Contracts (Web3 Audit)

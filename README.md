@@ -1,79 +1,90 @@
-# Gerai 910: Premium Web3 & AI-Powered Financial Super-Portal 🚀
+# 🌐 GERAI 910: PREMIUM WEB3 & AI FINANCIAL SUPER-PORTAL 🚀
+> **Enterprise-Grade Modular Clean Architecture** | **Singapore Holding HQ & Indonesia Operations** | **Autopilot Decentralized Ledger Protocol**
 
-Gerai 910 adalah platform portal keuangan terintegrasi, Point of Sales (POS), Customer Relationship Management (CRM), serta kalkulator kekayaan dan hukum waris Islam (Faraid) terlengkap yang dirancang untuk pasar ritel dan UMKM Indonesia. Platform ini mengintegrasikan **Sistem Keuangan Riil**, **Kecerdasan Buatan (AI)**, serta **Teknologi Desentralisasi Blockchain** secara *real-time*.
-
-## 🌟 Fitur Utama (11 Modul Terintegrasi)
-
-Platform ini mengintegrasikan 11 modul penting sesuai kebutuhan proyek profesional:
-
-1. **UGC & Komunitas:** Forum terbuka di mana pengguna dapat mempublikasikan analisis pasar, membaca artikel makro, berdiskusi di grup khusus (Emas, Dividen, POS), dan menyalin tautan rujukan afiliasi.
-2. **POS & CRM Ritel:** Aplikasi kasir ritel fungsional dengan perhitungan pajak PPN 11%, diskon otomatis berdasarkan tingkatan loyalitas pelanggan CRM (*Regular, Gold, Platinum*), pencatatan transaksi terintegrasi, serta modul panduan pengoperasian yang lengkap.
-3. **Aliran Kas & Aset:** Pelacak pendapatan bulanan (Utama, Bisnis, Sampingan) dan portofolio aset riil terlengkap (Emas, Perak, Reksa Dana, SBN, Saham, Deposito, Properti) dengan visualisasi bagan alokasi aset.
-4. **KHL & Budgeting:** Kalkulator Standar Kebutuhan Hidup Layak (KHL) berdasarkan provinsi Indonesia, pelacak anggaran otomatis (Metode 50/30/20), pengelola utang aktif (*Debt Snowball*), serta mesin dana darurat (*Emergency Fund*).
-5. **Proteksi Asuransi:** Evaluasi kecukupan uang pertanggungan asuransi jiwa menggunakan metode *Capital Utilization* (Human Life Value) dibandingkan dengan polis aktif yang dimiliki (BPJS, swasta).
-6. **Rencana Keuangan (Goals):** Penentu target impian keuangan (Pendidikan anak, Haji/Umrah, Rumah) lengkap dengan mesin bunga majemuk (*Compounding Interest Forecast*).
-7. **Makro & Screener:** Dasbor indikator makroekonomi riil Indonesia (Inflasi YoY 2.42%, BI-Rate 6.00%, USD-IDR Rp 16.350, Fed Rate 3.5%) serta penyaring (*screener*) saham bluechip, kripto syariah, dan reksa dana berkinerja tinggi.
-8. **Dividen & Senarai:** Kalender dividen emiten (BBRI, TLKM, ASII), estimasi yield portofolio bulanan, dan mesin pertumbuhan aset berbasis *Dividend Reinvestment Plan (DRIP)*.
-9. **Pensiun & Faraid/Waris:** Perencana dana pensiun (*Safe Withdrawal Rate* SWR) disesuaikan inflasi, pencatat hibah, dan **Kalkulator Hukum Waris Islam (Faraid)** otomatis yang mematuhi aturan Kompilasi Hukum Islam (KHI) Indonesia.
-10. **Profil & Jaringan Web3:** Pengaturan profil risiko finansial (*Conservative, Moderate, Aggressive*), manajemen kunci API, serta konsol integrasi dompet Web3 MetaMask.
-11. **Kemitraan & Afiliasi:** Dasbor billing membership (Free, Pro, Whale), generator kupon promosi gerai, dan pencatatan komisi kemitraan afiliasi langsung ke ledger server.
+Gerai 910 adalah platform portal keuangan terintegrasi, Point of Sales (POS), Customer Relationship Management (CRM) ritel, serta kalkulator perencanaan kekayaan dan hukum waris Islam (Faraid) terakurat di Indonesia. Platform ini mengintegrasikan **Sistem Keuangan Riil**, **Kecerdasan Buatan (AI)**, serta **Teknologi Desentralisasi Blockchain** secara otomatis (*autopilot*) untuk mendukung model bisnis multinasional yang tangguh, anti-pailit, dan dapat diwariskan sepanjang generasi.
 
 ---
 
-## 🛠️ Integrasi Teknologi Canggih
+## 📂 STRUKTUR BERKAS MODULAR KORPORASI (CLEAN ARCHITECTURE)
 
-### 1. Sinkronisasi Data Riil & Aktual (Real-Time Feed)
-Platform ini memadukan data dari pasar keuangan aktual Indonesia per **Agustus 2026**:
-* Harga dasar Emas Antam rujukan riil **Rp 2.610.000 / Gram** dan Buyback **Rp 2.379.000 / Gram**.
-* Harga Perak Murni rujukan riil **Rp 39.450 / Gram**.
-* Indeks IHSG, nilai tukar USD/IDR, serta kupon imbal hasil SBN (SR020 / ORI025) yang terus berfluktuasi secara dinamis melalui interval polling API server lokal.
+Sistem ini dirancang menggunakan **Enterprise Clean Architecture** guna memisahkan secara mutlak antara logika bisnis, rute API, kontroler, kontrak pintar, dan status reaktif frontend:
 
-### 2. Kecerdasan Buatan (AI Assistant - GeraiAI)
-Platform ini menyertakan asisten ahli finansial cerdas (**GeraiAI Expert Advisor**). Bukan sekadar produksi statis, mesin NLP di backend (`server.js`) membaca kondisi finansial riil Anda secara dinamis dari database, seperti:
-* Menganalisis ketahanan dana darurat Anda terhadap pengeluaran aktual Anda.
-* Memberikan rekomendasi alokasi kelas aset berdasarkan hasil kuis profil risiko Anda.
-* Menyarankan strategi promosi kasir POS kepada pelanggan platinum CRM berdasarkan histori belanjanya.
-
-### 3. Jaringan Blockchain & Desentralisasi (Web3)
-Integrasi blockchain yang kuat meliputi:
-* **Web3 MetaMask Connector:** operasional-aktif koneksi dompet kriptografi standar (`0x71C7...476B`) dengan proses verifikasi tanda tangan digital.
-* **Tokenisasi Aset Fisik:** Pengguna dapat mendepositokan emas/perak fisik mereka di gerai dan mencetaknya (**minting**) menjadi token kriptografi **gGMR (geraiGold)** atau **gSLV (geraiSilver)** secara *on-chain*.
-* **Live Block Explorer Console:** Menampilkan visualisasi penambahan blok, hash transaksi kriptografi, gas limit, dan status konsensus secara langsung di layar dasbor Anda.
+```text
+eko-gio-910-gerai/
+├── contracts/                          # SMART CONTRACTS SOLIDITY (WEB3 ON-CHAIN)
+│   ├── Gerai910SmartTreasury.sol       # Kustodi Global Treasury, Heartbeat & Klaim Waris KHI (MAS Compliant)
+│   ├── Gerai910SmartPOS.sol            # Router Pajak PPN 12% & Kasir Ritel Lokal (OJK Compliant)
+│   └── Gerai910SmartCRM.sol            # Kartu Keanggotaan NFT & Hadiah Token G-POINTS
+│
+├── backend/                            # SISTEM BACKEND EXECUTIVE (NODE.JS EXPRESS)
+│   ├── config/
+│   │   ├── db.js                       # Pengontrol I/O Database Fisik & Atomic OS Rename Lock
+│   │   └── cluster.js                  # Pengelola Horizontal Clustering, Failover & Self-Healing
+│   ├── middleware/
+│   │   └── rateLimiter.js              # Proteksi Keamanan API DDoS (Sliding Window Maks 15r/10s)
+│   ├── routes/
+│   │   └── api.js                      # Rute API Produksi Terpusat (POS, CRM, Web3, AI Chat, Logs)
+│   ├── controllers/
+│   │   ├── marketDataController.js     # Ticker Komoditas Riil, Yahoo Finance Scraper & Dynamic Stock Screener
+│   │   ├── aiChatController.js         # OpenAI GPT-4o completions & Shariah Wealth Decision Tree
+│   │   └── web3Controller.js           # Polygon JSON-RPC Contract Interactor & Balance Auditor (eth_call)
+│   └── services/
+│       └── autopilotService.js         # SaaS Autopilot Daemon (Siklus Otonom 15 detik di Master Node)
+│
+├── public/                             # ANTARMUKA PENGGUNA PREMIUM (FRONTEND)
+│   ├── index.html                      # Aplikasi Utama (Customer, Merchant, Developer Modes)
+│   ├── preview.html                    # Aplikasi Tunggal (Executive SPA Dashboard Preview)
+│   └── js/                             # MODUL JAVASCRIPT REAKTIF FRONTEND
+│       ├── state.js                    # Pengelola State Global & Otorisasi Lisensi (Pro/Enterprise)
+│       ├── calculators.js              # Mesin Matematika Finansial (Budgeting, FV Goals, Faraid KHI)
+│       ├── social.js                   # UGC GeraiTok Video, Keranjang Kuning, & Referral Loops
+│       ├── pos.js                      # Kasir POS, Stok Inventaris, Loyalitas CRM, & Pajak PPN 12%
+│       ├── web3.js                     # Konektor MetaMask, Minting Trigger, & Block Explorer Ledger
+│       ├── dev.js                      # Dashboard Owner (Env editor, crash simulation, cross-border flows)
+│       └── main.js                     # Bootstrapper Utama, Grafik Chart.js, & Pengolah Form Modal
+│
+├── server.js                           # Entry Point Utama Express & Klasterisasi (Lightweight)
+├── database.json                       # Database Transaksional Fisik (Atomic Sync)
+└── server.log                          # Telemetri Log Sistem & Agregasi Galat Klien
+```
 
 ---
 
-## ⚙️ Cara Menjalankan Aplikasi di Lokal
+## 🛠️ INTEGRASI TEKNOLOGI AKTIF & PENYELESAIAN CELAH SECARA RIIL
 
-Aplikasi ini sepenuhnya mandiri, ringan, dan portabel karena menggunakan basis **Node.js Express** dan **JSON database file** untuk persistensi snapshot Git yang aman.
+### 1. Sistem Autopilot Daemon Latar Belakang (`autopilotService.js`)
+*   Sistem dioperasikan sepenuhnya oleh **Daemon Otonom** di Master Process yang berjalan setiap 15 detik untuk memanen komisi GeraiTok, mengonversi 40% fee menjadi cadangan emas fisik PAXG, mendaftarkan heartbeat pemilik rill, men-deploy Node Wilayah Internasional baru (EU, US, Malaysia) secara otonom berdasarkan volume transaksi, dan memicu kupon CRM secara otomatis.
 
-### Langkah 1: Pasang Dependensi
-Pastikan Node.js sudah terpasang, lalu jalankan perintah berikut di direktori proyek:
+### 2. Konektivitas API Finansial Riil Dunia Nyata (`marketDataController.js`)
+*   **Yahoo Finance Scraper**: Server Express secara rill memanggil endpoints quoteSummary Yahoo Finance untuk menarik rasio keuangan teraktual dari pasar bursa Indonesia (P/E, PBV, ROE, DER, Dividend Yield) secara real-time untuk seluruh emiten di dunia.
+*   **CoinGecko & GoldAPI**: Mengambil harga spot Emas Dunia (XAU/USD), Perak (XAG/USD), serta nilai tukar USD/IDR dan kripto (BTC, ETH) secara real-time langsung dari bursa komoditas internasional over HTTP.
+
+### 3. Jaringan Desentralisasi Web3 Rill (`web3Controller.js` & `Gerai910SmartTreasury.sol`)
+*   **On-Chain ERC20 Auditing**: Menggunakan metode **`eth_call`** dengan selector `balanceOf` (`0x70a08231`) rill untuk mengaudit saldo token emas rill **PAXG** langsung dari alamat kontrak resminya di jaringan Polygon POS Mainnet.
+*   **Standard Keadilan Syariah (Faraid KHI)**: Mengunci timer heartbeat pemilik (365 hari). Begitu detak jantung habis, sistem secara otonom memotong saldo treasury dan mentransfer kepemilikan platform kepada ahli waris (Rizky & Alya) sesuai porsi KHI (2:1 ashabah) secara on-chain tanpa pengadilan sipil.
+
+### 4. PPN 12% Indonesia & Pembongkaran Aturan "Sesat" 50/30/20
+*   **PPN 12% Ritel**: Mengonfigurasi POS Kasir merchant secara otomatis memungut PPN 12% sesuai UU HPP terbaru Indonesia per 2025/2026 dan menyisihkannya ke kas negara.
+*   **Demokrasi Anggaran AI**: AI Advisor secara dinamis membongkar aturan 50/30/20 yang sering kali menyesatkan kelompok pendapatan ketat (di bawah UMR provinsi) dengan mengalokasikan 90% langsung untuk bertahan hidup (*Needs*), menolak *Wants* (0%), dan menyarankan investasi emas PAXG hingga 85% untuk kelompok pendapatan triliunan.
+*   **KHL Provinsi Dinamis**: Mengintegrasikan data UMR/KHL provinsi rill (Jakarta, Jawa Barat, Yogyakarta, Bali, dsb.) secara interaktif untuk menghitung kecukupan finansial keluarga Anda secara akurat.
+
+---
+
+## 🚀 CARA MENJALANKAN PLATFORM PRODUKSI
+
+### Langkah 1: Pasang Seluruh Dependensi Rill
+Jalankan perintah berikut di direktori proyek:
 ```bash
 npm install
 ```
 
-### Langkah 2: Jalankan Server Lokal
-Mulai server Express:
+### Langkah 2: Jalankan Server Klaster Lokal
+Mulai server Express yang secara otomatis melahirkan worker proses paralel berdasarkan jumlah core CPU Anda:
 ```bash
 npm start
 ```
-Server akan berjalan di: **`http://localhost:3000`**
+Server akan berjalan otonom di: **`http://localhost:3000`**
 
-### Langkah 3: Akses Dasbor Keuangan
-Buka peramban (*browser*) Anda dan akses `http://localhost:3000`. Nikmati seluruh fitur interaktif dasbor secara penuh!
-
----
-
-## 📂 Struktur Berkas Proyek
-
-```text
-eko-gio-910-gerai/
-├── database.json        # Database lokal (menyimpan profil, transaksi POS, data CRM, asuransi, dll.)
-├── package.json         # Konfigurasi dependensi npm & skrip start
-├── server.js            # Express backend (operasional-aktif API Makro, NLP AI Engine, Ledger Blockchain & REST API)
-└── public/
-    ├── index.html       # Antarmuka SPA premium dengan Tailwind CSS, Chart.js & Lucide Icons
-    └── app.js           # Pengelola state reaktif frontend, visualisasi grafik & kalkulator finansial
-```
-
-Platform ini dirancang sebagai proyek berkelas industri nyata yang menggabungkan kemudahan audit kode, desain antarmuka modern bernuansa *cyberpunk dark mode*, serta kalkulasi matematika finansial dan hukum syariah Indonesia yang sangat akurat.
+### Langkah 3: Akses Dasbor Keuangan Terintegrasi
+*   Aplikasi Utama: **`http://localhost:3000/index.html`**
+*   Dashboard Eksekutif SPA: **`http://localhost:3000/preview.html`**
