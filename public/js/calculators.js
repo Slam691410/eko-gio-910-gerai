@@ -104,7 +104,7 @@ function calculateKHL() {
 }
 
 function renderDynamicSaaSTargets(estimatedKhl) {
-  const container = document.getElementById('goals-dynamic-container');
+  const container = document.getElementById('goals-cards-container');
   if (!container) return;
 
   container.innerHTML = '';
@@ -152,6 +152,7 @@ function renderDynamicSaaSTargets(estimatedKhl) {
             <span class="text-slate-200 font-bold">FV Terinflasi (8% p.a.):</span>
             <strong class="font-mono text-brand-500 font-black">Rp ${inflatedCost.toLocaleString('id-ID')}</strong>
           </div>
+          <button onclick="topUpSystemGoal('edu-${dep.id}-${m.school.split(' ')[0].toLowerCase()}', ${m.cost})" class="w-full bg-slate-900 hover:bg-slate-800 border border-cyber-border/60 text-slate-300 font-bold py-1.5 rounded-xl text-[10px] uppercase mt-3 transition">Tabung Alokasi</button>
         </div>
       `;
       container.appendChild(card);
@@ -181,6 +182,7 @@ function renderDynamicSaaSTargets(estimatedKhl) {
           <span class="text-slate-200 font-bold">FV Terinflasi (5% p.a.):</span>
           <strong class="font-mono text-rose-400 font-black">Rp ${inflatedCost.toLocaleString('id-ID')}</strong>
         </div>
+        <button onclick="topUpSystemGoal('wedding', ${w.estimatedCost})" class="w-full bg-slate-900 hover:bg-slate-800 border border-cyber-border/60 text-slate-300 font-bold py-1.5 rounded-xl text-[10px] uppercase mt-3 transition">Tabung Alokasi</button>
       </div>
     `;
     container.appendChild(card);
@@ -197,7 +199,7 @@ function renderDynamicSaaSTargets(estimatedKhl) {
       <span class="absolute top-2 right-2 bg-emerald-950 text-emerald-400 border border-emerald-800 text-[8px] font-extrabold px-2 py-0.5 rounded-full uppercase">Haji</span>
       <div class="space-y-1">
         <h4 class="font-bold text-sm text-slate-200">Keberangkatan Haji Reguler</h4>
-        <span class="text-[9px] text-slate-500 font-bold uppercase block">Masa tunggu: ${h.waitingTimeYears} Tahun (Tahun ${w = currentYear + h.waitingTimeYears})</span>
+        <span class="text-[9px] text-slate-500 font-bold uppercase block">Masa tunggu: ${h.waitingTimeYears} Tahun (Tahun ${currentYear + h.waitingTimeYears})</span>
       </div>
       <div class="pt-2 border-t border-cyber-border/40">
         <div class="flex justify-between text-xs">
@@ -208,9 +210,57 @@ function renderDynamicSaaSTargets(estimatedKhl) {
           <span class="text-slate-200 font-bold">FV Terinflasi (4% p.a.):</span>
           <strong class="font-mono text-emerald-400 font-black">Rp ${inflatedCost.toLocaleString('id-ID')}</strong>
         </div>
+        <button onclick="topUpSystemGoal('haji', ${h.estimatedCost})" class="w-full bg-slate-900 hover:bg-slate-800 border border-cyber-border/60 text-slate-300 font-bold py-1.5 rounded-xl text-[10px] uppercase mt-3 transition">Tabung Alokasi</button>
       </div>
     `;
     container.appendChild(card);
+  }
+
+  // 3. Render Custom added Goals from database.json
+  if (db.goals && db.goals.length > 0) {
+    db.goals.forEach(goal => {
+      const card = document.createElement('div');
+      card.className = "bg-cyber-card border border-cyber-border rounded-xl p-4 space-y-3 relative";
+      
+      const pct = Math.min(100, (goal.saved / goal.target) * 100);
+      
+      card.innerHTML = `
+        <span class="absolute top-2 right-2 bg-purple-950 text-purple-400 border border-purple-800 text-[8px] font-extrabold px-2 py-0.5 rounded-full uppercase">CUSTOM</span>
+        <div class="space-y-1">
+          <h4 class="font-bold text-sm text-slate-200">${goal.name}</h4>
+          <span class="text-[9px] text-slate-500 font-bold uppercase block">Target Tahun: ${goal.targetYear}</span>
+        </div>
+        <div class="pt-2 border-t border-cyber-border/40 space-y-2">
+          <div class="flex justify-between text-xs">
+            <span class="text-slate-400">Target Nominal:</span>
+            <span class="font-mono text-slate-300">Rp ${goal.target.toLocaleString('id-ID')}</span>
+          </div>
+          <div class="flex justify-between text-xs">
+            <span class="text-slate-400">Telah Terkumpul:</span>
+            <strong class="font-mono text-brand-400">Rp ${goal.saved.toLocaleString('id-ID')} (${pct.toFixed(1)}%)</strong>
+          </div>
+          <div class="w-full bg-slate-900 rounded-full h-1">
+            <div class="bg-brand-500 h-1 rounded-full" style="width: ${pct}%"></div>
+          </div>
+          <div class="flex gap-2 pt-1">
+            <button onclick="topUpGoal(${goal.id})" class="flex-1 bg-brand-600/20 hover:bg-brand-600/30 text-brand-400 border border-brand-600/30 font-bold py-1.5 rounded-xl text-[10px] uppercase transition">Tabung</button>
+            <button onclick="deleteGoal(${goal.id})" class="bg-slate-900 hover:bg-red-900/20 text-slate-500 hover:text-red-400 border border-cyber-border hover:border-red-800/40 py-1.5 px-3 rounded-xl text-[10px] uppercase transition">Hapus</button>
+          </div>
+        </div>
+      `;
+      container.appendChild(card);
+    });
+  }
+}
+
+// Helper to delete goals
+async function deleteGoal(id) {
+  const idx = appState.db?.goals.findIndex(g => g.id === id);
+  if (idx !== -1) {
+    appState.db.goals.splice(idx, 1);
+    await saveDatabase();
+    calculateKHL(); // Reload list
+    alert('✓ Target sasaran berhasil dihapus.');
   }
 }
 
@@ -589,5 +639,135 @@ function openScreenerAuditDetails(code, phase) {
     
     openModal('modal-audit-details');
   }
+}
+
+// -------------------------------------------------------------
+// DYNAMIC HUMAN LIFE VALUE INSURANCE ADEQUACY CALCULATOR
+
+function calculateInsuranceAdequacy() {
+  if (!appState.db) return;
+
+  const dependents = appState.db.profile.dependents || [];
+  const marriageStatus = appState.db.profile.maritalStatus;
+
+  // KHL calculation
+  let totalPeople = 1;
+  if (marriageStatus !== 'Belum Menikah') {
+    totalPeople += 1;
+  }
+  totalPeople += dependents.length;
+
+  const baseKhlPerPerson = 3200000;
+  const estimatedKhlFamily = totalPeople * baseKhlPerPerson;
+  const annualKHL = estimatedKhlFamily * 12;
+
+  // Yield for Capital Utilization (defaults to 6%)
+  const calcYieldInput = document.getElementById('ins-calc-yield');
+  const calcYield = calcYieldInput ? parseFloat(calcYieldInput.value) || 6 : 6;
+
+  // Required UP = Annual Expense / Yield
+  const requiredUP = annualKHL / (calcYield / 100);
+
+  // Sum active insurance cover Amount
+  let activeUP = 0;
+  const insList = appState.db.insurance || [];
+  insList.forEach(ins => {
+    activeUP += ins.coverAmount || 0;
+  });
+
+  // Update UI
+  const requiredUP_el = document.getElementById('ins-calculated-up');
+  const currentUP_el = document.getElementById('ins-current-up');
+  const statusBadge_el = document.getElementById('ins-status-badge');
+
+  if (requiredUP_el) requiredUP_el.innerText = `Rp ${requiredUP.toLocaleString('id-ID')}`;
+  if (currentUP_el) currentUP_el.innerText = `Rp ${activeUP.toLocaleString('id-ID')}`;
+
+  if (statusBadge_el) {
+    if (activeUP >= requiredUP) {
+      statusBadge_el.innerText = "UP JIWA SANGAT MEMADAI (SURPLUS)";
+      statusBadge_el.className = "text-[10px] text-emerald-400 font-bold uppercase mt-1";
+    } else {
+      const deficit = requiredUP - activeUP;
+      statusBadge_el.innerText = `BELUM MEMADAI (Defisit Rp ${deficit.toLocaleString('id-ID')})`;
+      statusBadge_el.className = "text-[10px] text-rose-500 font-bold uppercase mt-1";
+    }
+  }
+
+  // Render Active Policies Table
+  const tbody = document.getElementById('insurance-tbody');
+  if (tbody) {
+    tbody.innerHTML = '';
+    if (insList.length === 0) {
+      tbody.innerHTML = `<tr><td colspan="5" class="p-4 text-center text-slate-500 italic">Belum ada asuransi aktif terdaftar. Klik tombol Tambah Polis.</td></tr>`;
+      return;
+    }
+
+    insList.forEach(ins => {
+      const row = document.createElement('tr');
+      row.className = "hover:bg-slate-900/30 transition duration-150 text-xs";
+      row.innerHTML = `
+        <td class="p-3 text-slate-200 font-semibold">${ins.type}</td>
+        <td class="p-3 text-slate-300 font-mono">${ins.provider}</td>
+        <td class="p-3 text-slate-400 font-mono">Rp ${ins.premium.toLocaleString('id-ID')} / bln</td>
+        <td class="p-3 text-emerald-400 font-bold">UP Rp ${ins.coverAmount.toLocaleString('id-ID')}</td>
+        <td class="p-3 text-right">
+          <button onclick="removeInsurance(${ins.id})" class="text-red-400 hover:text-red-300 font-bold text-[10px] uppercase">Hapus</button>
+        </td>
+      `;
+      tbody.appendChild(row);
+    });
+  }
+}
+
+async function removeInsurance(id) {
+  const idx = appState.db?.insurance.findIndex(i => i.id === id);
+  if (idx !== -1) {
+    appState.db.insurance.splice(idx, 1);
+    await saveDatabase();
+    calculateInsuranceAdequacy();
+    alert('✓ Polis asuransi berhasil dihapus.');
+  }
+}
+
+// -------------------------------------------------------------
+// DYNAMIC COMPOUND INTEREST GOALS FORECASTER
+
+function forecastCompounding() {
+  const principalInput = document.getElementById('goal-compound-principal');
+  const monthlyInput = document.getElementById('goal-compound-monthly');
+  const rateInput = document.getElementById('goal-compound-rate');
+  const yearsInput = document.getElementById('goal-compound-years');
+
+  if (!principalInput || !monthlyInput || !rateInput || !yearsInput) return;
+
+  const P = parseFloat(principalInput.value) || 0;
+  const PMT = parseFloat(monthlyInput.value) || 0;
+  const annualRate = parseFloat(rateInput.value) || 0;
+  const t = parseFloat(yearsInput.value) || 0;
+
+  const r = annualRate / 100 / 12; // monthly rate
+  const n = t * 12; // total months
+
+  let totalFutureValue = 0;
+  let totalInvestedPrincipal = P + (PMT * n);
+
+  if (r === 0) {
+    totalFutureValue = P + (PMT * n);
+  } else {
+    // Compound initial principal: P * (1 + r)^n
+    const fvPrincipal = P * Math.pow(1 + r, n);
+    
+    // Compound monthly additions
+    const fvAdditions = PMT * ((Math.pow(1 + r, n) - 1) / r) * (1 + r);
+    
+    totalFutureValue = fvPrincipal + fvAdditions;
+  }
+
+  const totalInterest = Math.max(0, totalFutureValue - totalInvestedPrincipal);
+
+  document.getElementById('goal-forecast-result').innerText = `Rp ${Math.round(totalFutureValue).toLocaleString('id-ID')}`;
+  document.getElementById('goal-forecast-principal-only').innerText = `Rp ${Math.round(totalInvestedPrincipal).toLocaleString('id-ID')}`;
+  document.getElementById('goal-forecast-interest-only').innerText = `Rp ${Math.round(totalInterest).toLocaleString('id-ID')}`;
 }
 
