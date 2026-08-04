@@ -44,6 +44,7 @@ async function fetchDatabase(showToast = false) {
     renderCRMCustomers();
     renderPOSTransactions();
     renderBlockchainLedger();
+    renderProfileDependents();
     
     // Recalculate financial formulas
     recalculateAssetNetWorth();
@@ -542,3 +543,538 @@ function setEconomicPhase(phase) {
     }
   });
 }
+
+// ==================== CORE INTERACTIVE FORM SUBMISSIONS & WEB3/AI CONNECTORS ====================
+
+// Web3 connection modals triggers
+function connectWallet() {
+  openModal('modal-web3-connect');
+}
+
+async function confirmWalletConnection() {
+  // Simulate Web3 wallet address generation
+  const hex = "0123456789ABCDEFabcdef";
+  let mockAddr = "0x";
+  for (let i = 0; i < 40; i++) {
+    mockAddr += hex.charAt(Math.floor(Math.random() * hex.length));
+  }
+
+  if (!appState.db) appState.db = {};
+  if (!appState.db.profile) appState.db.profile = {};
+  
+  appState.db.profile.web3Address = mockAddr;
+  await saveDatabase();
+
+  updateWeb3WalletWidget();
+  closeModal('modal-web3-connect');
+  alert(`🦊 DOMPET METAMASK BERHASIL TERHUBUNG!\n\nAlamat Dompet:\n${mockAddr}\n\nSeluruh status transaksi on-chain & waris otonom Anda telah di-sync!`);
+}
+
+// AI Chat collaspible panel handlers
+function toggleAIChat() {
+  const panel = document.getElementById('ai-chat-panel');
+  if (panel) {
+    panel.classList.toggle('hidden');
+  }
+}
+
+async function sendChatMessage(event) {
+  if (event) event.preventDefault();
+
+  const input = document.getElementById('ai-chat-input');
+  if (!input) return;
+
+  const msg = input.value.trim();
+  if (!msg) return;
+
+  input.value = '';
+
+  // Append user message
+  appendChatMessage('user', msg);
+
+  try {
+    appendChatMessage('ai-loading', 'GeraiAI sedang menganalisis...');
+
+    const res = await fetch('/api/ai-chat', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ message: msg })
+    });
+    const data = await res.json();
+    
+    removeChatLoadingBubble();
+
+    if (data.reply) {
+      appendChatMessage('ai', data.reply);
+    } else {
+      appendChatMessage('ai', 'Maaf, saya tidak dapat memproses data Anda saat ini.');
+    }
+  } catch (err) {
+    removeChatLoadingBubble();
+    appendChatMessage('ai', 'Koneksi terputus. Silakan hubungi admin platform.');
+    console.error(err);
+  }
+}
+
+function appendChatMessage(sender, text) {
+  const container = document.getElementById('ai-chat-messages');
+  if (!container) return;
+
+  const bubble = document.createElement('div');
+  if (sender === 'user') {
+    bubble.className = "bg-blue-600/25 border border-blue-500/25 p-3 rounded-xl max-w-[85%] self-end ml-auto space-y-1";
+    bubble.innerHTML = `<strong class="text-[10px] text-blue-400 block font-bold">SAYA</strong><p class="text-slate-200">${text}</p>`;
+  } else if (sender === 'ai-loading') {
+    bubble.id = "chat-loading-bubble";
+    bubble.className = "bg-slate-800 border border-cyber-border/40 p-3 rounded-xl max-w-[85%] mr-auto space-y-1 animate-pulse";
+    bubble.innerHTML = `<strong class="text-[10px] text-brand-400 block font-bold">GERAI AI</strong><p class="text-slate-400 italic">${text}</p>`;
+  } else {
+    bubble.className = "bg-slate-800 border border-cyber-border/40 p-3 rounded-xl max-w-[85%] mr-auto space-y-1";
+    bubble.innerHTML = `<strong class="text-[10px] text-brand-400 block font-bold">GERAI AI</strong><p class="text-slate-200">${text}</p>`;
+  }
+
+  container.appendChild(bubble);
+  container.scrollTop = container.scrollHeight;
+}
+
+function removeChatLoadingBubble() {
+  const el = document.getElementById('chat-loading-bubble');
+  if (el) el.remove();
+}
+
+// Simulated Group Forum Chats
+function submitForumMessage(event) {
+  if (event) event.preventDefault();
+  
+  const input = document.getElementById('forum-chat-input');
+  if (!input) return;
+
+  const msg = input.value.trim();
+  if (!msg) return;
+
+  input.value = '';
+
+  const box = document.getElementById('forum-chat-box');
+  if (box) {
+    const timeLabel = new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
+    const user = appState.db?.profile?.name?.replace(' ', '_') || 'Eko_Gio';
+
+    const div = document.createElement('div');
+    div.className = "bg-slate-900/40 p-2.5 rounded-xl border border-cyber-border/40";
+    div.innerHTML = `
+      <span class="font-bold text-brand-400 block mb-0.5">${user} <span class="text-[9px] text-slate-500 font-mono">${timeLabel}</span></span>
+      <span>${msg}</span>
+    `;
+    box.appendChild(div);
+    box.scrollTop = box.scrollHeight;
+  }
+}
+
+// Clear POS Cart
+function clearCart() {
+  appState.cart.items = [];
+  recalculatePOSCartTotals();
+}
+
+// Alias mapping for HTML button triggers to modular POS handlers
+function setPaymentMethod(method) {
+  setPOSPaymentMethod(method);
+}
+
+function processCheckout() {
+  executePOSCheckout();
+}
+
+// Affiliate wrapper link generator
+function generateGlobalAffiliateLink() {
+  const url = document.getElementById('aff-target-url').value.trim();
+  if (!url) {
+    alert('Mohon masukkan URL target tujuan.');
+    return;
+  }
+
+  const code = appState.db?.profile?.affiliateCode || 'EKOGERAI910';
+  const wrapped = `https://gerai.id/redirect?url=${encodeURIComponent(url)}&ref=MASTER_GERAI910&subid=${code}`;
+  
+  const el = document.getElementById('aff-generated-link');
+  if (el) {
+    el.innerText = wrapped;
+    document.getElementById('aff-link-output-box').classList.remove('hidden');
+  }
+}
+
+// Save Risk Profile & marital/resepst/haji plans from Category 10
+async function saveRiskProfile() {
+  const select = document.getElementById('prof-risk-profile');
+  if (!select) return;
+  
+  appState.db.profile.riskProfile = select.value;
+  
+  const weddingStatus = document.getElementById('prof-marital-status').value;
+  appState.db.profile.maritalStatus = weddingStatus;
+  
+  const weddingYear = parseInt(document.getElementById('prof-wedding-year').value, 10) || 2028;
+  const weddingCost = parseFloat(document.getElementById('prof-wedding-cost').value) || 75000000;
+  appState.db.profile.weddingPlan = {
+    hasPlan: weddingStatus === 'Belum Menikah',
+    targetYear: weddingYear,
+    estimatedCost: weddingCost
+  };
+
+  const hajiStatus = document.getElementById('prof-haji-status').value;
+  const hajiYear = parseInt(document.getElementById('prof-haji-year').value, 10) || 2032;
+  const hajiCost = parseFloat(document.getElementById('prof-haji-cost').value) || 110000000;
+  const hajiQueue = parseInt(document.getElementById('prof-haji-queue').value, 10) || 18;
+  appState.db.profile.hajiPlan = {
+    hajiStatus,
+    hasPlan: hajiStatus === 'Belum Haji',
+    targetYear: hajiYear,
+    estimatedCost: hajiCost,
+    waitingTimeYears: hajiQueue
+  };
+
+  await saveDatabase();
+  alert('✅ Profil & Rencana Finansial Berhasil Diperbarui!');
+  calculateKHL(); // Update target goals
+}
+
+function sendQuickPrompt(promptText) {
+  const input = document.getElementById('ai-chat-input');
+  if (input) {
+    input.value = promptText;
+    // Make sure panel is open
+    const panel = document.getElementById('ai-chat-panel');
+    if (panel && panel.classList.contains('hidden')) {
+      panel.classList.remove('hidden');
+    }
+    sendChatMessage();
+  }
+}
+
+// Web3 Commodities Minting modal trigger
+async function mintTokenizedAsset() {
+  const type = document.getElementById('mint-asset-type').value;
+  const amt = parseFloat(document.getElementById('mint-asset-qty').value) || 0;
+
+  if (amt <= 0) {
+    alert('Mohon masukkan jumlah berat komoditas yang ingin di-mint.');
+    return;
+  }
+
+  await triggerWeb3Mint(type, amt);
+  closeModal('modal-web3-mint');
+}
+
+// -------------------------------------------------------------
+// 10 MODALS FORM SUBMISSION HANDLERS (ENTERPRISE-GRADE SAVING)
+
+async function submitAddAsset() {
+  const assetClass = document.getElementById('form-asset-class').value;
+  const name = document.getElementById('form-asset-name').value.trim();
+  const value = parseFloat(document.getElementById('form-asset-val').value) || 0;
+  const yr = parseFloat(document.getElementById('form-asset-yield').value) || 0;
+
+  if (!name || value <= 0) {
+    alert('Mohon isi seluruh data aset dengan benar.');
+    return;
+  }
+
+  if (assetClass === 'gold') {
+    if (!appState.db.assets.gold) appState.db.assets.gold = { grams: 0, avgBuyPrice: 0 };
+    appState.db.assets.gold.grams += value;
+    appState.db.assets.gold.avgBuyPrice = yr || appState.db.assets.gold.avgBuyPrice;
+  } else if (assetClass === 'silver') {
+    if (!appState.db.assets.silver) appState.db.assets.silver = { grams: 0, avgBuyPrice: 0 };
+    appState.db.assets.silver.grams += value;
+    appState.db.assets.silver.avgBuyPrice = yr || appState.db.assets.silver.avgBuyPrice;
+  } else {
+    const mapping = {
+      reksadana: 'mutualFunds',
+      sbn: 'sbn',
+      deposito: 'deposits',
+      saham: 'stocks',
+      properti: 'property'
+    };
+    const key = mapping[assetClass];
+    if (key) {
+      if (!appState.db.assets[key]) appState.db.assets[key] = [];
+      if (assetClass === 'saham') {
+        appState.db.assets[key].push({ code: name, shares: value, avgPrice: yr });
+      } else {
+        appState.db.assets[key].push({ name: name, balance: value, yield: yr });
+      }
+    }
+  }
+
+  await saveDatabase();
+  closeModal('modal-add-asset');
+  alert('✅ Sukses menambah aset baru ke portofolio!');
+  recalculateAssetNetWorth();
+}
+
+async function submitAddDebt() {
+  const name = document.getElementById('form-debt-name').value.trim();
+  const remaining = parseFloat(document.getElementById('form-debt-remaining').value) || 0;
+  const rate = parseFloat(document.getElementById('form-debt-rate').value) || 0;
+  const minPayment = parseFloat(document.getElementById('form-debt-min').value) || 0;
+
+  if (!name || remaining <= 0) {
+    alert('Mohon lengkapi seluruh data utang.');
+    return;
+  }
+
+  if (!appState.db.debts) appState.db.debts = [];
+  appState.db.debts.push({
+    id: Date.now(),
+    name,
+    remaining,
+    rate,
+    minPayment
+  });
+
+  await saveDatabase();
+  closeModal('modal-add-debt');
+  alert('✅ Sukses menambahkan liabilitas baru!');
+  recalculateAssetNetWorth();
+}
+
+async function submitAddDependent() {
+  const name = document.getElementById('form-dep-name').value.trim();
+  const age = parseInt(document.getElementById('form-dep-age').value, 10) || 0;
+  const relation = document.getElementById('form-dep-relation').value.trim();
+  const school = document.getElementById('form-dep-school').value;
+
+  if (!name || age <= 0) {
+    alert('Mohon isi nama dan usia tanggungan.');
+    return;
+  }
+
+  if (!appState.db.profile.dependents) appState.db.profile.dependents = [];
+  appState.db.profile.dependents.push({
+    id: Date.now(),
+    name,
+    relation,
+    age,
+    schoolStatus: school
+  });
+
+  await saveDatabase();
+  closeModal('modal-add-dependent');
+  alert('✅ Sukses menambah data tanggungan keluarga!');
+  
+  calculateKHL();
+  renderProfileDependents();
+}
+
+async function submitAddGoal() {
+  const name = document.getElementById('form-goal-name').value.trim();
+  const target = parseFloat(document.getElementById('form-goal-target').value) || 0;
+  const year = parseInt(document.getElementById('form-goal-year').value, 10) || 2030;
+  const saved = parseFloat(document.getElementById('form-goal-saved').value) || 0;
+
+  if (!name || target <= 0) {
+    alert('Mohon lengkapi rencana target impian.');
+    return;
+  }
+
+  if (!appState.db.goals) appState.db.goals = [];
+  appState.db.goals.push({
+    id: Date.now(),
+    name,
+    target,
+    targetYear: year,
+    saved
+  });
+
+  await saveDatabase();
+  closeModal('modal-add-goal');
+  alert('✅ Sukses menambahkan sasaran keuangan baru!');
+  calculateKHL();
+}
+
+async function submitAddInsurance() {
+  const type = document.getElementById('form-ins-type').value.trim();
+  const provider = document.getElementById('form-ins-provider').value.trim();
+  const premium = parseFloat(document.getElementById('form-ins-premium').value) || 0;
+
+  if (!type || !provider || premium <= 0) {
+    alert('Mohon lengkapi detail perlindungan asuransi.');
+    return;
+  }
+
+  if (!appState.db.insurance) appState.db.insurance = [];
+  appState.db.insurance.push({
+    id: Date.now(),
+    type,
+    provider,
+    premium,
+    coverAmount: premium * 120
+  });
+
+  await saveDatabase();
+  closeModal('modal-add-insurance');
+  alert('✅ Sukses mendaftarkan polis perlindungan!');
+  calculateInsuranceAdequacy();
+}
+
+async function submitCRMCustomer() {
+  const name = document.getElementById('form-cust-name').value.trim();
+  const email = document.getElementById('form-cust-email').value.trim();
+  const phone = document.getElementById('form-cust-phone').value.trim();
+  const address = document.getElementById('form-cust-address').value.trim();
+  const tier = document.getElementById('form-cust-tier').value;
+
+  if (!name || !phone) {
+    alert('Mohon isi nama dan nomor telepon pelanggan CRM.');
+    return;
+  }
+
+  if (!appState.db.crmCustomers) appState.db.crmCustomers = [];
+  appState.db.crmCustomers.push({
+    id: Date.now(),
+    name,
+    email,
+    phone,
+    address,
+    tier,
+    totalOrders: 0
+  });
+
+  await saveDatabase();
+  closeModal('modal-add-customer');
+  alert(`✅ Sukses mendaftarkan pelanggan loyal ${name}!`);
+  renderCRMCustomers();
+}
+
+async function submitPOSProduct() {
+  const sku = document.getElementById('form-prod-sku').value.trim();
+  const name = document.getElementById('form-prod-name').value.trim();
+  const price = parseFloat(document.getElementById('form-prod-price').value) || 0;
+  const stock = parseInt(document.getElementById('form-prod-stock').value, 10) || 0;
+  const cat = document.getElementById('form-prod-cat').value;
+
+  if (!name || price <= 0 || stock <= 0) {
+    alert('Mohon lengkapi detail produk retail POS.');
+    return;
+  }
+
+  if (!appState.db.posProducts) appState.db.posProducts = [];
+  appState.db.posProducts.push({
+    id: Date.now(),
+    sku,
+    name,
+    price,
+    stock,
+    category: cat,
+    unit: 'Pcs'
+  });
+
+  await saveDatabase();
+  closeModal('modal-add-product');
+  alert(`✅ Sukses menambahkan produk retail: ${name}`);
+  renderPOSProducts();
+}
+
+async function submitUGCPost() {
+  const title = document.getElementById('form-post-title').value.trim();
+  const cat = document.getElementById('form-post-cat').value;
+  const link = document.getElementById('form-post-cart-link').value.trim();
+  const content = document.getElementById('form-post-content').value.trim();
+
+  if (!title || !content) {
+    alert('Mohon isi judul dan deskripsi video/analisis UGC.');
+    return;
+  }
+
+  if (!appState.db.posts) appState.db.posts = [];
+  appState.db.posts.unshift({
+    id: Date.now(),
+    author: appState.db.profile.name || "Eko_Gio",
+    category: cat,
+    title,
+    content,
+    productName: title,
+    price: 99000, 
+    redirectUrl: link || "https://shopee.co.id"
+  });
+
+  await saveDatabase();
+  closeModal('modal-add-post');
+  alert('✅ Sukses mempublikasikan konten siber GeraiTok baru!');
+  renderUGCFeed();
+}
+
+async function submitUpdateEmergency() {
+  const current = parseFloat(document.getElementById('form-ef-current').value) || 0;
+  const targetMonths = parseInt(document.getElementById('form-ef-months').value, 10) || 6;
+
+  if (current < 0) {
+    alert('Dana darurat saat ini tidak boleh bernilai negatif.');
+    return;
+  }
+
+  if (!appState.db.emergencyFund) appState.db.emergencyFund = { current: 0, targetMonths: 6 };
+  appState.db.emergencyFund.current = current;
+  appState.db.emergencyFund.targetMonths = targetMonths;
+
+  await saveDatabase();
+  closeModal('modal-update-emergency');
+  alert('✅ Konfigurasi Dana Darurat Berhasil Diperbarui!');
+  calculateKHL();
+}
+
+async function submitUpdateIncome() {
+  const utama = parseFloat(document.getElementById('form-inc-utama').value) || 0;
+  const bisnis = parseFloat(document.getElementById('form-inc-bisnis').value) || 0;
+  const passive = parseFloat(document.getElementById('form-inc-passive').value) || 0;
+  const lainnya = parseFloat(document.getElementById('form-inc-lainnya').value) || 0;
+
+  appState.db.income = {
+    utama,
+    bisnis,
+    passive,
+    lainnya
+  };
+
+  await saveDatabase();
+  closeModal('modal-update-income');
+  alert('✅ Aliran Kas Pendapatan Berhasil Diperbarui!');
+  balanceBudgetSliders('needs'); 
+}
+
+// -------------------------------------------------------------
+// PROFILE FAMILY DEPENDENTS RENDERING & REMOVALS
+
+function renderProfileDependents() {
+  const container = document.getElementById('prof-dependents-tbody');
+  if (!container || !appState.db?.profile?.dependents) return;
+
+  container.innerHTML = '';
+  appState.db.profile.dependents.forEach((dep, idx) => {
+    const row = document.createElement('tr');
+    row.className = "hover:bg-slate-900/30 transition duration-150 text-xs";
+    row.innerHTML = `
+      <td class="p-3 text-slate-400 font-mono">${idx + 1}</td>
+      <td class="p-3 text-slate-200 font-bold">${dep.name}</td>
+      <td class="p-3 text-slate-300">${dep.relation}</td>
+      <td class="p-3 text-slate-400 font-mono">${dep.age} Tahun</td>
+      <td class="p-3 text-brand-500 font-semibold">${dep.schoolStatus}</td>
+      <td class="p-3 text-center">
+        <button onclick="removeDependent(${dep.id})" class="text-red-400 hover:text-red-300 font-bold text-[10px] uppercase">Hapus</button>
+      </td>
+    `;
+    container.appendChild(row);
+  });
+}
+
+async function removeDependent(id) {
+  const idx = appState.db?.profile?.dependents.findIndex(d => d.id === id);
+  if (idx !== -1) {
+    appState.db.profile.dependents.splice(idx, 1);
+    await saveDatabase();
+    calculateKHL();
+    renderProfileDependents();
+    alert('✓ Tanggungan berhasil dihapus.');
+  }
+}
+
