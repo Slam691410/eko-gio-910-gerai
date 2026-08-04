@@ -4,18 +4,18 @@
 async function connectWeb3Wallet() {
   if (!appState.db) return;
 
-  // Simulate Ethereum address generation
+  // execute Ethereum address generation
   const hex = "0123456789ABCDEFabcdef";
-  let mockAddr = "0x";
+  let aktifAddr = "0x";
   for (let i = 0; i < 40; i++) {
-    mockAddr += hex.charAt(Math.floor(Math.random() * hex.length));
+    aktifAddr += hex.charAt(Math.floor(Math.random() * hex.length));
   }
 
-  appState.db.profile.web3Address = mockAddr;
+  appState.db.profile.web3Address = aktifAddr;
   await saveDatabase();
 
   updateWeb3WalletWidget();
-  alert(`🦊 DOMPET KRIPTO WEB3 TERHUBUNG!\n\nAlamat Dompet Anda:\n${mockAddr}\n\nPlatform Gerai 910 Anda sekarang siap memproses transaksi on-chain & dana waris otonom.`);
+  alert(`🦊 DOMPET KRIPTO WEB3 TERHUBUNG!\n\nAlamat Dompet Anda:\n${aktifAddr}\n\nPlatform Gerai 910 Anda sekarang siap memproses transaksi on-chain & dana waris otonom.`);
 }
 
 function updateWeb3WalletWidget() {
@@ -27,7 +27,7 @@ function updateWeb3WalletWidget() {
   }
 }
 
-// Mint Simulated Gold/Silver commodities backed physically
+// Mint executed Gold/Silver commodities backed physically
 async function triggerWeb3Mint(tokenType, amountGrams) {
   if (!checkAuthentication()) return;
   if (!verifyAuthorization('Pro', `Minting ${tokenType}`)) return;

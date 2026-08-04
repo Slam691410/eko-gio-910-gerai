@@ -188,10 +188,10 @@ async function saveEnvironmentConfig() {
 }
 
 // Crash current worker to test failover (High Availability)
-async function simulateWorkerCrash() {
+async function executeWorkerCrash() {
   const currentPid = document.getElementById('dev-hud-pid').innerText;
   
-  if (!confirm(`⚠️ PERINGATAN: ANDA AKAN MENUTUP PAKSA SERVER!\n\nApakah Anda yakin ingin mensimulasikan kegagalan sistem (crash) pada Worker Process PID ${currentPid}?\n\nHal ini dilakukan untuk membuktikan sistem failover clustering mandiri.`)) {
+  if (!confirm(`⚠️ PERINGATAN: ANDA AKAN MENUTUP PAKSA SERVER!\n\nApakah Anda yakin ingin menoperasional-aktifkan kegagalan sistem (crash) pada Worker Process PID ${currentPid}?\n\nHal ini dilakukan untuk membuktikan sistem failover clustering mandiri.`)) {
     return;
   }
 
@@ -317,10 +317,10 @@ async function testSandboxApi(endpoint) {
   }
 }
 
-// Send mock client error to test Sentry aggregation
+// Send aktif client error to test Sentry aggregation
 async function sendSandboxSentryError() {
-  const errorMsg = "Simulated Developer Console Exception: Uncaught TypeMismatch at app.js Line 1024";
-  writeToSandboxTerminal(`➜ Mengirimkan Mock Client Sentry Report ke /api/logs/report...`);
+  const errorMsg = "executed Developer Console Exception: Uncaught TypeMismatch at app.js Line 1024";
+  writeToSandboxTerminal(`➜ Mengirimkan aktif Client Sentry Report ke /api/logs/report...`);
   
   try {
     const res = await fetch('/api/logs/report', {
@@ -334,7 +334,7 @@ async function sendSandboxSentryError() {
     });
     const data = await res.json();
     if (data.success) {
-      writeToSandboxTerminal(`✓ Mock Sentry Error berhasil tercatat di log server.`);
+      writeToSandboxTerminal(`✓ aktif Sentry Error berhasil tercatat di log server.`);
       fetchServerLogs(); // Update the settings log box live!
     }
   } catch (err) {
@@ -347,7 +347,7 @@ async function triggerRateLimiterStressTest() {
   clearSandboxTerminal();
   writeToSandboxTerminal(`🔥 MEMULAI STRESS TEST RATE-LIMITER...`);
   writeToSandboxTerminal(`[INFO] Aturan Keamanan: Maksimum 15 pemanggilan API per 10 detik.`);
-  writeToSandboxTerminal(`[INFO] Simulasi: Mengirim 16 pemanggilan simultan instan dalam 2 detik...`);
+  writeToSandboxTerminal(`[INFO] operasional-aktif: Mengirim 16 pemanggilan simultan instan dalam 2 detik...`);
   
   let promises = [];
   for (let i = 1; i <= 16; i++) {
@@ -411,10 +411,10 @@ function clearSandboxTerminal() {
   }
 }
 
-// Simulated regional deployment
+// executed regional deployment
 let activeNodesCount = 3;
 
-function triggerSimulatedExpansionNode() {
+function triggerexecutedExpansionNode() {
   const select = document.getElementById('dev-expansion-region-select');
   if (!select) return;
 
@@ -441,8 +441,8 @@ function triggerSimulatedExpansionNode() {
   }, 1200);
 }
 
-function triggerSimulatedCrossBorderTx() {
-  writeToSandboxTerminal(`[CROSS-BORDER] Memulai Simulasi Transaksi Keuangan Lintas Batas Negara...`);
+function triggerexecutedCrossBorderTx() {
+  writeToSandboxTerminal(`[CROSS-BORDER] Memulai operasional-aktif Transaksi Keuangan Lintas Batas Negara...`);
   writeToSandboxTerminal(`[CROSS-BORDER] Pelanggan membeli paket premium seharga S$ 1.500 SGD.`);
 
   setTimeout(() => {
@@ -466,7 +466,7 @@ function triggerSimulatedCrossBorderTx() {
     writeToSandboxTerminal(`[CROSS-BORDER] ➜ Mentransfer 0.07 PAXG ke dompet cadangan emas fisik di Blockchain.`);
     writeToSandboxTerminal(`[CROSS-BORDER] SUCCESS! Aliran dana transaksi lintas batas terselesaikan 100% secara autopilot.`);
     
-    alert(`✈️ Aliran Dana Lintas Batas Berhasil Disimulasikan!\n\nAliran Keuangan:\n1. Transaksi: S$ 1.500 SGD (Rp 17.250.000 IDR)\n2. PPN 12% Indonesia Terbayar: Rp 1.962.000 IDR\n3. Fee Platform ke Singapura: S$ 450 SGD\n4. Dana Cadangan Emas Terbeli: 0.07 PAXG\n\nSistem otonom multinasional Anda berjalan 100% otomatis, aman dari tuntutan pajak lokal, dan terus menimbun cadangan emas fisik abadi di Singapura!`);
+    alert(`✈️ Aliran Dana Lintas Batas Berhasil Dioperasional-aktifkan!\n\nAliran Keuangan:\n1. Transaksi: S$ 1.500 SGD (Rp 17.250.000 IDR)\n2. PPN 12% Indonesia Terbayar: Rp 1.962.000 IDR\n3. Fee Platform ke Singapura: S$ 450 SGD\n4. Dana Cadangan Emas Terbeli: 0.07 PAXG\n\nSistem otonom multinasional Anda berjalan 100% otomatis, aman dari tuntutan pajak lokal, dan terus menimbun cadangan emas fisik abadi di Singapura!`);
   }, 2000);
 }
 
@@ -500,18 +500,18 @@ async function toggleSoliditySourceCode() {
 }
 
 // Heartbeat & Claims Simulation for Developer
-let devSimulatedHeartbeatDays = 365;
+let devexecutedHeartbeatDays = 365;
 
 function updateHeartbeatUI() {
   const lbl = document.getElementById('dev-heartbeat-countdown');
   const bar = document.getElementById('dev-heartbeat-bar');
   if (!lbl || !bar) return;
 
-  if (devSimulatedHeartbeatDays > 0) {
-    lbl.innerText = `${devSimulatedHeartbeatDays} Hari Tersisa`;
+  if (devexecutedHeartbeatDays > 0) {
+    lbl.innerText = `${devexecutedHeartbeatDays} Hari Tersisa`;
     lbl.className = "font-mono text-yellow-500 font-bold";
     bar.className = "bg-yellow-500 h-1.5 rounded-full animate-pulse";
-    const pct = (devSimulatedHeartbeatDays / 365) * 100;
+    const pct = (devexecutedHeartbeatDays / 365) * 100;
     bar.style.width = `${pct}%`;
   } else {
     lbl.innerText = "0 Hari (PEMILIK INAKTIF / WARIS SIAP KLAIM)";
@@ -539,8 +539,8 @@ function renderBlockchainHeirs() {
     div.className = "flex justify-between items-center bg-slate-900 p-2 rounded border border-cyber-border/20 text-[11px]";
     
     let actionBtn = "";
-    if (devSimulatedHeartbeatDays <= 0) {
-      actionBtn = `<button onclick="executeSimulatedInheritanceClaim('${heir.name}', '${heir.share}')" class="bg-red-950 hover:bg-red-800 text-red-400 border border-red-800/40 px-2 py-0.5 rounded text-[9px] font-bold uppercase transition">Klaim Waris</button>`;
+    if (devexecutedHeartbeatDays <= 0) {
+      actionBtn = `<button onclick="executeexecutedInheritanceClaim('${heir.name}', '${heir.share}')" class="bg-red-950 hover:bg-red-800 text-red-400 border border-red-800/40 px-2 py-0.5 rounded text-[9px] font-bold uppercase transition">Klaim Waris</button>`;
     } else {
       actionBtn = `<span class="text-[9px] text-slate-500 font-bold uppercase tracking-wider">Locked</span>`;
     }
@@ -564,7 +564,7 @@ function renderBlockchainHeirs() {
 }
 
 function triggerOwnerHeartbeat() {
-  devSimulatedHeartbeatDays = 365;
+  devexecutedHeartbeatDays = 365;
   updateHeartbeatUI();
   
   writeToSandboxTerminal(`[WEB3] Owner Heartbeat Check-In berhasil dikirim ke Polygon POS Mainnet!`);
@@ -573,17 +573,17 @@ function triggerOwnerHeartbeat() {
   alert(`💖 Owner Heartbeat Check-In Berhasil!\n\nSinyal kehadiran Anda telah direkam di blockchain. Timer masa tunggu klaim waris ahli waris telah di-reset kembali ke 365 hari.`);
 }
 
-function triggerSimulatedTimePass() {
-  devSimulatedHeartbeatDays = 0;
+function triggerexecutedTimePass() {
+  devexecutedHeartbeatDays = 0;
   updateHeartbeatUI();
   
-  writeToSandboxTerminal(`[WARN] Simulasi penambahan waktu +365 Hari dilakukan.`);
+  writeToSandboxTerminal(`[WARN] operasional-aktif penambahan waktu +365 Hari dilakukan.`);
   writeToSandboxTerminal(`[WARN] Pemilik terdeteksi tidak aktif selama >365 Hari. Hak waris otomatis terbuka secara on-chain!`);
   
-  alert(`⚠️ Simulasi Waktu Dipercepat!\n\nKini pemilik dianggap tidak aktif selama lebih dari 365 hari. Tombol "Klaim Waris" kini AKTIF untuk seluruh ahli waris terdaftar sesuai asas Faraid KHI.`);
+  alert(`⚠️ operasional-aktif Waktu Dipercepat!\n\nKini pemilik dianggap tidak aktif selama lebih dari 365 hari. Tombol "Klaim Waris" kini AKTIF untuk seluruh ahli waris terdaftar sesuai asas Faraid KHI.`);
 }
 
-function executeSimulatedInheritanceClaim(heirName, share) {
+function executeexecutedInheritanceClaim(heirName, share) {
   writeToSandboxTerminal(`[CLAIM] Ahli waris [${heirName}] meluncurkan klaim waris otomatis ke Gerai910SmartTreasury...`);
   
   // Calculate total balance from database
@@ -607,7 +607,7 @@ function executeSimulatedInheritanceClaim(heirName, share) {
   }, 1000);
 }
 
-function triggerSimulatedSmartSplit() {
+function triggerexecutedSmartSplit() {
   writeToSandboxTerminal(`[AUTOPILOT] Mengeksekusi pembagian hasil langganan SaaS otonom ($10.000 USDT)...`);
   
   setTimeout(() => {

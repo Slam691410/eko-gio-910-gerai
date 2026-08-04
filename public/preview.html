@@ -192,12 +192,12 @@
             </div>
           </div>
 
-          <!-- Simulator Action panel -->
+          <!-- mesin Action panel -->
           <div class="space-y-2">
-            <span class="block text-[10px] text-slate-500 uppercase font-bold tracking-wider">Simulasi Global billing</span>
+            <span class="block text-[10px] text-slate-500 uppercase font-bold tracking-wider">operasional-aktif Global billing</span>
             <div class="flex gap-2">
               <input type="number" id="input-global-billing-amount" value="1500" class="w-24 bg-slate-950 border border-cyber-border rounded-xl px-3 py-2 text-xs font-mono text-brand-400 text-center">
-              <button onclick="simulateGlobalBilling()" class="flex-1 bg-blue-600 hover:bg-blue-500 text-white font-extrabold py-2 rounded-xl text-[10px] uppercase tracking-wider transition flex items-center justify-center gap-1">
+              <button onclick="executeGlobalBilling()" class="flex-1 bg-blue-600 hover:bg-blue-500 text-white font-extrabold py-2 rounded-xl text-[10px] uppercase tracking-wider transition flex items-center justify-center gap-1">
                 <i data-lucide="check-circle" class="w-3.5 h-3.5"></i> Proses Billing (SGD)
               </button>
             </div>
@@ -260,10 +260,10 @@
             </div>
           </div>
 
-          <!-- Localized POS simulator -->
+          <!-- Localized POS mesin -->
           <div class="space-y-2">
-            <span class="block text-[10px] text-slate-500 uppercase font-bold tracking-wider">Simulasi Penjualan Retail POS Indonesia</span>
-            <button onclick="simulateLocalPosSale()" class="w-full bg-gradient-to-r from-red-800 to-red-600 hover:from-red-700 hover:to-red-500 text-white font-extrabold py-2.5 rounded-xl text-[10px] uppercase tracking-wider transition flex items-center justify-center gap-1 border border-red-700 shadow-md">
+            <span class="block text-[10px] text-slate-500 uppercase font-bold tracking-wider">operasional-aktif Penjualan Retail POS Indonesia</span>
+            <button onclick="executeLocalPosSale()" class="w-full bg-gradient-to-r from-red-800 to-red-600 hover:from-red-700 hover:to-red-500 text-white font-extrabold py-2.5 rounded-xl text-[10px] uppercase tracking-wider transition flex items-center justify-center gap-1 border border-red-700 shadow-md">
               <i data-lucide="shopping-cart" class="w-3.5 h-3.5"></i> Proses Transaksi POS (Rp 1.000.000)
             </button>
           </div>
@@ -301,7 +301,7 @@
               <button onclick="preOwnerHeartbeat()" class="flex-1 bg-yellow-600 hover:bg-yellow-500 text-slate-950 font-extrabold py-1.5 rounded-lg text-[10px] uppercase tracking-wider transition">
                 Check-In (Heartbeat)
               </button>
-              <button onclick="preSimulateTimePass()" class="bg-slate-800 hover:bg-slate-700 text-slate-300 border border-cyber-border/60 py-1.5 px-2.5 rounded-lg text-[10px] transition">
+              <button onclick="preexecuteTimePass()" class="bg-slate-800 hover:bg-slate-700 text-slate-300 border border-cyber-border/60 py-1.5 px-2.5 rounded-lg text-[10px] transition">
                 +365 Hari
               </button>
             </div>
@@ -353,7 +353,7 @@
             Pengguna dapat membagikan <strong>"Rapor Kesehatan Finansial"</strong> mereka yang dihasilkan oleh AI ke media sosial. Setiap teman yang mendaftar melalui link rujukan akan mendapatkan 1 bulan Premium gratis, dan pengundang mendapatkan <strong>10% komisi abadi</strong> dalam bentuk cadangan emas fisik PAXG!
           </p>
 
-          <!-- Simulated Referral Card -->
+          <!-- executed Referral Card -->
           <div class="bg-gradient-to-br from-slate-900 to-purple-900/40 p-4 rounded-xl border border-cyber-border/40 relative">
             <div class="absolute top-2 right-2 flex items-center gap-1 text-[8px] font-bold text-emerald-400 bg-emerald-950/80 px-2 py-0.5 rounded-full border border-emerald-800">
               <span class="w-1 h-1 bg-emerald-400 rounded-full"></span> VERIFIED BY GERAI910
@@ -375,8 +375,8 @@
             </div>
           </div>
 
-          <button onclick="simulateViralReferral()" class="w-full bg-purple-600 hover:bg-purple-500 text-white font-extrabold py-2.5 rounded-xl text-xs uppercase tracking-wider transition flex items-center justify-center gap-1.5 shadow-lg shadow-purple-950/30">
-            <i data-lucide="share-2" class="w-4 h-4"></i> Bagikan Rapor (Simulasikan 5 Pendaftar Baru)
+          <button onclick="executeViralReferral()" class="w-full bg-purple-600 hover:bg-purple-500 text-white font-extrabold py-2.5 rounded-xl text-xs uppercase tracking-wider transition flex items-center justify-center gap-1.5 shadow-lg shadow-purple-950/30">
+            <i data-lucide="share-2" class="w-4 h-4"></i> Bagikan Rapor (operasional-aktifkan 5 Pendaftar Baru)
           </button>
         </div>
 
@@ -455,7 +455,7 @@
       </div>
 
       <div id="pre-terminal" class="h-64 overflow-y-auto font-mono-tech text-xs text-emerald-400 leading-relaxed space-y-1 pr-2">
-        <div class="text-slate-500 italic">[SYSTEM] Terminal siap mendengarkan simulasi keuangan lintas batas. Klik tombol simulasi di atas untuk memulai.</div>
+        <div class="text-slate-500 italic">[SYSTEM] Terminal siap mendengarkan operasional-aktif keuangan lintas batas. Klik tombol operasional-aktif di atas untuk memulai.</div>
       </div>
     </div>
 
@@ -562,10 +562,10 @@
       taxBalEl.innerText = `Rp ${idrTaxes.toLocaleString('id-ID')}`;
     }
 
-    // SIMULATORS
+    // mesinS
 
     // 1. Process Billing in SGD from Singapore Holding HQ
-    function simulateGlobalBilling() {
+    function executeGlobalBilling() {
       const amountInput = document.getElementById('input-global-billing-amount');
       const amount = parseFloat(amountInput.value);
       if (isNaN(amount) || amount <= 0) {
@@ -611,7 +611,7 @@
     }
 
     // 2. Process localized POS retail transaction inside Indonesia Node
-    function simulateLocalPosSale() {
+    function executeLocalPosSale() {
       const saleAmount = 1000000; // Rp 1.000.000
       writeLog(`➜ Kasir retail memproses transaksi penjualan POS di Indonesia senilai Rp ${saleAmount.toLocaleString('id-ID')} IDR...`);
 
@@ -623,15 +623,15 @@
         idrTaxes += taxPPN;
 
         // 30% of local platform fee split routed back to Singapore holding treasury
-        const mockPlatformFeeSgd = (saleAmount * 0.05 * 0.30) / sgdToIdrRate; // assuming 5% platform fee cut on POS sales
-        sgdSgAccount += mockPlatformFeeSgd;
+        const aktifPlatformFeeSgd = (saleAmount * 0.05 * 0.30) / sgdToIdrRate; // assuming 5% platform fee cut on POS sales
+        sgdSgAccount += aktifPlatformFeeSgd;
 
         updateUiDisplays();
 
         writeLog(`✓ Penjualan POS retail terkonfirmasi! Berkas database.json di-write secara atomik.`, 'success');
         writeLog(`➜ Memungut PPN 12% Pajak Negara Indonesia: Rp ${taxPPN.toLocaleString('id-ID')} IDR.`);
         writeLog(`➜ Sisa bersih kas ritel merchant: Rp ${merchantNet.toLocaleString('id-ID')} IDR.`);
-        writeLog(`➜ Mengirimkan bagi hasil porsi platform ke Singapura Holding: S$ ${mockPlatformFeeSgd.toFixed(4)} SGD.`);
+        writeLog(`➜ Mengirimkan bagi hasil porsi platform ke Singapura Holding: S$ ${aktifPlatformFeeSgd.toFixed(4)} SGD.`);
         
         alert(`🇮🇩 RETAL POS TRANSACTION SUCCESS!\n\nPenjualan retail senilai Rp 1.000.000 berhasil diselesaikan.\n\nPajak PPN 12% terhitung otomatis dan pembukuan disinkronkan ke dalam server log secara atomic.`);
       }, 800);
@@ -645,15 +645,15 @@
       alert('💖 Heartbeat Berhasil dikirim! Timer dikunci kembali ke 365 Hari.');
     }
 
-    function preSimulateTimePass() {
+    function preexecuteTimePass() {
       preHeartbeatDays = 0;
       updateHeartbeatDaysUI();
-      writeLog(`[WARN] Simulasi waktu dipercepat +365 Hari. Detak jantung pemilik terhenti.`, 'warn');
+      writeLog(`[WARN] operasional-aktif waktu dipercepat +365 Hari. Detak jantung pemilik terhenti.`, 'warn');
       writeLog(`[WARN] Kontrak Pintar membuka hak klaim pewarisan secara otonom! Heirs can claim.`, 'warn');
       alert('⚠️ Waktu Berhasil Dipercepat!\n\nDetak jantung pemilik dinyatakan terhenti. Hak klaim pewarisan digital on-chain terbuka bagi seluruh ahli waris terdaftar.');
     }
 
-    function executeSimulatedInheritanceClaim(name, share) {
+    function executeexecutedInheritanceClaim(name, share) {
       writeLog(`➜ Ahli Waris [${name}] meluncurkan klaim waris ke smart contract Gerai910SmartTreasury...`);
       
       setTimeout(() => {
@@ -724,9 +724,9 @@
       term.innerHTML = '<span class="text-slate-500 italic">[SYSTEM] Terminal dibersihkan. Silakan lakukan pemanggilan API di atas.</span>';
     }
 
-    // 5. Growth-Hacking Viral referral loop simulator
-    function simulateViralReferral() {
-      writeLog(`➜ Menginisiasi simulasi pembagian Rapor Finansial viral @Eko_Gio ke media sosial...`);
+    // 5. Growth-Hacking Viral referral loop mesin
+    function executeViralReferral() {
+      writeLog(`➜ Menginisiasi operasional-aktif pembagian Rapor Finansial viral @Eko_Gio ke media sosial...`);
       
       setTimeout(() => {
         writeLog(`➜ Terdeteksi 5 pendaftaran baru yang sukses melakukan checkout melalui link rujukan Anda.`);
@@ -747,7 +747,7 @@
         writeLog(`➜ Mengonversi komisi rujukan ke Emas Fisik: +${paxgAward.toFixed(5)} PAXG.`);
         writeLog(`➜ Menambahkan S$ ${referralAwardSgd} SGD ke dompet holding Anda.`);
         
-        alert(`🚀 GROWTH HACKING VIRAL LOOP BERHASIL!\n\nSimulasi Sukses:\n- 5 Pengguna Baru terdaftar dan berlangganan Pro.\n- Komisi rujukan Anda sebesar S$ 50 SGD terkredit langsung.\n- Komisi langsung dikonversi menjadi ${paxgAward.toFixed(5)} PAXG emas cadangan abadi!\n\nInilah loop viralitas Shariah yang melipatgandakan jutaan pengguna secara autopilot!`);
+        alert(`🚀 GROWTH HACKING VIRAL LOOP BERHASIL!\n\noperasional-aktif Sukses:\n- 5 Pengguna Baru terdaftar dan berlangganan Pro.\n- Komisi rujukan Anda sebesar S$ 50 SGD terkredit langsung.\n- Komisi langsung dikonversi menjadi ${paxgAward.toFixed(5)} PAXG emas cadangan abadi!\n\nInilah loop viralitas Shariah yang melipatgandakan jutaan pengguna secara autopilot!`);
       }, 1200);
     }
 

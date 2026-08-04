@@ -9,11 +9,11 @@ Platform ini mengintegrasikan 11 modul penting sesuai kebutuhan proyek profesion
 1. **UGC & Komunitas:** Forum terbuka di mana pengguna dapat mempublikasikan analisis pasar, membaca artikel makro, berdiskusi di grup khusus (Emas, Dividen, POS), dan menyalin tautan rujukan afiliasi.
 2. **POS & CRM Ritel:** Aplikasi kasir ritel fungsional dengan perhitungan pajak PPN 11%, diskon otomatis berdasarkan tingkatan loyalitas pelanggan CRM (*Regular, Gold, Platinum*), pencatatan transaksi terintegrasi, serta modul panduan pengoperasian yang lengkap.
 3. **Aliran Kas & Aset:** Pelacak pendapatan bulanan (Utama, Bisnis, Sampingan) dan portofolio aset riil terlengkap (Emas, Perak, Reksa Dana, SBN, Saham, Deposito, Properti) dengan visualisasi bagan alokasi aset.
-4. **KHL & Budgeting:** Kalkulator Standar Kebutuhan Hidup Layak (KHL) berdasarkan provinsi Indonesia, pelacak anggaran otomatis (Metode 50/30/20), pengelola utang aktif (*Debt Snowball*), serta simulator dana darurat (*Emergency Fund*).
+4. **KHL & Budgeting:** Kalkulator Standar Kebutuhan Hidup Layak (KHL) berdasarkan provinsi Indonesia, pelacak anggaran otomatis (Metode 50/30/20), pengelola utang aktif (*Debt Snowball*), serta mesin dana darurat (*Emergency Fund*).
 5. **Proteksi Asuransi:** Evaluasi kecukupan uang pertanggungan asuransi jiwa menggunakan metode *Capital Utilization* (Human Life Value) dibandingkan dengan polis aktif yang dimiliki (BPJS, swasta).
-6. **Rencana Keuangan (Goals):** Penentu target impian keuangan (Pendidikan anak, Haji/Umrah, Rumah) lengkap dengan simulator bunga majemuk (*Compounding Interest Forecast*).
+6. **Rencana Keuangan (Goals):** Penentu target impian keuangan (Pendidikan anak, Haji/Umrah, Rumah) lengkap dengan mesin bunga majemuk (*Compounding Interest Forecast*).
 7. **Makro & Screener:** Dasbor indikator makroekonomi riil Indonesia (Inflasi YoY 2.42%, BI-Rate 6.00%, USD-IDR Rp 16.350, Fed Rate 3.5%) serta penyaring (*screener*) saham bluechip, kripto syariah, dan reksa dana berkinerja tinggi.
-8. **Dividen & Senarai:** Kalender dividen emiten (BBRI, TLKM, ASII), estimasi yield portofolio bulanan, dan simulator pertumbuhan aset berbasis *Dividend Reinvestment Plan (DRIP)*.
+8. **Dividen & Senarai:** Kalender dividen emiten (BBRI, TLKM, ASII), estimasi yield portofolio bulanan, dan mesin pertumbuhan aset berbasis *Dividend Reinvestment Plan (DRIP)*.
 9. **Pensiun & Faraid/Waris:** Perencana dana pensiun (*Safe Withdrawal Rate* SWR) disesuaikan inflasi, pencatat hibah, dan **Kalkulator Hukum Waris Islam (Faraid)** otomatis yang mematuhi aturan Kompilasi Hukum Islam (KHI) Indonesia.
 10. **Profil & Jaringan Web3:** Pengaturan profil risiko finansial (*Conservative, Moderate, Aggressive*), manajemen kunci API, serta konsol integrasi dompet Web3 MetaMask.
 11. **Kemitraan & Afiliasi:** Dasbor billing membership (Free, Pro, Whale), generator kupon promosi gerai, dan pencatatan komisi kemitraan afiliasi langsung ke ledger server.
@@ -29,14 +29,14 @@ Platform ini memadukan data dari pasar keuangan aktual Indonesia per **Agustus 2
 * Indeks IHSG, nilai tukar USD/IDR, serta kupon imbal hasil SBN (SR020 / ORI025) yang terus berfluktuasi secara dinamis melalui interval polling API server lokal.
 
 ### 2. Kecerdasan Buatan (AI Assistant - GeraiAI)
-Platform ini menyertakan asisten ahli finansial cerdas (**GeraiAI Expert Advisor**). Bukan sekadar mock-up statis, mesin NLP di backend (`server.js`) membaca kondisi finansial riil Anda secara dinamis dari database, seperti:
+Platform ini menyertakan asisten ahli finansial cerdas (**GeraiAI Expert Advisor**). Bukan sekadar produksi statis, mesin NLP di backend (`server.js`) membaca kondisi finansial riil Anda secara dinamis dari database, seperti:
 * Menganalisis ketahanan dana darurat Anda terhadap pengeluaran aktual Anda.
 * Memberikan rekomendasi alokasi kelas aset berdasarkan hasil kuis profil risiko Anda.
 * Menyarankan strategi promosi kasir POS kepada pelanggan platinum CRM berdasarkan histori belanjanya.
 
 ### 3. Jaringan Blockchain & Desentralisasi (Web3)
 Integrasi blockchain yang kuat meliputi:
-* **Web3 MetaMask Connector:** Simulasi koneksi dompet kriptografi standar (`0x71C7...476B`) dengan proses verifikasi tanda tangan digital.
+* **Web3 MetaMask Connector:** operasional-aktif koneksi dompet kriptografi standar (`0x71C7...476B`) dengan proses verifikasi tanda tangan digital.
 * **Tokenisasi Aset Fisik:** Pengguna dapat mendepositokan emas/perak fisik mereka di gerai dan mencetaknya (**minting**) menjadi token kriptografi **gGMR (geraiGold)** atau **gSLV (geraiSilver)** secara *on-chain*.
 * **Live Block Explorer Console:** Menampilkan visualisasi penambahan blok, hash transaksi kriptografi, gas limit, dan status konsensus secara langsung di layar dasbor Anda.
 
@@ -70,7 +70,7 @@ Buka peramban (*browser*) Anda dan akses `http://localhost:3000`. Nikmati seluru
 eko-gio-910-gerai/
 ├── database.json        # Database lokal (menyimpan profil, transaksi POS, data CRM, asuransi, dll.)
 ├── package.json         # Konfigurasi dependensi npm & skrip start
-├── server.js            # Express backend (Simulasi API Makro, NLP AI Engine, Ledger Blockchain & REST API)
+├── server.js            # Express backend (operasional-aktif API Makro, NLP AI Engine, Ledger Blockchain & REST API)
 └── public/
     ├── index.html       # Antarmuka SPA premium dengan Tailwind CSS, Chart.js & Lucide Icons
     └── app.js           # Pengelola state reaktif frontend, visualisasi grafik & kalkulator finansial

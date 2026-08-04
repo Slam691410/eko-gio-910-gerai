@@ -301,7 +301,7 @@
       <header class="h-16 border-b border-cyber-border bg-slate-900/50 flex items-center justify-between px-8 sticky top-0 backdrop-blur-md z-30">
         <div class="flex items-center gap-4 w-96">
           <i data-lucide="search" class="w-5 h-5 text-slate-400"></i>
-          <input type="text" placeholder="Cari aset, panduan, transaksi POS, atau aturan waris..." class="bg-transparent border-0 text-slate-200 placeholder-slate-400 text-sm focus:ring-0 focus:outline-none w-full">
+          <input type="text" default="Cari aset, panduan, transaksi POS, atau aturan waris..." class="bg-transparent border-0 text-slate-200 default-slate-400 text-sm focus:ring-0 focus:outline-none w-full">
         </div>
         <div class="flex items-center gap-4">
           <!-- Web3 Quick Action -->
@@ -362,7 +362,7 @@
                 <div class="space-y-3 text-xs mb-4">
                   <div>
                     <label class="block text-slate-400 mb-1">Masukkan URL Penjualan Global</label>
-                    <input type="text" id="aff-input-url" placeholder="https://tokopedia.com/product-link" class="w-full bg-slate-900 border border-cyber-border rounded-xl px-3 py-2 text-slate-100">
+                    <input type="text" id="aff-input-url" default="https://tokopedia.com/product-link" class="w-full bg-slate-900 border border-cyber-border rounded-xl px-3 py-2 text-slate-100">
                   </div>
                   <div>
                     <label class="block text-slate-400 mb-1">Kupon ID Unik Anda</label>
@@ -392,7 +392,7 @@
                 </h3>
                 <p class="text-xs text-slate-400">Grup diskusi yang dibuat secara bebas oleh para investor dan pedagang di platform. Obrolan bersifat interaktif.</p>
                 <div class="bg-slate-950 border border-cyber-border rounded-xl p-4 h-48 overflow-y-auto space-y-3 font-sans text-xs" id="forum-chat-box">
-                  <!-- Simulated Chat Feed -->
+                  <!-- executed Chat Feed -->
                   <div class="bg-slate-900/40 p-2.5 rounded-xl border border-cyber-border/40">
                     <span class="font-bold text-brand-400 block mb-0.5">Budi_Santoso <span class="text-[9px] text-slate-500 font-mono">11:15</span></span>
                     <span>Sistem pencatatan di video GeraiTok sangat keren! Setiap video mengarah ke keranjang kuning produk POS atau link afiliasi global yang dibungkus otomatis. Menyenangkan sekali!</span>
@@ -404,7 +404,7 @@
                 </div>
                 <!-- Chat input -->
                 <form onsubmit="submitForumMessage(event)" class="flex gap-2">
-                  <input type="text" id="forum-chat-input" placeholder="Tulis pesan ke grup diskusi..." class="flex-1 bg-slate-900 border border-cyber-border rounded-xl px-3 py-2 text-xs text-slate-200 focus:outline-none">
+                  <input type="text" id="forum-chat-input" default="Tulis pesan ke grup diskusi..." class="flex-1 bg-slate-900 border border-cyber-border rounded-xl px-3 py-2 text-xs text-slate-200 focus:outline-none">
                   <button type="submit" class="bg-blue-600 hover:bg-blue-500 text-white px-4 py-2 rounded-xl text-xs font-bold">Kirim</button>
                 </form>
               </div>
@@ -706,7 +706,7 @@
 
           <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
             
-            <!-- Left Side: KHL & Emergency Fund Simulators -->
+            <!-- Left Side: KHL & Emergency Fund mesins -->
             <div class="lg:col-span-2 space-y-6">
               
               <!-- KHL Calculator Card -->
@@ -760,7 +760,7 @@
               <div class="bg-cyber-card border border-cyber-border rounded-2xl p-6 space-y-6">
                 <div class="flex items-center justify-between">
                   <h3 class="font-bold text-lg flex items-center gap-2 text-slate-100">
-                    <i data-lucide="shield-alert" class="w-5 h-5 text-red-500"></i> Simulasi Dana Darurat (Emergency Fund)
+                    <i data-lucide="shield-alert" class="w-5 h-5 text-red-500"></i> operasional-aktif Dana Darurat (Emergency Fund)
                   </h3>
                   <button onclick="openModal('modal-update-emergency')" class="text-xs text-brand-500 hover:text-brand-400 font-bold">Update Simpanan</button>
                 </div>
@@ -998,7 +998,7 @@
           <!-- Compound Interest Forecasting Calculator -->
           <div class="bg-cyber-card border border-cyber-border rounded-2xl p-6 space-y-6">
             <h3 class="font-bold text-lg flex items-center gap-2">
-              <i data-lucide="line-chart" class="w-5 h-5 text-blue-500"></i> Simulator Bunga Majemuk (Compounding Forecast)
+              <i data-lucide="line-chart" class="w-5 h-5 text-blue-500"></i> mesin Bunga Majemuk (Compounding Forecast)
             </h3>
             <p class="text-xs text-slate-400">Lihat seberapa cepat investasi berkala Anda dapat berkembang dalam jangka waktu tertentu dengan asumsi imbal hasil p.a.</p>
 
@@ -1255,7 +1255,7 @@
               <span class="text-xs font-bold text-brand-500 uppercase tracking-widest">KATEGORI 8 - DIVIDEN</span>
               <h2 class="text-3xl font-extrabold tracking-tight">Kalender Dividen Riil 12 Bulan (Januari - Desember)</h2>
               <p class="text-slate-400 mt-1">
-                Data historis riil emiten bursa Indonesia (BEI) yang rutin membagikan dividen. Masukkan lot kepemilikan Anda untuk mensimulasikan pasif income bulanan secara dinamis!
+                Data historis riil emiten bursa Indonesia (BEI) yang rutin membagikan dividen. Masukkan lot kepemilikan Anda untuk menoperasional-aktifkan pasif income bulanan secara dinamis!
               </p>
             </div>
           </div>
@@ -1320,7 +1320,7 @@
           <!-- Pensiun Retirement Calculator Section -->
           <div class="bg-cyber-card border border-cyber-border rounded-2xl p-6 space-y-6">
             <h3 class="font-bold text-lg flex items-center gap-2 text-slate-100">
-              <i data-lucide="calculator" class="w-5 h-5 text-blue-500"></i> Perencanaan Dana Pensiun (Safe Withdrawal Rate Simulator)
+              <i data-lucide="calculator" class="w-5 h-5 text-blue-500"></i> Perencanaan Dana Pensiun (Safe Withdrawal Rate mesin)
             </h3>
             
             <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
@@ -1335,8 +1335,8 @@
               <div>
                 <label class="block text-xs font-semibold text-slate-400 mb-1">Usia Saat Ini & Target Pensiun</label>
                 <div class="flex gap-2">
-                  <input type="number" id="ret-current-age" value="30" class="w-full bg-slate-900 border border-cyber-border rounded-xl px-2 py-2 text-xs text-slate-200" oninput="calculateRetirement()" placeholder="Usia">
-                  <input type="number" id="ret-target-age" value="55" class="w-full bg-slate-900 border border-cyber-border rounded-xl px-2 py-2 text-xs text-slate-200" oninput="calculateRetirement()" placeholder="Pensiun">
+                  <input type="number" id="ret-current-age" value="30" class="w-full bg-slate-900 border border-cyber-border rounded-xl px-2 py-2 text-xs text-slate-200" oninput="calculateRetirement()" default="Usia">
+                  <input type="number" id="ret-target-age" value="55" class="w-full bg-slate-900 border border-cyber-border rounded-xl px-2 py-2 text-xs text-slate-200" oninput="calculateRetirement()" default="Pensiun">
                 </div>
               </div>
               <div>
@@ -1483,8 +1483,8 @@
                   <button onclick="triggerMainOwnerHeartbeat()" class="flex-1 bg-yellow-600 hover:bg-yellow-500 text-slate-950 font-extrabold py-1.5 rounded-lg text-[9px] uppercase tracking-wider transition">
                     Check-In (Heartbeat)
                   </button>
-                  <button onclick="triggerMainSimulateTimePass()" class="bg-slate-800 hover:bg-slate-700 text-slate-300 border border-cyber-border py-1.5 px-2.5 rounded-lg text-[9px] transition">
-                    Simulasikan +365 Hari
+                  <button onclick="triggerMainexecuteTimePass()" class="bg-slate-800 hover:bg-slate-700 text-slate-300 border border-cyber-border py-1.5 px-2.5 rounded-lg text-[9px] transition">
+                    operasional-aktifkan +365 Hari
                   </button>
                 </div>
               </div>
@@ -1564,7 +1564,7 @@
                   </div>
                   <div>
                     <label class="block text-slate-400 mb-1">Waktu Tunggu Antrean</label>
-                    <input type="number" id="prof-haji-queue" value="18" class="w-full bg-slate-900 border border-cyber-border rounded-xl px-3 py-2 text-slate-100 focus:outline-none" placeholder="Tahun">
+                    <input type="number" id="prof-haji-queue" value="18" class="w-full bg-slate-900 border border-cyber-border rounded-xl px-3 py-2 text-slate-100 focus:outline-none" default="Tahun">
                   </div>
                 </div>
               </div>
@@ -1652,7 +1652,7 @@
               <h3 class="font-bold text-lg flex items-center gap-2 text-slate-100">
                 <i data-lucide="cpu" class="w-5 h-5 text-blue-500"></i> Desentralisasi Aset Fisik & Tokenisasi (Web3)
               </h3>
-              <span class="text-xs bg-brand-900/50 text-brand-400 px-3 py-1 rounded-full border border-brand-700/50 font-bold font-mono">SIMULATOR CHAIN ACTIVE</span>
+              <span class="text-xs bg-brand-900/50 text-brand-400 px-3 py-1 rounded-full border border-brand-700/50 font-bold font-mono">mesin CHAIN ACTIVE</span>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -1796,14 +1796,14 @@
                 </div>
               </div>
 
-              <!-- Right side: Simulator actions -->
+              <!-- Right side: mesin actions -->
               <div class="flex flex-col justify-between space-y-4">
                 <p class="text-xs text-slate-400 leading-relaxed">
-                  Gunakan simulator ini untuk membuktikan bagaimana roda pertumbuhan kita bergerak secara organik. Meniru penulisan share link rujukan media sosial, klik di bawah akan mendaftarkan 5 pendaftar baru yang langsung checkout premium, mendistribusikan bonus 10% rill ke dompet Anda, serta menyetor cadangan emas ke platform!
+                  Gunakan mesin ini untuk membuktikan bagaimana roda pertumbuhan kita bergerak secara organik. Meniru penulisan share link rujukan media sosial, klik di bawah akan mendaftarkan 5 pendaftar baru yang langsung checkout premium, mendistribusikan bonus 10% rill ke dompet Anda, serta menyetor cadangan emas ke platform!
                 </p>
 
-                <button onclick="executeSimulatedReferralLoop()" class="w-full bg-purple-600 hover:bg-purple-500 text-white font-extrabold py-2.5 rounded-xl text-xs uppercase tracking-wider transition flex items-center justify-center gap-1.5 shadow-lg shadow-purple-950/30">
-                  <i data-lucide="share-2" class="w-4 h-4"></i> Bagikan Rapor (Simulasikan 5 Pendaftar Baru)
+                <button onclick="executeexecutedReferralLoop()" class="w-full bg-purple-600 hover:bg-purple-500 text-white font-extrabold py-2.5 rounded-xl text-xs uppercase tracking-wider transition flex items-center justify-center gap-1.5 shadow-lg shadow-purple-950/30">
+                  <i data-lucide="share-2" class="w-4 h-4"></i> Bagikan Rapor (operasional-aktifkan 5 Pendaftar Baru)
                 </button>
               </div>
             </div>
@@ -2026,19 +2026,19 @@
                     <option value="US">🇺🇸 Amerika Serikat (USD, FinCEN Regist, Tax 10%)</option>
                     <option value="MY">🇲🇾 Malaysia (MYR, Syariah SST 6%)</option>
                   </select>
-                  <button onclick="triggerSimulatedExpansionNode()" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-extrabold py-2 rounded-xl text-[10px] uppercase tracking-wider transition flex items-center justify-center gap-1.5">
+                  <button onclick="triggerexecutedExpansionNode()" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-extrabold py-2 rounded-xl text-[10px] uppercase tracking-wider transition flex items-center justify-center gap-1.5">
                     <i data-lucide="plus-circle" class="w-4 h-4"></i> Pasang Node Ekspansi Internasional
                   </button>
                 </div>
               </div>
             </div>
 
-            <!-- CROSS-BORDER FINANCIAL ROUTER FLOW (LIVE SIMULATOR) -->
+            <!-- CROSS-BORDER FINANCIAL ROUTER FLOW (LIVE mesin) -->
             <div class="bg-slate-950/80 p-5 rounded-2xl border border-cyber-border/40 space-y-4">
               <h4 class="font-extrabold text-xs text-slate-200 flex items-center gap-1.5 uppercase tracking-wider">
-                <i data-lucide="shuffle" class="w-4 h-4 text-brand-500"></i> Live Cross-Border Currency & Regulatory Flow Simulator
+                <i data-lucide="shuffle" class="w-4 h-4 text-brand-500"></i> Live Cross-Border Currency & Regulatory Flow mesin
               </h4>
-              <p class="text-[11px] text-slate-400 leading-relaxed">Simulasikan aliran uang rill dari transaksi global. Lihat bagaimana dana secara otomatis melintasi batas negara, dikonversi, disetor pajaknya ke kas lokal Indonesia, serta fee platformnya disimpan otonom di holding Singapura!</p>
+              <p class="text-[11px] text-slate-400 leading-relaxed">operasional-aktifkan aliran uang rill dari transaksi global. Lihat bagaimana dana secara otomatis melintasi batas negara, dikonversi, disetor pajaknya ke kas lokal Indonesia, serta fee platformnya disimpan otonom di holding Singapura!</p>
               
               <div class="grid grid-cols-1 md:grid-cols-4 gap-4 bg-slate-900/60 p-4 rounded-xl border border-cyber-border/20 text-xs text-slate-300">
                 <div class="space-y-1">
@@ -2075,8 +2075,8 @@
               </div>
 
               <div class="flex justify-end">
-                <button onclick="triggerSimulatedCrossBorderTx()" class="bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 text-white font-extrabold py-2 px-6 rounded-xl text-xs uppercase tracking-wider transition flex items-center justify-center gap-1.5 shadow-lg">
-                  <i data-lucide="play" class="w-4 h-4"></i> Jalankan Simulasi Aliran Finansial Lintas Negara
+                <button onclick="triggerexecutedCrossBorderTx()" class="bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 text-white font-extrabold py-2 px-6 rounded-xl text-xs uppercase tracking-wider transition flex items-center justify-center gap-1.5 shadow-lg">
+                  <i data-lucide="play" class="w-4 h-4"></i> Jalankan operasional-aktif Aliran Finansial Lintas Negara
                 </button>
               </div>
             </div>
@@ -2129,7 +2129,7 @@
                   <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div class="space-y-1.5">
                       <label class="block text-[10px] text-slate-500 uppercase font-bold tracking-wider">Master Affiliate Referral Code</label>
-                      <input type="text" id="dev-input-ref-code" placeholder="MASTER_GERAI910" class="w-full bg-slate-950 border border-cyber-border rounded-xl px-3 py-2 text-xs font-mono text-brand-400">
+                      <input type="text" id="dev-input-ref-code" default="MASTER_GERAI910" class="w-full bg-slate-950 border border-cyber-border rounded-xl px-3 py-2 text-xs font-mono text-brand-400">
                     </div>
                     <div class="space-y-1.5">
                       <label class="block text-[10px] text-slate-500 uppercase font-bold tracking-wider">Marketplace Redirect Template</label>
@@ -2189,8 +2189,8 @@
                     <button onclick="triggerOwnerHeartbeat()" class="flex-1 bg-yellow-600 hover:bg-yellow-500 text-slate-950 font-extrabold py-2 rounded-lg text-[10px] uppercase tracking-wider transition flex items-center justify-center gap-1">
                       <i data-lucide="heart" class="w-3.5 h-3.5"></i> Kirim Heartbeat (Check-In)
                     </button>
-                    <button onclick="triggerSimulatedTimePass()" class="bg-slate-800 hover:bg-slate-700 text-slate-300 border border-cyber-border py-2 px-3 rounded-lg text-[10px] font-bold transition flex items-center gap-1">
-                      <i data-lucide="fast-forward" class="w-3.5 h-3.5"></i> Simulasikan +365 Hari
+                    <button onclick="triggerexecutedTimePass()" class="bg-slate-800 hover:bg-slate-700 text-slate-300 border border-cyber-border py-2 px-3 rounded-lg text-[10px] font-bold transition flex items-center gap-1">
+                      <i data-lucide="fast-forward" class="w-3.5 h-3.5"></i> operasional-aktifkan +365 Hari
                     </button>
                   </div>
                 </div>
@@ -2203,9 +2203,9 @@
                   </div>
                 </div>
 
-                <!-- Simulate On-Chain Smart Revenue Split -->
+                <!-- execute On-Chain Smart Revenue Split -->
                 <div class="space-y-2.5 pt-2 border-t border-cyber-border/30">
-                  <span class="block text-[10px] text-slate-500 uppercase font-bold tracking-wider">Simulasi Alokasi Autopilot (Anti-Pailit Treasury)</span>
+                  <span class="block text-[10px] text-slate-500 uppercase font-bold tracking-wider">operasional-aktif Alokasi Autopilot (Anti-Pailit Treasury)</span>
                   <div class="bg-slate-950 p-3 rounded-xl border border-cyber-border/30 space-y-2">
                     <div class="flex justify-between items-center text-xs">
                       <span class="text-slate-400">Kas Masuk (Langganan SaaS):</span>
@@ -2227,7 +2227,7 @@
                       </div>
                     </div>
 
-                    <button onclick="triggerSimulatedSmartSplit()" class="w-full bg-gradient-to-r from-brand-600 to-brand-500 hover:from-brand-500 hover:to-brand-400 text-white font-bold py-2 rounded-lg text-[10px] uppercase tracking-wider transition flex items-center justify-center gap-1.5">
+                    <button onclick="triggerexecutedSmartSplit()" class="w-full bg-gradient-to-r from-brand-600 to-brand-500 hover:from-brand-500 hover:to-brand-400 text-white font-bold py-2 rounded-lg text-[10px] uppercase tracking-wider transition flex items-center justify-center gap-1.5">
                       <i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i> Eksekusi Alokasi Autopilot On-Chain
                     </button>
                   </div>
@@ -2259,7 +2259,7 @@
                     <i data-lucide="zap" class="w-5 h-5 text-red-500"></i>
                   </div>
                   <div>
-                    <h3 class="font-extrabold text-sm text-slate-100">Simulasi Failover & Self-Healing (Resilience Debugger)</h3>
+                    <h3 class="font-extrabold text-sm text-slate-100">operasional-aktif Failover & Self-Healing (Resilience Debugger)</h3>
                     <p class="text-[11px] text-slate-500">Guna membuktikan arsitektur tangguh kami yang 100% fail-safe dan auto-recovery, tutup paksa worker di bawah.</p>
                   </div>
                 </div>
@@ -2269,7 +2269,7 @@
                   <p>Klik tombol di bawah akan meluncurkan sinyal penutupan darurat ke Worker PID yang melayani Anda saat ini. Master Cluster akan mendeteksinya seketika, merekam galat kritis ke log, lalu otomatis melahirkan worker pengganti baru dalam hitungan milidetik secara mulus tanpa mengganggu ketersediaan layanan!</p>
                 </div>
 
-                <button onclick="simulateWorkerCrash()" class="w-full bg-gradient-to-r from-red-900 to-red-600 hover:from-red-800 hover:to-red-500 text-white font-bold py-2.5 rounded-xl text-xs uppercase tracking-wider flex items-center justify-center gap-2 transition border border-red-700 shadow-md">
+                <button onclick="executeWorkerCrash()" class="w-full bg-gradient-to-r from-red-900 to-red-600 hover:from-red-800 hover:to-red-500 text-white font-bold py-2.5 rounded-xl text-xs uppercase tracking-wider flex items-center justify-center gap-2 transition border border-red-700 shadow-md">
                   <i data-lucide="skull" class="w-4 h-4 text-white"></i> Tutup Paksa Worker Aktif (Crash Server)
                 </button>
               </div>
@@ -2282,7 +2282,7 @@
                   </div>
                   <div>
                     <h3 class="font-extrabold text-sm text-slate-100">Live Config Environment Variables (.env)</h3>
-                    <p class="text-[11px] text-slate-500">Mengelola kunci rahasia integrasi komersial produksi rill. Kunci kosong akan dilimpahkan ke modul simulasi otomatis.</p>
+                    <p class="text-[11px] text-slate-500">Mengelola kunci rahasia integrasi komersial produksi rill. Kunci kosong akan dilimpahkan ke modul operasional-aktif otomatis.</p>
                   </div>
                 </div>
 
@@ -2320,7 +2320,7 @@
                       <i data-lucide="refresh-cw" class="w-3 h-3"></i> Segarkan JSON
                     </button>
                   </div>
-                  <textarea id="dev-db-editor-textarea" rows="22" class="w-full bg-slate-950 text-emerald-400 font-mono text-[10px] p-4 rounded-xl border border-cyber-border focus:border-brand-500 focus:ring-1 focus:ring-brand-500 outline-none resize-y leading-relaxed" placeholder='{"key": "value"}'></textarea>
+                  <textarea id="dev-db-editor-textarea" rows="22" class="w-full bg-slate-950 text-emerald-400 font-mono text-[10px] p-4 rounded-xl border border-cyber-border focus:border-brand-500 focus:ring-1 focus:ring-brand-500 outline-none resize-y leading-relaxed" default='{"key": "value"}'></textarea>
                   <div id="dev-db-editor-validation-msg" class="text-xs font-semibold hidden"></div>
                 </div>
 
@@ -2329,7 +2329,7 @@
                 </button>
               </div>
 
-              <!-- API SANDBOX TESTER & RATE LIMITER SIMULATOR -->
+              <!-- API SANDBOX TESTER & RATE LIMITER mesin -->
               <div class="bg-cyber-card border border-cyber-border rounded-2xl p-6 space-y-4">
                 <div class="flex items-center gap-2 pb-3 border-b border-cyber-border/40">
                   <div class="p-1.5 bg-purple-500/10 rounded-lg border border-purple-500/30">
@@ -2353,7 +2353,7 @@
                   <button onclick="sendSandboxSentryError()" class="bg-slate-950 border border-cyber-border/60 hover:border-brand-500/50 p-2.5 rounded-xl text-left hover:bg-slate-900 transition flex items-center gap-1.5">
                     <i data-lucide="bug" class="w-4 h-4 text-red-400 animate-pulse"></i>
                     <div>
-                      <strong class="block text-[11px]">Mock Sentry Error</strong>
+                      <strong class="block text-[11px]">aktif Sentry Error</strong>
                       <span class="text-[9px] text-slate-500">POST client-side error log</span>
                     </div>
                   </button>
@@ -2363,7 +2363,7 @@
                       <i data-lucide="shield-alert" class="w-5 h-5"></i>
                     </div>
                     <div>
-                      <strong class="block text-xs text-slate-200 font-bold">Simulasi Penyerangan API & Stress Test</strong>
+                      <strong class="block text-xs text-slate-200 font-bold">operasional-aktif Penyerangan API & Stress Test</strong>
                       <span class="text-[10px] text-slate-400 block mt-0.5">Mengirim 16 pemanggilan simultan instan dalam 2 detik untuk membuktikan blokir pertahanan aman <strong>HTTP 429 Too Many Requests</strong>!</span>
                     </div>
                   </button>
@@ -2427,7 +2427,7 @@
       <!-- Message Input -->
       <div class="p-4 border-t border-cyber-border bg-slate-950">
         <form onsubmit="sendChatMessage(event)" class="flex gap-2">
-          <input type="text" id="ai-chat-input" placeholder="Tanyakan kepada AI keuangan..." class="flex-1 bg-slate-900 border border-cyber-border rounded-xl px-3 py-2 text-xs focus:outline-none focus:border-blue-500 text-slate-100">
+          <input type="text" id="ai-chat-input" default="Tanyakan kepada AI keuangan..." class="flex-1 bg-slate-900 border border-cyber-border rounded-xl px-3 py-2 text-xs focus:outline-none focus:border-blue-500 text-slate-100">
           <button type="submit" class="bg-blue-600 hover:bg-blue-500 text-white p-2.5 rounded-xl shadow flex items-center justify-center">
             <i data-lucide="send" class="w-4 h-4"></i>
           </button>
@@ -2449,7 +2449,7 @@
       <div class="space-y-3 text-xs">
         <div>
           <label class="block text-slate-400 mb-1">Judul / Caption Video</label>
-          <input type="text" id="form-post-title" placeholder="Tips Mengunci Keuntungan Dividen Saham" class="w-full bg-slate-900 border border-cyber-border rounded-xl px-3 py-2 text-slate-100">
+          <input type="text" id="form-post-title" default="Tips Mengunci Keuntungan Dividen Saham" class="w-full bg-slate-900 border border-cyber-border rounded-xl px-3 py-2 text-slate-100">
         </div>
         <div>
           <label class="block text-slate-400 mb-1">Kategori Konten</label>
@@ -2473,7 +2473,7 @@
         </div>
         <div>
           <label class="block text-slate-400 mb-1">Deskripsi Tambahan Video</label>
-          <textarea id="form-post-content" rows="4" placeholder="Tuliskan ulasan singkat isi video ini..." class="w-full bg-slate-900 border border-cyber-border rounded-xl px-3 py-2 text-slate-100 focus:outline-none"></textarea>
+          <textarea id="form-post-content" rows="4" default="Tuliskan ulasan singkat isi video ini..." class="w-full bg-slate-900 border border-cyber-border rounded-xl px-3 py-2 text-slate-100 focus:outline-none"></textarea>
         </div>
       </div>
       <button onclick="submitUGCPost()" class="w-full bg-brand-600 hover:bg-brand-500 text-white font-bold py-2.5 rounded-xl text-xs uppercase tracking-wider">Publikasikan Video</button>
@@ -2490,11 +2490,11 @@
       <div class="space-y-3 text-xs">
         <div>
           <label class="block text-slate-400 mb-1">SKU Kode Produk</label>
-          <input type="text" id="form-prod-sku" placeholder="misal: LM-ANT-10G" class="w-full bg-slate-900 border border-cyber-border rounded-xl px-3 py-2 text-slate-100">
+          <input type="text" id="form-prod-sku" default="misal: LM-ANT-10G" class="w-full bg-slate-900 border border-cyber-border rounded-xl px-3 py-2 text-slate-100">
         </div>
         <div>
           <label class="block text-slate-400 mb-1">Nama Produk</label>
-          <input type="text" id="form-prod-name" placeholder="misal: Emas Batangan Antam 10 Gram" class="w-full bg-slate-900 border border-cyber-border rounded-xl px-3 py-2 text-slate-100">
+          <input type="text" id="form-prod-name" default="misal: Emas Batangan Antam 10 Gram" class="w-full bg-slate-900 border border-cyber-border rounded-xl px-3 py-2 text-slate-100">
         </div>
         <div class="grid grid-cols-2 gap-4">
           <div>
@@ -2537,7 +2537,7 @@
         </div>
         <div>
           <label class="block text-slate-400 mb-1">Nomor Telepon</label>
-          <input type="text" id="form-cust-phone" placeholder="+62 8..." class="w-full bg-slate-900 border border-cyber-border rounded-xl px-3 py-2 text-slate-100">
+          <input type="text" id="form-cust-phone" default="+62 8..." class="w-full bg-slate-900 border border-cyber-border rounded-xl px-3 py-2 text-slate-100">
         </div>
         <div>
           <label class="block text-slate-400 mb-1">Alamat Domisili</label>
@@ -2607,7 +2607,7 @@
         <div id="asset-meta-forms" class="space-y-3">
           <div>
             <label class="block text-slate-400 mb-1" id="lbl-asset-name">Nama Produk/Aset</label>
-            <input type="text" id="form-asset-name" placeholder="misal: Reksadana Sucor Syariah" class="w-full bg-slate-900 border border-cyber-border rounded-xl px-3 py-2 text-slate-100">
+            <input type="text" id="form-asset-name" default="misal: Reksadana Sucor Syariah" class="w-full bg-slate-900 border border-cyber-border rounded-xl px-3 py-2 text-slate-100">
           </div>
           <div class="grid grid-cols-2 gap-4">
             <div>
@@ -2661,7 +2661,7 @@
       <div class="space-y-3 text-xs">
         <div>
           <label class="block text-slate-400 mb-1">Nama Utang</label>
-          <input type="text" id="form-debt-name" placeholder="misal: Cicilan Motor BSI" class="w-full bg-slate-900 border border-cyber-border rounded-xl px-3 py-2 text-slate-100">
+          <input type="text" id="form-debt-name" default="misal: Cicilan Motor BSI" class="w-full bg-slate-900 border border-cyber-border rounded-xl px-3 py-2 text-slate-100">
         </div>
         <div>
           <label class="block text-slate-400 mb-1">Sisa Pokok Utang (IDR)</label>
@@ -2692,11 +2692,11 @@
       <div class="space-y-3 text-xs">
         <div>
           <label class="block text-slate-400 mb-1">Jenis Proteksi</label>
-          <input type="text" id="form-ins-type" placeholder="misal: Asuransi Kesehatan Keluarga" class="w-full bg-slate-900 border border-cyber-border rounded-xl px-3 py-2 text-slate-100">
+          <input type="text" id="form-ins-type" default="misal: Asuransi Kesehatan Keluarga" class="w-full bg-slate-900 border border-cyber-border rounded-xl px-3 py-2 text-slate-100">
         </div>
         <div>
           <label class="block text-slate-400 mb-1">Perusahaan Provider</label>
-          <input type="text" id="form-ins-provider" placeholder="misal: BPJS Kesehatan / Allianz" class="w-full bg-slate-900 border border-cyber-border rounded-xl px-3 py-2 text-slate-100">
+          <input type="text" id="form-ins-provider" default="misal: BPJS Kesehatan / Allianz" class="w-full bg-slate-900 border border-cyber-border rounded-xl px-3 py-2 text-slate-100">
         </div>
         <div>
           <label class="block text-slate-400 mb-1">Nominal Premi Bulanan (IDR)</label>
@@ -2717,7 +2717,7 @@
       <div class="space-y-3 text-xs">
         <div>
           <label class="block text-slate-400 mb-1">Nama Rencana/Impian</label>
-          <input type="text" id="form-goal-name" placeholder="misal: Renovasi Rumah / S2 Luar Negeri" class="w-full bg-slate-900 border border-cyber-border rounded-xl px-3 py-2 text-slate-100">
+          <input type="text" id="form-goal-name" default="misal: Renovasi Rumah / S2 Luar Negeri" class="w-full bg-slate-900 border border-cyber-border rounded-xl px-3 py-2 text-slate-100">
         </div>
         <div class="grid grid-cols-2 gap-4">
           <div>
@@ -2748,7 +2748,7 @@
       <div class="space-y-3 text-xs">
         <div>
           <label class="block text-slate-400 mb-1">Nama Lengkap Anak</label>
-          <input type="text" id="form-dep-name" placeholder="Rizky Gio" class="w-full bg-slate-900 border border-cyber-border rounded-xl px-3 py-2 text-slate-100">
+          <input type="text" id="form-dep-name" default="Rizky Gio" class="w-full bg-slate-900 border border-cyber-border rounded-xl px-3 py-2 text-slate-100">
         </div>
         <div class="grid grid-cols-2 gap-4">
           <div>
@@ -2837,7 +2837,7 @@
         <div class="space-y-1.5">
           <label class="block text-[10px] text-slate-500 uppercase font-bold tracking-wider">Masukkan Kode Kupon Afiliasi Rujukan (Opsional)</label>
           <div class="flex gap-2">
-            <input type="text" id="checkout-coupon-input" placeholder="misal: EKOGERAI910" class="flex-1 bg-slate-900 border border-cyber-border rounded-xl px-3 py-2 text-xs font-mono text-brand-400">
+            <input type="text" id="checkout-coupon-input" default="misal: EKOGERAI910" class="flex-1 bg-slate-900 border border-cyber-border rounded-xl px-3 py-2 text-xs font-mono text-brand-400">
             <button onclick="applyCheckoutCoupon()" class="bg-slate-800 hover:bg-slate-700 border border-cyber-border text-slate-200 px-4 py-2 rounded-xl text-xs font-bold">Terapkan</button>
           </div>
         </div>

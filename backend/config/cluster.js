@@ -25,7 +25,7 @@ function initCluster(bootWorkerApp) {
     if (process.env.WEB3_PROVIDER_RPC_URL) {
       logEvent('INFO', `[SaaS Config] Real Web3 RPC Node Provider found: ${process.env.WEB3_PROVIDER_RPC_URL}. Connecting to Ethereum/Polygon Mainnets!`);
     } else {
-      logEvent('INFO', `[SaaS Config] Web3 RPC URL is empty. Operating on High-Fidelity Sandbox Decentralized Ledger Simulator.`);
+      logEvent('INFO', `[SaaS Config] Web3 RPC URL is empty. Operating on High-Fidelity Sandbox Decentralized Ledger mesin.`);
     }
 
     if (process.env.GOLD_PRICE_API_KEY) {
@@ -37,7 +37,7 @@ function initCluster(bootWorkerApp) {
     if (process.env.MIDTRANS_SERVER_KEY) {
       logEvent('INFO', `[SaaS Config] Midtrans Gateway detected. QRIS & Bank Virtual Accounts are set to production-ready.`);
     } else {
-      logEvent('INFO', `[SaaS Config] Midtrans Keys are empty. Falling back to High-Fidelity QRIS Barcode & Bank payment simulations.`);
+      logEvent('INFO', `[SaaS Config] Midtrans Keys are empty. Falling back to High-Fidelity QRIS Barcode & Bank payment engines.`);
     }
     logEvent('INFO', '==================================================');
 

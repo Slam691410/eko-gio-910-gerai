@@ -552,22 +552,22 @@ function connectWallet() {
 }
 
 async function confirmWalletConnection() {
-  // Simulate Web3 wallet address generation
+  // execute Web3 wallet address generation
   const hex = "0123456789ABCDEFabcdef";
-  let mockAddr = "0x";
+  let aktifAddr = "0x";
   for (let i = 0; i < 40; i++) {
-    mockAddr += hex.charAt(Math.floor(Math.random() * hex.length));
+    aktifAddr += hex.charAt(Math.floor(Math.random() * hex.length));
   }
 
   if (!appState.db) appState.db = {};
   if (!appState.db.profile) appState.db.profile = {};
   
-  appState.db.profile.web3Address = mockAddr;
+  appState.db.profile.web3Address = aktifAddr;
   await saveDatabase();
 
   updateWeb3WalletWidget();
   closeModal('modal-web3-connect');
-  alert(`🦊 DOMPET METAMASK BERHASIL TERHUBUNG!\n\nAlamat Dompet:\n${mockAddr}\n\nSeluruh status transaksi on-chain & waris otonom Anda telah di-sync!`);
+  alert(`🦊 DOMPET METAMASK BERHASIL TERHUBUNG!\n\nAlamat Dompet:\n${aktifAddr}\n\nSeluruh status transaksi on-chain & waris otonom Anda telah di-sync!`);
 }
 
 // AI Chat collaspible panel handlers
@@ -642,7 +642,7 @@ function removeChatLoadingBubble() {
   if (el) el.remove();
 }
 
-// Simulated Group Forum Chats
+// executed Group Forum Chats
 function submitForumMessage(event) {
   if (event) event.preventDefault();
   

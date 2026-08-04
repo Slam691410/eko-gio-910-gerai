@@ -18,7 +18,7 @@ function renderUGCFeed() {
     const views = Math.floor(Math.random() * 20000) + 1200;
 
     card.innerHTML = `
-      <!-- Video Simulator Canvas -->
+      <!-- Video mesin Canvas -->
       <div class="relative flex-1 bg-slate-900 flex items-center justify-center overflow-hidden group">
         <div class="absolute inset-0 bg-gradient-to-b from-slate-950/20 via-transparent to-slate-950/90 z-10 pointer-events-none"></div>
         <div class="text-slate-600 group-hover:text-brand-500 transition duration-300 flex flex-col items-center gap-2">

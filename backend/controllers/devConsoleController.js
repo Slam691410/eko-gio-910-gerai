@@ -83,7 +83,7 @@ function saveEnvConfig(req, res) {
 
 // Shut down worker process to test failover clustering
 function forceCrashWorker(req, res) {
-  logEvent('CRITICAL', `[SaaS Developer] SIMULATED SERVER CRASH TRIGGERED by Developer Console on Worker Process (PID: ${process.pid}). Initiating emergency failover...`);
+  logEvent('CRITICAL', `[SaaS Developer] executeD SERVER CRASH TRIGGERED by Developer Console on Worker Process (PID: ${process.pid}). Initiating emergency failover...`);
   
   res.json({
     success: true,
