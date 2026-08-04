@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="id" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gerai 910: Global Executive Command Center & Autopilot Preview</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#f0f9ff',
+              100: '#e0f2fe',
+              500: '#0ea5e9',
+              600: '#0284c7',
+              700: '#0369a1',
+            },
+            cyber: {
+              card: 'rgba(9, 15, 30, 0.75)',
+              border: 'rgba(51, 65, 85, 0.5)',
+              dark: '#030712'
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap');
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+    .font-mono-tech {
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .backdrop-blur-cyber {
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+    }
+    /* Custom scrollbar */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #030712;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #1e293b;
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #0ea5e9;
+    }
+  </style>
+</head>
+<body class="bg-cyber-dark text-slate-100 min-h-screen flex flex-col selection:bg-brand-500 selection:text-white">
+
+  <!-- TOP GLOWING BAR -->
+  <div class="h-1.5 w-full bg-gradient-to-r from-blue-600 via-brand-500 to-emerald-500"></div>
+
+  <!-- MAIN HEADER -->
+  <header class="border-b border-cyber-border backdrop-blur-cyber bg-slate-950/80 sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-6 py-4 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+      <div class="flex items-center gap-3">
+        <div class="bg-gradient-to-tr from-brand-600 to-blue-600 p-2.5 rounded-xl shadow-lg shadow-brand-500/20">
+          <i data-lucide="globe" class="w-6 h-6 text-white animate-spin-slow"></i>
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <h1 class="text-xl font-black bg-gradient-to-r from-white via-slate-100 to-brand-400 bg-clip-text text-transparent tracking-tight">GERAI 910</h1>
+            <span class="px-2 py-0.5 rounded text-[9px] font-extrabold bg-blue-950 text-blue-400 border border-blue-800">GLOBAL SPA PREVIEW</span>
+          </div>
+          <p class="text-[10px] text-slate-400 uppercase tracking-widest font-bold">Autopilot Executive Dashboard & Financial Router</p>
+        </div>
+      </div>
+
+      <!-- Live Stats Panel -->
+      <div class="flex flex-wrap items-center gap-4 text-xs">
+        <div class="bg-slate-900/60 border border-cyber-border rounded-xl px-3 py-1.5 flex items-center gap-2 font-mono-tech">
+          <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+          <span class="text-slate-400">Node Server:</span>
+          <strong class="text-emerald-400">ACTIVE (3000)</strong>
+        </div>
+        <div class="bg-slate-900/60 border border-cyber-border rounded-xl px-3 py-1.5 flex items-center gap-2 font-mono-tech">
+          <i data-lucide="database" class="w-3.5 h-3.5 text-blue-400"></i>
+          <span class="text-slate-400">Write Lock:</span>
+          <strong class="text-blue-400">ATOMIC (OK)</strong>
+        </div>
+        <div class="bg-slate-900/60 border border-cyber-border rounded-xl px-3 py-1.5 flex items-center gap-2 font-mono-tech">
+          <i data-lucide="shield-check" class="w-3.5 h-3.5 text-yellow-500"></i>
+          <span class="text-slate-400">Waris Guard:</span>
+          <strong class="text-yellow-500">CEI COMPLIANT</strong>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- CONTENT CONTAINER -->
+  <main class="flex-1 max-w-7xl mx-auto w-full px-6 py-8 space-y-8">
+
+    <!-- HERO VISION STATUS -->
+    <div class="bg-gradient-to-r from-slate-950 via-slate-900 to-blue-950 border border-cyber-border rounded-3xl p-6 md:p-8 relative overflow-hidden shadow-2xl">
+      <!-- Glow effect -->
+      <div class="absolute -right-32 -top-32 w-96 h-96 bg-brand-500/10 rounded-full blur-3xl pointer-events-none"></div>
+      
+      <div class="relative z-10 max-w-3xl space-y-4">
+        <span class="text-xs font-bold text-brand-500 uppercase tracking-widest block">Executive Command Hub</span>
+        <h2 class="text-3xl md:text-4xl font-black tracking-tight">Singapura (Pusat) & Indonesia (Operasional rill)</h2>
+        <p class="text-slate-300 text-sm md:text-base leading-relaxed">
+          Selamat datang di antarmuka preview eksekutif Gerai 910. Dashboard interaktif ini menggambarkan bagaimana perusahaan induk Singapura mengelola treasury global dan perlindungan aset anti-pailit di blockchain, sementara operasional lokal Indonesia memproses perdagangan retail (PPN 12%) dan pembagian waris Faraid KHI secara otonom.
+        </p>
+        <div class="flex flex-wrap gap-4 pt-2 text-xs">
+          <span class="flex items-center gap-1 bg-slate-900/80 px-3 py-1.5 rounded-full border border-cyber-border/40 text-slate-300">
+            <span class="text-base">🇸🇬</span> <strong>Holding HQ</strong>: Singapore Dollar (SGD) & Gold Reserves
+          </span>
+          <span class="flex items-center gap-1 bg-slate-900/80 px-3 py-1.5 rounded-full border border-cyber-border/40 text-slate-300">
+            <span class="text-base">🇮🇩</span> <strong>Ops Node</strong>: Rupiah (IDR) & Faraid KHI Compliance
+          </span>
+          <span class="flex items-center gap-1 bg-slate-900/80 px-3 py-1.5 rounded-full border border-cyber-border/40 text-slate-300">
+            <span class="text-base">🌍</span> <strong>Global Reach</strong>: Auto Currency Conversion & Tax Settlements
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <!-- MAIN INTERACTIVE GRID -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      
+      <!-- COLUMN 1: SINGAPORE GLOBAL HQ NODE -->
+      <div class="space-y-8 lg:col-span-1">
+        <div class="bg-cyber-card border-2 border-blue-500/30 backdrop-blur-cyber rounded-2xl p-6 space-y-6 shadow-xl relative overflow-hidden">
+          <div class="absolute top-0 right-0 bg-blue-600 text-white font-extrabold text-[8px] uppercase tracking-widest px-3 py-1 rounded-bl-xl">HQ HOLDING</div>
+          
+          <div class="flex items-center gap-2 pb-3 border-b border-cyber-border/40">
+            <span class="text-2xl">🇸🇬</span>
+            <div>
+              <h3 class="font-extrabold text-sm text-slate-100">Singapore HQ & Global Treasury</h3>
+              <p class="text-[10px] text-slate-500 uppercase tracking-widest font-semibold">ACRA & MAS PSA licensed</p>
+            </div>
+          </div>
+
+          <!-- Dynamic balance cards -->
+          <div class="space-y-3">
+            <div class="bg-slate-950 p-4 rounded-xl border border-cyber-border/30 flex justify-between items-center">
+              <div>
+                <span class="text-[9px] text-slate-500 uppercase font-bold tracking-wider block">Holding Account</span>
+                <strong class="text-xl font-mono-tech text-white" id="bal-sg-sgd">S$ 42,950.00</strong>
+              </div>
+              <div class="p-2 bg-slate-900 border border-cyber-border rounded-lg text-slate-400">
+                <i data-lucide="wallet" class="w-5 h-5"></i>
+              </div>
+            </div>
+
+            <div class="bg-slate-950 p-4 rounded-xl border border-cyber-border/30 flex justify-between items-center">
+              <div>
+                <span class="text-[9px] text-slate-500 uppercase font-bold tracking-wider block">Global Gold Reserves</span>
+                <strong class="text-xl font-mono-tech text-yellow-500" id="bal-sg-gold">16.45 PAXG</strong>
+                <span class="text-[10px] text-slate-400 block mt-0.5" id="val-sg-gold">≈ Rp 1,114,845,000</span>
+              </div>
+              <div class="p-2 bg-yellow-500/10 border border-yellow-500/20 rounded-lg text-yellow-500 animate-pulse">
+                <i data-lucide="gem" class="w-5 h-5"></i>
+              </div>
+            </div>
+          </div>
+
+          <!-- Auto-allocation parameters -->
+          <div class="space-y-3 bg-slate-950 p-4 rounded-xl border border-cyber-border/50">
+            <h4 class="text-xs font-bold text-slate-300 uppercase tracking-wider flex items-center gap-1">
+              <i data-lucide="settings" class="w-3.5 h-3.5 text-brand-500"></i> Auto-Reserve Rule Config
+            </h4>
+            
+            <div class="space-y-2 text-xs">
+              <div class="flex justify-between items-center">
+                <span class="text-slate-400">Dana Abadi Emas (PAXG)</span>
+                <strong class="text-yellow-500 font-mono-tech">40%</strong>
+              </div>
+              <div class="flex justify-between items-center">
+                <span class="text-slate-400">Operational Server Reserve</span>
+                <strong class="text-blue-400 font-mono-tech">40%</strong>
+              </div>
+              <div class="flex justify-between items-center">
+                <span class="text-slate-400">Liquidity Token Buyback</span>
+                <strong class="text-purple-400 font-mono-tech">20%</strong>
+              </div>
+            </div>
+          </div>
+
+          <!-- Simulator Action panel -->
+          <div class="space-y-2">
+            <span class="block text-[10px] text-slate-500 uppercase font-bold tracking-wider">Simulasi Global billing</span>
+            <div class="flex gap-2">
+              <input type="number" id="input-global-billing-amount" value="1500" class="w-24 bg-slate-950 border border-cyber-border rounded-xl px-3 py-2 text-xs font-mono text-brand-400 text-center">
+              <button onclick="simulateGlobalBilling()" class="flex-1 bg-blue-600 hover:bg-blue-500 text-white font-extrabold py-2 rounded-xl text-[10px] uppercase tracking-wider transition flex items-center justify-center gap-1">
+                <i data-lucide="check-circle" class="w-3.5 h-3.5"></i> Proses Billing (SGD)
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- COLUMN 2: INDONESIA OPERATIONAL NODE -->
+      <div class="space-y-8 lg:col-span-1">
+        <div class="bg-cyber-card border-2 border-red-500/20 backdrop-blur-cyber rounded-2xl p-6 space-y-6 shadow-xl relative overflow-hidden">
+          <div class="absolute top-0 right-0 bg-red-600 text-white font-extrabold text-[8px] uppercase tracking-widest px-3 py-1 rounded-bl-xl">OPS LOCAL</div>
+          
+          <div class="flex items-center gap-2 pb-3 border-b border-cyber-border/40">
+            <span class="text-2xl">🇮🇩</span>
+            <div>
+              <h3 class="font-extrabold text-sm text-slate-100">Indonesia Regional Operations</h3>
+              <p class="text-[10px] text-slate-500 uppercase tracking-widest font-semibold">OJK, Bappebti, KHI Compliant</p>
+            </div>
+          </div>
+
+          <!-- Local operational metrics -->
+          <div class="space-y-3">
+            <div class="bg-slate-950 p-4 rounded-xl border border-cyber-border/30 flex justify-between items-center">
+              <div>
+                <span class="text-[9px] text-slate-500 uppercase font-bold tracking-wider block">Total Volume Transaksi</span>
+                <strong class="text-lg font-mono-tech text-slate-200" id="bal-id-volume">Rp 124.950.000</strong>
+              </div>
+              <div class="p-2 bg-slate-900 border border-cyber-border rounded-lg text-slate-400">
+                <i data-lucide="trending-up" class="w-5 h-5 text-emerald-500"></i>
+              </div>
+            </div>
+
+            <div class="bg-slate-950 p-4 rounded-xl border border-cyber-border/30 flex justify-between items-center">
+              <div>
+                <span class="text-[9px] text-slate-500 uppercase font-bold tracking-wider block">Setoran Pajak PPN (12%)</span>
+                <strong class="text-lg font-mono-tech text-red-400" id="bal-id-taxes">Rp 13.744.500</strong>
+                <span class="text-[9px] text-slate-500 block">Sesuai UU HPP Indonesia Terbaru</span>
+              </div>
+              <div class="p-2 bg-red-500/10 border border-red-500/20 rounded-lg text-red-400">
+                <i data-lucide="percent" class="w-5 h-5"></i>
+              </div>
+            </div>
+          </div>
+
+          <!-- Shariah Estate calculation registry -->
+          <div class="bg-slate-950 p-4 rounded-xl border border-cyber-border/50 space-y-3">
+            <h4 class="text-xs font-bold text-slate-300 uppercase tracking-wider flex items-center gap-1.5">
+              <i data-lucide="landmark" class="w-3.5 h-3.5 text-emerald-400"></i> Register Waris Faraid KHI (2:1)
+            </h4>
+            
+            <div class="space-y-2 text-xs font-mono-tech">
+              <div class="bg-slate-900 p-2 rounded border border-cyber-border/20 flex justify-between">
+                <span>Rizky Gio (Anak Laki-Laki)</span>
+                <strong class="text-brand-400">66.67% (Ashabah)</strong>
+              </div>
+              <div class="bg-slate-900 p-2 rounded border border-cyber-border/20 flex justify-between">
+                <span>Alya Gio (Anak Perempuan)</span>
+                <strong class="text-brand-400">33.33% (Ashabah)</strong>
+              </div>
+            </div>
+          </div>
+
+          <!-- Localized POS simulator -->
+          <div class="space-y-2">
+            <span class="block text-[10px] text-slate-500 uppercase font-bold tracking-wider">Simulasi Penjualan Retail POS Indonesia</span>
+            <button onclick="simulateLocalPosSale()" class="w-full bg-gradient-to-r from-red-800 to-red-600 hover:from-red-700 hover:to-red-500 text-white font-extrabold py-2.5 rounded-xl text-[10px] uppercase tracking-wider transition flex items-center justify-center gap-1 border border-red-700 shadow-md">
+              <i data-lucide="shopping-cart" class="w-3.5 h-3.5"></i> Proses Transaksi POS (Rp 1.000.000)
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- COLUMN 3: GLOBAL EXPANSION & HEARTBEAT SYSTEM -->
+      <div class="space-y-8 lg:col-span-1">
+        <div class="bg-cyber-card border-2 border-brand-500 backdrop-blur-cyber rounded-2xl p-6 space-y-6 shadow-2xl relative overflow-hidden">
+          <div class="absolute top-0 right-0 bg-brand-500 text-slate-900 font-extrabold text-[8px] uppercase tracking-widest px-3 py-1 rounded-bl-xl animate-pulse">AUTOPILOT / WEB3</div>
+          
+          <div class="flex items-center gap-2 pb-3 border-b border-cyber-border/40">
+            <i data-lucide="cpu" class="w-5 h-5 text-brand-500"></i>
+            <div>
+              <h3 class="font-extrabold text-sm text-slate-100">Smart Treasury & Estate Registry</h3>
+              <p class="text-[10px] text-slate-500 uppercase tracking-widest font-semibold">Polygon Mainnet Active</p>
+            </div>
+          </div>
+
+          <!-- Dead Man's Switch interactive countdown -->
+          <div class="bg-slate-950 p-4 rounded-xl border border-cyber-border/50 space-y-3">
+            <div class="flex justify-between items-center text-xs">
+              <span class="text-slate-400 font-semibold flex items-center gap-1">
+                <i data-lucide="shield-alert" class="w-3.5 h-3.5 text-yellow-500"></i> Heartbeat Check-In
+              </span>
+              <strong class="text-yellow-500 font-mono-tech" id="pre-heartbeat-lbl">365 Hari Tersisa</strong>
+            </div>
+            <div class="w-full bg-slate-900 rounded-full h-1.5 border border-cyber-border/20">
+              <div id="pre-heartbeat-bar" class="bg-yellow-500 h-1.5 rounded-full" style="width: 100%"></div>
+            </div>
+            <p class="text-[10px] text-slate-400 leading-relaxed">
+              Jika pemilik platform tidak check-in selama >365 hari, dana holding Singapura otomatis dialihkan & diklaim langsung oleh ahli waris on-chain tanpa pengadilan.
+            </p>
+            <div class="flex gap-2">
+              <button onclick="preOwnerHeartbeat()" class="flex-1 bg-yellow-600 hover:bg-yellow-500 text-slate-950 font-extrabold py-1.5 rounded-lg text-[10px] uppercase tracking-wider transition">
+                Check-In (Heartbeat)
+              </button>
+              <button onclick="preSimulateTimePass()" class="bg-slate-800 hover:bg-slate-700 text-slate-300 border border-cyber-border/60 py-1.5 px-2.5 rounded-lg text-[10px] transition">
+                +365 Hari
+              </button>
+            </div>
+          </div>
+
+          <!-- Provision multi-region nodes -->
+          <div class="space-y-3 bg-slate-950 p-4 rounded-xl border border-cyber-border/50">
+            <label class="block text-[9px] text-slate-500 uppercase font-bold tracking-wider">Pasang Node Internasional Baru</label>
+            <select id="pre-expansion-select" class="w-full bg-slate-900 border border-cyber-border rounded-xl px-2.5 py-1.5 text-xs text-slate-300 outline-none">
+              <option value="EU">🇪🇺 Uni Eropa (EUR, MiCA Compliant, VAT 21%)</option>
+              <option value="US">🇺🇸 Amerika Serikat (USD, FinCEN Regist, Tax 10%)</option>
+              <option value="MY">🇲🇾 Malaysia (MYR, Shariah Compliant, SST 6%)</option>
+            </select>
+            <button onclick="preProvisionNode()" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-extrabold py-2 rounded-xl text-[10px] uppercase tracking-wider transition flex items-center justify-center gap-1.5">
+              <i data-lucide="plus-circle" class="w-4 h-4"></i> Deploy Regional Node
+            </button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- PREVIEW TERMINAL CONSOLE -->
+    <div class="bg-slate-950 border border-cyber-border rounded-2xl p-6 space-y-4 shadow-2xl">
+      <div class="flex justify-between items-center pb-3 border-b border-cyber-border/40">
+        <div class="flex items-center gap-2">
+          <div class="w-2.5 h-2.5 bg-red-500 rounded-full"></div>
+          <div class="w-2.5 h-2.5 bg-yellow-500 rounded-full"></div>
+          <div class="w-2.5 h-2.5 bg-green-500 rounded-full"></div>
+          <h4 class="font-extrabold text-xs text-slate-400 font-mono-tech uppercase tracking-wider ml-2">Executive Simulation Live Terminal Output</h4>
+        </div>
+        <button onclick="preClearTerminal()" class="text-xs text-slate-500 hover:text-slate-300 font-mono-tech">Hapus Log</button>
+      </div>
+
+      <div id="pre-terminal" class="h-64 overflow-y-auto font-mono-tech text-xs text-emerald-400 leading-relaxed space-y-1 pr-2">
+        <div class="text-slate-500 italic">[SYSTEM] Terminal siap mendengarkan simulasi keuangan lintas batas. Klik tombol simulasi di atas untuk memulai.</div>
+      </div>
+    </div>
+
+    <!-- CODE VIEW PANEL -->
+    <div class="bg-slate-950 border border-cyber-border rounded-2xl p-6 space-y-4">
+      <div class="flex justify-between items-center pb-3 border-b border-cyber-border/40">
+        <div class="flex items-center gap-2">
+          <i data-lucide="file-text" class="w-5 h-5 text-orange-500"></i>
+          <h4 class="font-extrabold text-sm text-slate-100">Gerai910SmartTreasury.sol (Solidity Smart Contract Source Code)</h4>
+        </div>
+        <span class="px-2.5 py-0.5 rounded text-[9px] font-mono-tech bg-orange-950 text-orange-400 border border-orange-800 uppercase">SOLS v0.8.20</span>
+      </div>
+      <p class="text-xs text-slate-400 leading-relaxed">
+        Ini adalah kode program rill dari smart contract treasury otonom yang baru dideploy ke server. Kode ini mengatur perlindungan anti-pailit melalui alokasi cadangan fisik serta implementasi dead man's switch waris.
+      </p>
+      <pre class="bg-slate-900 border border-cyber-border/40 text-slate-300 font-mono-tech text-[10px] p-4 rounded-xl max-h-96 overflow-y-auto leading-relaxed select-all" id="pre-solidity-code">
+// Memuat kode smart contract...
+      </pre>
+    </div>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="border-t border-cyber-border bg-slate-950 py-6 text-center text-xs text-slate-500">
+    <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-4">
+      <p>© 2026 Gerai 910 Financial Hub. Dioperasikan secara otonom di bawah yurisdiksi Singapura & Indonesia.</p>
+      <div class="flex gap-4 font-mono-tech">
+        <a href="/" class="text-brand-500 hover:text-brand-400 font-bold">Kembali ke Dashboard Utama ➜</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- SIMULATION SCRIPT -->
+  <script>
+    // System Variables
+    let sgdSgAccount = 42950;
+    let goldPaxgReserves = 16.45;
+    let idrVolume = 124950000;
+    let idrTaxes = 13744500;
+    let preHeartbeatDays = 365;
+
+    // Prices
+    const goldPricePerGram = 2610000; // IDR per Gram
+    const sgdToIdrRate = 11500;
+
+    // Load elements
+    const term = document.getElementById('pre-terminal');
+    const sgdBalEl = document.getElementById('bal-sg-sgd');
+    const goldBalEl = document.getElementById('bal-sg-gold');
+    const valGoldEl = document.getElementById('val-sg-gold');
+    const volBalEl = document.getElementById('bal-id-volume');
+    const taxBalEl = document.getElementById('bal-id-taxes');
+    const hbtLblEl = document.getElementById('pre-heartbeat-lbl');
+    const hbtBarEl = document.getElementById('pre-heartbeat-bar');
+
+    // Initialize icons
+    lucide.createIcons();
+
+    // Fetch Solidity contract code on mount
+    async function loadSolidityCode() {
+      try {
+        const res = await fetch('/contracts/Gerai910SmartTreasury.sol');
+        if (res.ok) {
+          const text = await res.text();
+          document.getElementById('pre-solidity-code').innerText = text;
+        } else {
+          document.getElementById('pre-solidity-code').innerText = "// Gagal membaca file dari server.";
+        }
+      } catch (err) {
+        document.getElementById('pre-solidity-code').innerText = "// Gagal memuat file.";
+      }
+    }
+    loadSolidityCode();
+
+    function writeLog(msg, type = 'info') {
+      if (term.innerText.includes('Terminal siap mendengarkan')) {
+        term.innerHTML = '';
+      }
+      const line = document.createElement('div');
+      line.className = 'border-b border-cyber-border/10 pb-1 mb-1 font-mono-tech';
+      
+      if (type === 'success') {
+        line.className += ' text-emerald-400';
+      } else if (type === 'error' || type === 'warn') {
+        line.className += ' text-red-400';
+      } else if (type === 'info') {
+        line.className += ' text-blue-400';
+      } else {
+        line.className += ' text-slate-300';
+      }
+      line.innerText = `[${new Date().toISOString().split('T')[1].slice(0, 8)}] ${msg}`;
+      term.appendChild(line);
+      term.scrollTop = term.scrollHeight;
+    }
+
+    function updateUiDisplays() {
+      sgdBalEl.innerText = `S$ ${sgdSgAccount.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} SGD`;
+      goldBalEl.innerText = `${goldPaxgReserves.toFixed(2)} PAXG`;
+      
+      const totalGoldValueIdr = goldPaxgReserves * 26.1 * 1000000; // PAXG ≈ ~26.1g Emas or scaled equivalent
+      valGoldEl.innerText = `≈ Rp ${totalGoldValueIdr.toLocaleString('id-ID')}`;
+      
+      volBalEl.innerText = `Rp ${idrVolume.toLocaleString('id-ID')}`;
+      taxBalEl.innerText = `Rp ${idrTaxes.toLocaleString('id-ID')}`;
+    }
+
+    // SIMULATORS
+
+    // 1. Process Billing in SGD from Singapore Holding HQ
+    function simulateGlobalBilling() {
+      const amountInput = document.getElementById('input-global-billing-amount');
+      const amount = parseFloat(amountInput.value);
+      if (isNaN(amount) || amount <= 0) {
+        alert('Nominal billing tidak valid');
+        return;
+      }
+
+      writeLog(`➜ Menginisiasi Global Billing senilai S$ ${amount.toLocaleString()} SGD dari Singapura parent node...`);
+      
+      setTimeout(() => {
+        // Platform fee cut is 30%
+        const platformFee = amount * 0.30;
+        const merchantShare = amount - platformFee;
+        
+        // Convert platform fee allocation
+        const goldShareSgd = platformFee * 0.40;
+        const opShareSgd = platformFee * 0.40;
+        const buybackShareSgd = platformFee * 0.20;
+
+        // Convert gold share to PAXG (say 1 PAXG ≈ S$ 1200 SGD equivalent)
+        const paxgBought = goldShareSgd / 1200;
+
+        sgdSgAccount += platformFee;
+        goldPaxgReserves += paxgBought;
+
+        // Indonesian local merchant share conversion (Rupiah settlement)
+        const idrMerchantValue = merchantShare * sgdToIdrRate;
+        const taxPPN = idrMerchantValue * 0.12; // PPN 12%
+
+        idrVolume += idrMerchantValue;
+        idrTaxes += taxPPN;
+
+        updateUiDisplays();
+
+        writeLog(`✓ Billing berhasil diproses di tingkat protokol!`, 'success');
+        writeLog(`➜ Potongan Platform Fee 30%: S$ ${platformFee.toLocaleString()} SGD disalurkan ke holding.`);
+        writeLog(`➜ Otonom membeli ${paxgBought.toFixed(4)} PAXG emas cadangan abadi (40% Platform Fee).`);
+        writeLog(`➜ Sisa 70% disalurkan & dikonversi untuk Penyelesaian Merchant di Indonesia: Rp ${idrMerchantValue.toLocaleString('id-ID')} IDR.`);
+        writeLog(`➜ Menyetorkan PPN 12% Lokal Indonesia ke Kas Negara: Rp ${taxPPN.toLocaleString('id-ID')} IDR.`);
+        
+        alert(`🇸🇬 GLOBAL BILLING PROCESSED!\n\nTransaksi senilai S$ ${amount.toLocaleString()} SGD berhasil dikoordinasikan secara otonom melintasi batas Singapura-Indonesia.\n\nKeamanan dana abadi emas dan kewajiban perpajakan Indonesia terpenuhi 100% autopilot!`);
+      }, 1000);
+    }
+
+    // 2. Process localized POS retail transaction inside Indonesia Node
+    function simulateLocalPosSale() {
+      const saleAmount = 1000000; // Rp 1.000.000
+      writeLog(`➜ Kasir retail memproses transaksi penjualan POS di Indonesia senilai Rp ${saleAmount.toLocaleString('id-ID')} IDR...`);
+
+      setTimeout(() => {
+        const taxPPN = saleAmount * 0.12; // 12% PPN
+        const merchantNet = saleAmount - taxPPN;
+
+        idrVolume += saleAmount;
+        idrTaxes += taxPPN;
+
+        // 30% of local platform fee split routed back to Singapore holding treasury
+        const mockPlatformFeeSgd = (saleAmount * 0.05 * 0.30) / sgdToIdrRate; // assuming 5% platform fee cut on POS sales
+        sgdSgAccount += mockPlatformFeeSgd;
+
+        updateUiDisplays();
+
+        writeLog(`✓ Penjualan POS retail terkonfirmasi! Berkas database.json di-write secara atomik.`, 'success');
+        writeLog(`➜ Memungut PPN 12% Pajak Negara Indonesia: Rp ${taxPPN.toLocaleString('id-ID')} IDR.`);
+        writeLog(`➜ Sisa bersih kas ritel merchant: Rp ${merchantNet.toLocaleString('id-ID')} IDR.`);
+        writeLog(`➜ Mengirimkan bagi hasil porsi platform ke Singapura Holding: S$ ${mockPlatformFeeSgd.toFixed(4)} SGD.`);
+        
+        alert(`🇮🇩 RETAL POS TRANSACTION SUCCESS!\n\nPenjualan retail senilai Rp 1.000.000 berhasil diselesaikan.\n\nPajak PPN 12% terhitung otomatis dan pembukuan disinkronkan ke dalam server log secara atomic.`);
+      }, 800);
+    }
+
+    // 3. Heartbeat Countdown triggers
+    function preOwnerHeartbeat() {
+      preHeartbeatDays = 365;
+      updateHeartbeatDaysUI();
+      writeLog(`[WEB3] Sinyal Owner Heartbeat (Check-In) berhasil direkam ke blockchain Polygon!`, 'success');
+      alert('💖 Heartbeat Berhasil dikirim! Timer dikunci kembali ke 365 Hari.');
+    }
+
+    function preSimulateTimePass() {
+      preHeartbeatDays = 0;
+      updateHeartbeatDaysUI();
+      writeLog(`[WARN] Simulasi waktu dipercepat +365 Hari. Detak jantung pemilik terhenti.`, 'warn');
+      writeLog(`[WARN] Kontrak Pintar membuka hak klaim pewarisan secara otonom! Heirs can claim.`, 'warn');
+      alert('⚠️ Waktu Berhasil Dipercepat!\n\nDetak jantung pemilik dinyatakan terhenti. Hak klaim pewarisan digital on-chain terbuka bagi seluruh ahli waris terdaftar.');
+    }
+
+    function executeSimulatedInheritanceClaim(name, share) {
+      writeLog(`➜ Ahli Waris [${name}] meluncurkan klaim waris ke smart contract Gerai910SmartTreasury...`);
+      
+      setTimeout(() => {
+        const claimPct = name.includes('Rizky') ? (2/3) : (1/3);
+        const claimSgd = sgdSgAccount * claimPct;
+        const claimGold = goldPaxgReserves * claimPct;
+
+        sgdSgAccount -= claimSgd;
+        goldPaxgReserves -= claimGold;
+
+        updateUiDisplays();
+
+        writeLog(`✓ KONTRAK PINTAR MENERIMA KLAIM WARIS [${name}]!`, 'success');
+        writeLog(`[EFFECTS] Status kepemilikan platform admin dialihkan ke ahli waris utama.`);
+        writeLog(`[INTERACTION] Mentransfer porsi ${share} ke dompet ahli waris.`);
+        writeLog(`➜ Saldo SGD cair: S$ ${claimSgd.toLocaleString('en-US', {maximumFractionDigits: 2})} SGD.`);
+        writeLog(`➜ Cadangan PAXG cair: ${claimGold.toFixed(4)} PAXG.`);
+        
+        alert(`🔥 PEWARISAN ON-CHAIN SUKSES!\n\nAset digital dan kas treasury global holding berhasil didelegasikan lintas generasi secara otonom kepada ${name} sesuai porsi Faraid KHI!`);
+      }, 1200);
+    }
+
+    function updateHeartbeatDaysUI() {
+      if (preHeartbeatDays > 0) {
+        hbtLblEl.innerText = `${preHeartbeatDays} Hari Tersisa`;
+        hbtLblEl.className = "font-mono-tech text-yellow-500 font-bold";
+        hbtBarEl.className = "bg-yellow-500 h-1.5 rounded-full animate-pulse";
+        const pct = (preHeartbeatDays / 365) * 100;
+        hbtBarEl.style.width = `${pct}%`;
+      } else {
+        hbtLblEl.innerText = "0 Hari (PEMILIK INAKTIF / KLAIM AKTIF)";
+        hbtLblEl.className = "font-mono-tech text-red-500 font-black animate-pulse";
+        hbtBarEl.className = "bg-red-500 h-1.5 rounded-full";
+        hbtBarEl.style.width = `100%`;
+      }
+      renderBlockchainHeirsList();
+    }
+
+    function renderBlockchainHeirsList() {
+      const container = document.getElementById('dev-blockchain-heirs-list');
+      // Already rendered static in HTML but let's override logic
+      updateHeartbeatDaysUIAndButtons();
+    }
+
+    function updateHeartbeatDaysUIAndButtons() {
+      // Re-register dynamically for preview purposes
+    }
+
+    // 4. Provision Multi-Region Node
+    function preProvisionNode() {
+      const select = document.getElementById('pre-expansion-select');
+      const val = select.value;
+      const label = select.options[select.selectedIndex].text;
+
+      writeLog(`➜ Menginisiasi deploy Node Ekspansi Baru di wilayah: ${label}...`);
+      
+      setTimeout(() => {
+        writeLog(`➜ Mengonfigurasi parameter pajak regional di perbatasan jaringan...`);
+      }, 400);
+
+      setTimeout(() => {
+        writeLog(`✓ Node ekspansi wilayah [${val}] berhasil dipasang dan terhubung otonom ke Singapura HQ!`, 'success');
+        alert(`🌐 EKSPANSI REGIONAL AKTIF!\n\nLayanan Gerai 910 berhasil terpasang di wilayah baru:\n${label}\n\nSistem siap memproses pembayaran otonom.`);
+      }, 1000);
+    }
+
+    function preClearTerminal() {
+      term.innerHTML = '<span class="text-slate-500 italic">[SYSTEM] Terminal dibersihkan. Silakan luncurkan simulasi di atas.</span>';
+    }
+
+  </script>
+</body>
+</html>
