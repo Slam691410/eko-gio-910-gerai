@@ -273,12 +273,6 @@
           <i data-lucide="award" class="w-4 h-4"></i>
           <span>11. Kemitraan & Afiliasi</span>
         </button>
-
-        <!-- 12. Developer System Admin (DEVELOPER MODE ONLY) -->
-        <button onclick="switchTab('tab-developer')" class="nav-btn w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium text-slate-400 hover:bg-slate-800/50 hover:text-white transition duration-150 hidden" data-tab="tab-developer" id="nav-dev">
-          <i data-lucide="terminal" class="w-4 h-4"></i>
-          <span>12. Developer System Console</span>
-        </button>
       </nav>
 
       <!-- Sidebar Footer -->
@@ -1702,174 +1696,9 @@
               </div>
             </div>
           </div>
-        </section>
+        
 
-        <!-- ==================== TAB 11: MEMBERSHIP & AFILIASI ==================== -->
-        <section id="tab-membership" class="tab-panel hidden space-y-8">
-          <div>
-            <span class="text-xs font-bold text-brand-500 uppercase tracking-widest">KATEGORI 11</span>
-            <h2 class="text-3xl font-extrabold tracking-tight">Membership Premium & Kemitraan Afiliasi</h2>
-            <p class="text-slate-400 mt-1">Kelola lisensi premium Anda, nikmati fitur AI analisis mendalam, serta lacak laporan komisi kemitraan afiliasi.</p>
-          </div>
-
-          <!-- Subscription Plans Grid -->
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            
-            <div class="bg-cyber-card border border-cyber-border rounded-2xl p-6 flex flex-col justify-between relative overflow-hidden">
-              <div class="space-y-4">
-                <span class="text-xs text-slate-400 font-bold uppercase tracking-wider">Free Tier</span>
-                <h3 class="text-xl font-bold">Standard Member</h3>
-                <p class="text-xs text-slate-400">Akses dasar ke pencatat keuangan, asuransi, dan pencatatan waris umum.</p>
-                <div class="text-2xl font-black font-mono">Rp 0 <span class="text-xs text-slate-500 font-semibold font-sans">/ Selamanya</span></div>
-                <ul class="space-y-2 text-xs text-slate-400 pt-4 border-t border-cyber-border/50">
-                  <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-brand-500"></i> Pencatat Aset Dasar</li>
-                  <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-brand-500"></i> Panduan POS & Ritel</li>
-                  <li class="flex items-center gap-2 text-slate-600"><i data-lucide="x" class="w-4 h-4"></i> Konsultasi AI Unlimited</li>
-                </ul>
-              </div>
-              <button onclick="openMembershipCheckout('Free')" class="w-full bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold py-2.5 rounded-xl text-xs transition mt-6">Pilih Standard</button>
-            </div>
-
-            <div class="bg-cyber-card border-2 border-brand-500 rounded-2xl p-6 flex flex-col justify-between relative shadow-2xl">
-              <div class="absolute top-0 right-0 bg-brand-500 text-slate-900 font-extrabold text-[9px] uppercase tracking-widest px-3 py-1 rounded-bl-xl">POPULER</div>
-              <div class="space-y-4">
-                <span class="text-xs text-brand-500 font-bold uppercase tracking-wider">Premium Pro</span>
-                <h3 class="text-xl font-bold text-brand-400">Pro Wealth Advisor</h3>
-                <p class="text-xs text-slate-400">Sangat direkomendasikan bagi pemilik gerai UMKM, pelaku waris, dan investor aktif.</p>
-                <div class="text-2xl font-black font-mono">Rp 99.000 <span class="text-xs text-slate-500 font-semibold font-sans">/ Bulan</span></div>
-                <ul class="space-y-2 text-xs text-slate-400 pt-4 border-t border-cyber-border/50">
-                  <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-brand-500"></i> Integrasi CRM & POS Ritel</li>
-                  <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-brand-500"></i> Kalkulator Faraid & Waris KHI</li>
-                  <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-brand-500"></i> Asisten GeraiAI Expert Unlimited</li>
-                  <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-brand-500"></i> Minting Emas Token (Web3)</li>
-                </ul>
-              </div>
-              <button onclick="openMembershipCheckout('Pro')" class="w-full bg-brand-600 hover:bg-brand-500 text-white font-black py-2.5 rounded-xl text-xs shadow transition mt-6">Langganan Pro</button>
-            </div>
-
-            <div class="bg-cyber-card border border-cyber-border rounded-2xl p-6 flex flex-col justify-between relative overflow-hidden">
-              <div class="space-y-4">
-                <span class="text-xs text-blue-400 font-bold uppercase tracking-wider">Institusi / Whale</span>
-                <h3 class="text-xl font-bold text-blue-400">Gerai Enterprise</h3>
-                <p class="text-xs text-slate-400">Untuk jaringan waralaba gerai retail fisik yang besar dengan jangka panjang.</p>
-                <div class="text-2xl font-black font-mono">Rp 499.000 <span class="text-xs text-slate-500 font-semibold font-sans">/ Bulan</span></div>
-                <ul class="space-y-2 text-xs text-slate-400 pt-4 border-t border-cyber-border/50">
-                  <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-brand-500"></i> Semua Fitur Pro</li>
-                  <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-brand-500"></i> API Sinkronisasi Hardware POS</li>
-                  <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-brand-500"></i> Prioritas Konsultasi Ahli Syariah</li>
-                </ul>
-              </div>
-              <button onclick="openMembershipCheckout('Enterprise')" class="w-full bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold py-2.5 rounded-xl text-xs transition mt-6">Langganan Enterprise</button>
-            </div>
-
-          </div>
-
-          <!-- STANDALONE HYPER-GROWTH VIRAL REFERRAL LOOP -->
-          <div class="bg-gradient-to-r from-slate-950 via-slate-900 to-purple-950 border border-purple-500/30 rounded-2xl p-6 space-y-4">
-            <div class="flex justify-between items-center pb-3 border-b border-cyber-border/40">
-              <div class="flex items-center gap-2">
-                <div class="p-1.5 bg-purple-500/10 rounded-lg border border-purple-500/30">
-                  <i data-lucide="rocket" class="w-5 h-5 text-purple-400"></i>
-                </div>
-                <div>
-                  <h3 class="font-extrabold text-sm text-slate-100">Growth-Hacking & Viral Referral Loop</h3>
-                  <p class="text-[11px] text-slate-400">Sebarkan rapor kesehatan finansial Anda untuk merekrut teman dan dapatkan bonus saldo emas PAXG rill!</p>
-                </div>
-              </div>
-              <span class="px-2 py-0.5 rounded text-[8px] font-extrabold bg-purple-900/50 text-purple-400 border border-purple-800 uppercase animate-pulse">VIRAL ENGINE ACTIVE</span>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <!-- Left side: Shareable Rapor Card -->
-              <div class="bg-gradient-to-br from-slate-900 to-purple-900/20 p-4 rounded-xl border border-cyber-border/30 space-y-3 relative">
-                <div class="absolute top-2 right-2 flex items-center gap-1 text-[8px] font-bold text-emerald-400 bg-emerald-950/80 px-2 py-0.5 rounded-full border border-emerald-800">
-                  <span class="w-1 h-1 bg-emerald-400 rounded-full animate-ping"></span> VERIFIED
-                </div>
-                
-                <div class="space-y-1.5 text-xs">
-                  <span class="text-[9px] text-slate-500 font-bold uppercase tracking-wider block">Kartu Rujukan Finansial Saya</span>
-                  <div class="text-sm font-extrabold text-slate-200" id="dev-referral-user-name">📈 Rapor Finansial Eko Gio</div>
-                  <p class="text-[11px] text-slate-400">Keluarga Prima dengan Kemandirian Pensiun Sejahtera & Wasiat Terlindungi Blockchain.</p>
-                  
-                  <div class="grid grid-cols-2 gap-3 py-2 border-t border-b border-cyber-border/30 my-1 text-[10px] font-mono">
-                    <div>
-                      <span class="text-slate-500 block">KHL Barometer</span>
-                      <strong class="text-emerald-400" id="dev-referral-khl">9.600.000 / bln</strong>
-                    </div>
-                    <div>
-                      <span class="text-slate-500 block">Waris Blockchain</span>
-                      <strong class="text-yellow-500">KHI Compliant</strong>
-                    </div>
-                  </div>
-
-                  <div class="flex justify-between items-center text-[10px] bg-slate-950/80 p-2 rounded border border-cyber-border/20">
-                    <span class="text-slate-400">Kode Referral: <strong class="text-purple-400 font-mono" id="aff-coupon-code-rapor">EKOGERAI910</strong></span>
-                    <button onclick="copyToClipboard('aff-coupon-code')" class="text-brand-500 hover:text-brand-400 font-bold">Salin Link</button>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Right side: mesin actions -->
-              <div class="flex flex-col justify-between space-y-4">
-                <p class="text-xs text-slate-400 leading-relaxed">
-                  Gunakan mesin ini untuk membuktikan bagaimana roda pertumbuhan kita bergerak secara organik. Meniru penulisan share link rujukan media sosial, klik di bawah akan mendaftarkan 5 pendaftar baru yang langsung checkout premium, mendistribusikan bonus 10% rill ke dompet Anda, serta menyetor cadangan emas ke platform!
-                </p>
-
-                <button onclick="executeViralReferralLoop()" class="w-full bg-purple-600 hover:bg-purple-500 text-white font-extrabold py-2.5 rounded-xl text-xs uppercase tracking-wider transition flex items-center justify-center gap-1.5 shadow-lg shadow-purple-950/30">
-                  <i data-lucide="share-2" class="w-4 h-4"></i> Bagikan Rapor (alirkan 5 Pendaftar Baru)
-                </button>
-              </div>
-            </div>
-          </div>
-
-          <!-- Detailed Affiliate Commissions Reports -->
-          <div class="bg-cyber-card border border-cyber-border rounded-2xl p-6 space-y-6">
-            <h3 class="font-bold text-xl flex items-center gap-2 text-slate-100">
-              <i data-lucide="wallet" class="w-6 h-6 text-brand-500"></i> Ledger Laporan Dividen & Hasil Komisi Afiliasi
-            </h3>
-            
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-              <div class="p-4 bg-slate-900/50 rounded-xl border border-cyber-border">
-                <span class="text-[10px] text-slate-500 font-bold uppercase">Komisi Belum Dicairkan</span>
-                <p class="text-xl font-black font-mono text-slate-200 mt-1" id="aff-unpaid-earnings">Rp 4.195.000</p>
-                <button onclick="payoutAffiliate()" class="bg-brand-600/20 text-brand-400 border border-brand-600/30 hover:bg-brand-600/30 font-bold text-[10px] px-3 py-1.5 rounded-lg mt-3 uppercase tracking-wider">Cairkan ke Wallet / Rekening</button>
-              </div>
-              <div class="p-4 bg-slate-900/50 rounded-xl border border-cyber-border">
-                <span class="text-[10px] text-slate-500 font-bold uppercase">Total Mitra Rujukan Aktif</span>
-                <p class="text-xl font-black font-mono text-slate-200 mt-1">42 Orang</p>
-                <span class="text-[9px] text-brand-400 block mt-3 font-semibold">Tingkat Retensi 100% (Sangat Baik)</span>
-              </div>
-              <div class="p-4 bg-slate-900/50 rounded-xl border border-cyber-border">
-                <span class="text-[10px] text-slate-500 font-bold uppercase">Kode Kupon Afiliasi</span>
-                <p class="text-xl font-black font-mono text-yellow-500 mt-1" id="aff-coupon-code">EKOGERAI910</p>
-                <span class="text-[9px] text-slate-500 block mt-3">Diskon 5% untuk pelanggan baru, Komisi 2% untuk Anda.</span>
-              </div>
-            </div>
-
-            <!-- Commission History Ledger -->
-            <div class="space-y-4">
-              <h4 class="font-bold text-sm text-slate-300">Histori Penerimaan Bonus Referensi</h4>
-              <div class="overflow-x-auto bg-slate-900 rounded-xl border border-cyber-border">
-                <table class="w-full text-xs text-left border-collapse">
-                  <thead>
-                    <tr class="bg-slate-950 border-b border-cyber-border text-slate-400 font-bold uppercase tracking-wider">
-                      <th class="p-3">Tanggal</th>
-                      <th class="p-3">Sumber Rujukan</th>
-                      <th class="p-3">Nominal Komisi</th>
-                      <th class="p-3">Status Pencairan</th>
-                    </tr>
-                  </thead>
-                  <tbody id="affiliate-tbody" class="divide-y divide-cyber-border/40">
-                    <!-- Dynamic -->
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <!-- ==================== TAB 12: DEVELOPER SYSTEM CONSOLE ==================== -->
-        <section id="tab-developer" class="tab-panel hidden space-y-8">
+<div id="settings-developer-panel" class="hidden space-y-8">
           <div>
             <span class="text-xs font-bold text-brand-500 uppercase tracking-widest">KATEGORI 12 - SAAS SYSTEM ADMINISTRATOR</span>
             <h2 class="text-3xl font-extrabold tracking-tight bg-gradient-to-r from-white via-slate-100 to-brand-500 bg-clip-text text-transparent">Developer & Super Admin Console</h2>
@@ -2396,7 +2225,175 @@
 
             </div>
           </div>
+        </div>
+</section>
+
+        <!-- ==================== TAB 11: MEMBERSHIP & AFILIASI ==================== -->
+        <section id="tab-membership" class="tab-panel hidden space-y-8">
+          <div>
+            <span class="text-xs font-bold text-brand-500 uppercase tracking-widest">KATEGORI 11</span>
+            <h2 class="text-3xl font-extrabold tracking-tight">Membership Premium & Kemitraan Afiliasi</h2>
+            <p class="text-slate-400 mt-1">Kelola lisensi premium Anda, nikmati fitur AI analisis mendalam, serta lacak laporan komisi kemitraan afiliasi.</p>
+          </div>
+
+          <!-- Subscription Plans Grid -->
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            
+            <div class="bg-cyber-card border border-cyber-border rounded-2xl p-6 flex flex-col justify-between relative overflow-hidden">
+              <div class="space-y-4">
+                <span class="text-xs text-slate-400 font-bold uppercase tracking-wider">Free Tier</span>
+                <h3 class="text-xl font-bold">Standard Member</h3>
+                <p class="text-xs text-slate-400">Akses dasar ke pencatat keuangan, asuransi, dan pencatatan waris umum.</p>
+                <div class="text-2xl font-black font-mono">Rp 0 <span class="text-xs text-slate-500 font-semibold font-sans">/ Selamanya</span></div>
+                <ul class="space-y-2 text-xs text-slate-400 pt-4 border-t border-cyber-border/50">
+                  <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-brand-500"></i> Pencatat Aset Dasar</li>
+                  <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-brand-500"></i> Panduan POS & Ritel</li>
+                  <li class="flex items-center gap-2 text-slate-600"><i data-lucide="x" class="w-4 h-4"></i> Konsultasi AI Unlimited</li>
+                </ul>
+              </div>
+              <button onclick="openMembershipCheckout('Free')" class="w-full bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold py-2.5 rounded-xl text-xs transition mt-6">Pilih Standard</button>
+            </div>
+
+            <div class="bg-cyber-card border-2 border-brand-500 rounded-2xl p-6 flex flex-col justify-between relative shadow-2xl">
+              <div class="absolute top-0 right-0 bg-brand-500 text-slate-900 font-extrabold text-[9px] uppercase tracking-widest px-3 py-1 rounded-bl-xl">POPULER</div>
+              <div class="space-y-4">
+                <span class="text-xs text-brand-500 font-bold uppercase tracking-wider">Premium Pro</span>
+                <h3 class="text-xl font-bold text-brand-400">Pro Wealth Advisor</h3>
+                <p class="text-xs text-slate-400">Sangat direkomendasikan bagi pemilik gerai UMKM, pelaku waris, dan investor aktif.</p>
+                <div class="text-2xl font-black font-mono">Rp 99.000 <span class="text-xs text-slate-500 font-semibold font-sans">/ Bulan</span></div>
+                <ul class="space-y-2 text-xs text-slate-400 pt-4 border-t border-cyber-border/50">
+                  <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-brand-500"></i> Integrasi CRM & POS Ritel</li>
+                  <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-brand-500"></i> Kalkulator Faraid & Waris KHI</li>
+                  <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-brand-500"></i> Asisten GeraiAI Expert Unlimited</li>
+                  <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-brand-500"></i> Minting Emas Token (Web3)</li>
+                </ul>
+              </div>
+              <button onclick="openMembershipCheckout('Pro')" class="w-full bg-brand-600 hover:bg-brand-500 text-white font-black py-2.5 rounded-xl text-xs shadow transition mt-6">Langganan Pro</button>
+            </div>
+
+            <div class="bg-cyber-card border border-cyber-border rounded-2xl p-6 flex flex-col justify-between relative overflow-hidden">
+              <div class="space-y-4">
+                <span class="text-xs text-blue-400 font-bold uppercase tracking-wider">Institusi / Whale</span>
+                <h3 class="text-xl font-bold text-blue-400">Gerai Enterprise</h3>
+                <p class="text-xs text-slate-400">Untuk jaringan waralaba gerai retail fisik yang besar dengan jangka panjang.</p>
+                <div class="text-2xl font-black font-mono">Rp 499.000 <span class="text-xs text-slate-500 font-semibold font-sans">/ Bulan</span></div>
+                <ul class="space-y-2 text-xs text-slate-400 pt-4 border-t border-cyber-border/50">
+                  <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-brand-500"></i> Semua Fitur Pro</li>
+                  <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-brand-500"></i> API Sinkronisasi Hardware POS</li>
+                  <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-brand-500"></i> Prioritas Konsultasi Ahli Syariah</li>
+                </ul>
+              </div>
+              <button onclick="openMembershipCheckout('Enterprise')" class="w-full bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold py-2.5 rounded-xl text-xs transition mt-6">Langganan Enterprise</button>
+            </div>
+
+          </div>
+
+          <!-- STANDALONE HYPER-GROWTH VIRAL REFERRAL LOOP -->
+          <div class="bg-gradient-to-r from-slate-950 via-slate-900 to-purple-950 border border-purple-500/30 rounded-2xl p-6 space-y-4">
+            <div class="flex justify-between items-center pb-3 border-b border-cyber-border/40">
+              <div class="flex items-center gap-2">
+                <div class="p-1.5 bg-purple-500/10 rounded-lg border border-purple-500/30">
+                  <i data-lucide="rocket" class="w-5 h-5 text-purple-400"></i>
+                </div>
+                <div>
+                  <h3 class="font-extrabold text-sm text-slate-100">Growth-Hacking & Viral Referral Loop</h3>
+                  <p class="text-[11px] text-slate-400">Sebarkan rapor kesehatan finansial Anda untuk merekrut teman dan dapatkan bonus saldo emas PAXG rill!</p>
+                </div>
+              </div>
+              <span class="px-2 py-0.5 rounded text-[8px] font-extrabold bg-purple-900/50 text-purple-400 border border-purple-800 uppercase animate-pulse">VIRAL ENGINE ACTIVE</span>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <!-- Left side: Shareable Rapor Card -->
+              <div class="bg-gradient-to-br from-slate-900 to-purple-900/20 p-4 rounded-xl border border-cyber-border/30 space-y-3 relative">
+                <div class="absolute top-2 right-2 flex items-center gap-1 text-[8px] font-bold text-emerald-400 bg-emerald-950/80 px-2 py-0.5 rounded-full border border-emerald-800">
+                  <span class="w-1 h-1 bg-emerald-400 rounded-full animate-ping"></span> VERIFIED
+                </div>
+                
+                <div class="space-y-1.5 text-xs">
+                  <span class="text-[9px] text-slate-500 font-bold uppercase tracking-wider block">Kartu Rujukan Finansial Saya</span>
+                  <div class="text-sm font-extrabold text-slate-200" id="dev-referral-user-name">📈 Rapor Finansial Eko Gio</div>
+                  <p class="text-[11px] text-slate-400">Keluarga Prima dengan Kemandirian Pensiun Sejahtera & Wasiat Terlindungi Blockchain.</p>
+                  
+                  <div class="grid grid-cols-2 gap-3 py-2 border-t border-b border-cyber-border/30 my-1 text-[10px] font-mono">
+                    <div>
+                      <span class="text-slate-500 block">KHL Barometer</span>
+                      <strong class="text-emerald-400" id="dev-referral-khl">9.600.000 / bln</strong>
+                    </div>
+                    <div>
+                      <span class="text-slate-500 block">Waris Blockchain</span>
+                      <strong class="text-yellow-500">KHI Compliant</strong>
+                    </div>
+                  </div>
+
+                  <div class="flex justify-between items-center text-[10px] bg-slate-950/80 p-2 rounded border border-cyber-border/20">
+                    <span class="text-slate-400">Kode Referral: <strong class="text-purple-400 font-mono" id="aff-coupon-code-rapor">EKOGERAI910</strong></span>
+                    <button onclick="copyToClipboard('aff-coupon-code')" class="text-brand-500 hover:text-brand-400 font-bold">Salin Link</button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Right side: mesin actions -->
+              <div class="flex flex-col justify-between space-y-4">
+                <p class="text-xs text-slate-400 leading-relaxed">
+                  Gunakan mesin ini untuk membuktikan bagaimana roda pertumbuhan kita bergerak secara organik. Meniru penulisan share link rujukan media sosial, klik di bawah akan mendaftarkan 5 pendaftar baru yang langsung checkout premium, mendistribusikan bonus 10% rill ke dompet Anda, serta menyetor cadangan emas ke platform!
+                </p>
+
+                <button onclick="executeViralReferralLoop()" class="w-full bg-purple-600 hover:bg-purple-500 text-white font-extrabold py-2.5 rounded-xl text-xs uppercase tracking-wider transition flex items-center justify-center gap-1.5 shadow-lg shadow-purple-950/30">
+                  <i data-lucide="share-2" class="w-4 h-4"></i> Bagikan Rapor (alirkan 5 Pendaftar Baru)
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Detailed Affiliate Commissions Reports -->
+          <div class="bg-cyber-card border border-cyber-border rounded-2xl p-6 space-y-6">
+            <h3 class="font-bold text-xl flex items-center gap-2 text-slate-100">
+              <i data-lucide="wallet" class="w-6 h-6 text-brand-500"></i> Ledger Laporan Dividen & Hasil Komisi Afiliasi
+            </h3>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <div class="p-4 bg-slate-900/50 rounded-xl border border-cyber-border">
+                <span class="text-[10px] text-slate-500 font-bold uppercase">Komisi Belum Dicairkan</span>
+                <p class="text-xl font-black font-mono text-slate-200 mt-1" id="aff-unpaid-earnings">Rp 4.195.000</p>
+                <button onclick="payoutAffiliate()" class="bg-brand-600/20 text-brand-400 border border-brand-600/30 hover:bg-brand-600/30 font-bold text-[10px] px-3 py-1.5 rounded-lg mt-3 uppercase tracking-wider">Cairkan ke Wallet / Rekening</button>
+              </div>
+              <div class="p-4 bg-slate-900/50 rounded-xl border border-cyber-border">
+                <span class="text-[10px] text-slate-500 font-bold uppercase">Total Mitra Rujukan Aktif</span>
+                <p class="text-xl font-black font-mono text-slate-200 mt-1">42 Orang</p>
+                <span class="text-[9px] text-brand-400 block mt-3 font-semibold">Tingkat Retensi 100% (Sangat Baik)</span>
+              </div>
+              <div class="p-4 bg-slate-900/50 rounded-xl border border-cyber-border">
+                <span class="text-[10px] text-slate-500 font-bold uppercase">Kode Kupon Afiliasi</span>
+                <p class="text-xl font-black font-mono text-yellow-500 mt-1" id="aff-coupon-code">EKOGERAI910</p>
+                <span class="text-[9px] text-slate-500 block mt-3">Diskon 5% untuk pelanggan baru, Komisi 2% untuk Anda.</span>
+              </div>
+            </div>
+
+            <!-- Commission History Ledger -->
+            <div class="space-y-4">
+              <h4 class="font-bold text-sm text-slate-300">Histori Penerimaan Bonus Referensi</h4>
+              <div class="overflow-x-auto bg-slate-900 rounded-xl border border-cyber-border">
+                <table class="w-full text-xs text-left border-collapse">
+                  <thead>
+                    <tr class="bg-slate-950 border-b border-cyber-border text-slate-400 font-bold uppercase tracking-wider">
+                      <th class="p-3">Tanggal</th>
+                      <th class="p-3">Sumber Rujukan</th>
+                      <th class="p-3">Nominal Komisi</th>
+                      <th class="p-3">Status Pencairan</th>
+                    </tr>
+                  </thead>
+                  <tbody id="affiliate-tbody" class="divide-y divide-cyber-border/40">
+                    <!-- Dynamic -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
         </section>
+
+        <!-- ==================== TAB 12: DEVELOPER SYSTEM CONSOLE ==================== -->
+        
 
       </div>
     </main>

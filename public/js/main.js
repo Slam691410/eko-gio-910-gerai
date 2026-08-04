@@ -285,13 +285,13 @@ function setSaaSMode(mode) {
   const navDividend = document.getElementById('nav-dividend');
   const navInheritance = document.getElementById('nav-inheritance');
   const navMembership = document.getElementById('nav-membership');
-  const navDev = document.getElementById('nav-dev');
 
   // Settings sub-panels references
   const setHeadingTitle = document.getElementById('settings-heading-title');
   const setHeadingDesc = document.getElementById('settings-heading-desc');
   const setFamilyPanel = document.getElementById('settings-family-panel');
   const setAdminLogsPanel = document.getElementById('settings-admin-logs-panel');
+  const setDeveloperPanel = document.getElementById('settings-developer-panel');
 
   if (mode === 'customer') {
     btnCust.className = "flex-1 py-2 rounded-lg text-[9px] font-extrabold uppercase tracking-wider transition duration-150 text-white bg-blue-600 shadow-md flex items-center justify-center gap-1";
@@ -309,7 +309,6 @@ function setSaaSMode(mode) {
     navMembership.classList.remove('hidden');
 
     navPos.classList.add('hidden');
-    navDev.classList.add('hidden');
 
     setHeadingTitle.innerText = "Profil Pengguna & Keluarga Terintegrasi";
     setHeadingDesc.innerText = "Konfigurasikan status pernikahan, rencana Haji, data tanggungan pendidikan anak-anak, profil risiko, dan integrasikan wallet Web3 Anda.";
@@ -317,6 +316,7 @@ function setSaaSMode(mode) {
 
     setFamilyPanel.classList.remove('hidden');
     setAdminLogsPanel.classList.add('hidden');
+    if (setDeveloperPanel) setDeveloperPanel.classList.add('hidden');
 
     if (appState.activeTab === 'tab-pos' || appState.activeTab === 'tab-developer') {
       switchTab('tab-ugc');
@@ -336,7 +336,6 @@ function setSaaSMode(mode) {
     navDividend.classList.add('hidden');
     navInheritance.classList.add('hidden');
     navMembership.classList.add('hidden');
-    navDev.classList.add('hidden');
 
     navPos.classList.remove('hidden');
 
@@ -346,6 +345,7 @@ function setSaaSMode(mode) {
 
     setFamilyPanel.classList.add('hidden');
     setAdminLogsPanel.classList.remove('hidden');
+    if (setDeveloperPanel) setDeveloperPanel.classList.add('hidden');
 
     fetchServerLogs();
 
@@ -357,7 +357,6 @@ function setSaaSMode(mode) {
     btnAdmin.className = "flex-1 py-2 rounded-lg text-[9px] font-extrabold uppercase tracking-wider transition duration-150 text-slate-400 flex items-center justify-center gap-1";
     btnDev.className = "w-full py-2 rounded-lg text-[9px] font-extrabold uppercase tracking-wider transition duration-150 text-white bg-brand-600 shadow-md flex items-center justify-center gap-1 border border-brand-500/50";
 
-    navDev.classList.remove('hidden');
     navPos.classList.remove('hidden');
 
     navUgc.classList.remove('hidden');
@@ -370,17 +369,18 @@ function setSaaSMode(mode) {
     navInheritance.classList.remove('hidden');
     navMembership.classList.remove('hidden');
 
-    setHeadingTitle.innerText = "Platform Owner Global Logs Console";
-    setHeadingDesc.innerText = "Super-Administrator System Telemetry Logs & Distributed Error Capture.";
+    setHeadingTitle.innerText = "Platform Owner Global Logs & Developer Console";
+    setHeadingDesc.innerText = "Super-Administrator Global Node Orchestrations, Smart Treasury Solidity Interactor & System Telemetries.";
     document.getElementById('nav-settings-text').innerText = "10. Central System Telemetry";
 
     setFamilyPanel.classList.add('hidden');
-    setAdminLogsPanel.classList.remove('hidden');
+    setAdminLogsPanel.classList.add('hidden');
+    if (setDeveloperPanel) setDeveloperPanel.classList.remove('hidden');
 
     fetchServerLogs();
     initDeveloperConsole();
 
-    switchTab('tab-developer');
+    switchTab('tab-settings');
   }
 
   lucide.createIcons();
