@@ -1,3 +1,4 @@
+require('dotenv').config();
 const cluster = require('cluster');
 const os = require('os');
 const fs = require('fs');
@@ -14,14 +15,12 @@ function logEvent(level, msg, errorDetails = null) {
     logLine += `[Details] ${errorDetails}\n`;
   }
   
-  // Write to terminal stdout
   if (level === 'ERROR' || level === 'CRITICAL') {
     console.error(logLine.trim());
   } else {
     console.log(logLine.trim());
   }
 
-  // Append physically to server.log for audit trails
   try {
     fs.appendFileSync(LOG_FILE, logLine, 'utf8');
   } catch (err) {
@@ -34,6 +33,38 @@ function logEvent(level, msg, errorDetails = null) {
 if (cluster.isMaster) {
   const numCPUs = os.cpus().length || 1;
   logEvent('INFO', `[Master Cloud Load Balancer] Active on PID: ${process.pid}`);
+  
+  // VERIFY PRODUCTION ENVIRONMENT KEY INTEGRATIONS (AUTOMATION VS MOCK TRANSITION LOGIC)
+  logEvent('INFO', '==================================================');
+  logEvent('INFO', '⚙️ VERIFIKASI KUNCI INTEGRASI PRODUKSI SAAS GERAITOK 910:');
+  
+  if (process.env.OPENAI_API_KEY) {
+    logEvent('INFO', `[SaaS Config] Real OpenAI API Key found. Transitioning AI advisor to Production GPT-4o Mode!`);
+  } else if (process.env.ANTHROPIC_API_KEY) {
+    logEvent('INFO', `[SaaS Config] Real Anthropic API Key found. Transitioning AI advisor to Production Claude 3.5 Mode!`);
+  } else {
+    logEvent('INFO', `[SaaS Config] OpenAI/Anthropic API keys are empty. Falling back to High-Fidelity Local NLP Simulation Mode.`);
+  }
+
+  if (process.env.WEB3_PROVIDER_RPC_URL) {
+    logEvent('INFO', `[SaaS Config] Real Web3 RPC Node Provider found: ${process.env.WEB3_PROVIDER_RPC_URL}. Connecting to Ethereum/Polygon Mainnets!`);
+  } else {
+    logEvent('INFO', `[SaaS Config] Web3 RPC URL is empty. Operating on High-Fidelity Sandbox Decentralized Ledger Simulator.`);
+  }
+
+  if (process.env.GOLD_PRICE_API_KEY) {
+    logEvent('INFO', `[SaaS Config] Spot Gold/Silver API Key detected. Pulling real goldapi.io spot tickers!`);
+  } else {
+    logEvent('INFO', `[SaaS Config] Gold/Silver market API Key is empty. Utilizing High-Fidelity Random-Walk Price Ticker Feed.`);
+  }
+
+  if (process.env.MIDTRANS_SERVER_KEY) {
+    logEvent('INFO', `[SaaS Config] Midtrans Gateway detected. QRIS & Bank Virtual Accounts are set to production-ready.`);
+  } else {
+    logEvent('INFO', `[SaaS Config] Midtrans Keys are empty. Falling back to High-Fidelity QRIS Barcode & Bank payment simulations.`);
+  }
+  logEvent('INFO', '==================================================');
+
   logEvent('INFO', `[Horizontal Scaling] Spawning ${numCPUs} parallel Express Worker instances...`);
 
   // Fork a worker process for each CPU core
@@ -48,7 +79,6 @@ if (cluster.isMaster) {
     cluster.fork();
   });
 
-  // Global uncaught exceptions handler on Master
   process.on('uncaughtException', (err) => {
     logEvent('CRITICAL', `Uncaught Exception on Master: ${err.message}`, err.stack);
   });
@@ -67,7 +97,6 @@ if (cluster.isMaster) {
   // GLOBAL ERROR TRACKING FOR UNCAUGHT WORKER EXCEPTIONS
   process.on('uncaughtException', (err) => {
     logEvent('CRITICAL', `Uncaught Exception on Worker: ${err.message}`, err.stack);
-    // Exit worker gracefully to let Master Load Balancer trigger Self-Healing auto-recovery!
     process.exit(1);
   });
 
@@ -167,21 +196,21 @@ if (cluster.isMaster) {
     }
   });
 
-  // CENTRAL TELEMETRY: GET System Logs endpoint (Authorized for logs visualization)
+  // CENTRAL TELEMETRY: GET System Logs endpoint
   app.get('/api/logs', (req, res) => {
     try {
       if (!fs.existsSync(LOG_FILE)) {
         return res.json({ logs: [] });
       }
       const rawText = fs.readFileSync(LOG_FILE, 'utf8');
-      const lines = rawText.trim().split('\n').slice(-100); // Return last 100 log entries
+      const lines = rawText.trim().split('\n').slice(-100); 
       res.json({ logs: lines });
     } catch (err) {
       res.status(500).json({ error: 'Failed to read log file' });
     }
   });
 
-  // CENTRAL TELEMETRY: POST Client/Browser Error Reports (Distributed Sentry-style Error Tracking!)
+  // CENTRAL TELEMETRY: POST Client/Browser Error Reports
   app.post('/api/logs/report', (req, res) => {
     const { type, message, details } = req.body;
     logEvent('CLIENT_ERROR', `[${type}] ${message}`, details);
