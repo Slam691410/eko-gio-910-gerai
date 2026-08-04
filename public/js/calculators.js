@@ -521,7 +521,10 @@ const screenerDatabase = {
   }
 };
 
-function updateEconomicPhaseAll(phase) {
+// Active cached screener data to store live API responses
+let cachedActiveScreenerData = null;
+
+async function updateEconomicPhaseAll(phase) {
   appState.economicPhase = phase;
   
   // 1. Update Phase selector buttons visual
@@ -532,19 +535,37 @@ function updateEconomicPhaseAll(phase) {
     }
   });
 
-  // 2. Update Sector Spotlight
-  const data = screenerDatabase[phase];
-  if (data) {
-    document.getElementById('spotlight-sector-title').innerText = data.sector;
-    document.getElementById('spotlight-sector-desc').innerText = data.desc;
-    
-    const iconBox = document.getElementById('sector-icon-box');
-    if (iconBox) {
-      iconBox.innerHTML = `<i data-lucide="${data.icon}" class="w-8 h-8"></i>`;
+  try {
+    // 2. Query actual live Stock Screener & Sector Rotations dynamically from server rill!
+    const res = await fetch(`/api/screener?phase=${phase}`);
+    const data = await res.json();
+    if (data.success) {
+      cachedActiveScreenerData = data;
+
+      // Update Sector Spotlight
+      document.getElementById('spotlight-sector-title').innerText = data.sector;
+      document.getElementById('spotlight-sector-desc').innerText = data.desc;
+      
+      const iconBox = document.getElementById('sector-icon-box');
+      if (iconBox) {
+        iconBox.innerHTML = `<i data-lucide="${data.icon}" class="w-8 h-8"></i>`;
+      }
+      
+      // 3. Render dynamic stock screener table
+      renderScreenerStocks(phase);
     }
-    
-    // 3. Render dynamic stock screener table
-    renderScreenerStocks(phase);
+  } catch (err) {
+    console.error('Failed to retrieve live screener results:', err);
+    // Graceful fallback to static if server drops
+    const data = screenerDatabase[phase];
+    if (data) {
+      cachedActiveScreenerData = { ...data, success: true };
+      document.getElementById('spotlight-sector-title').innerText = data.sector;
+      document.getElementById('spotlight-sector-desc').innerText = data.desc;
+      const iconBox = document.getElementById('sector-icon-box');
+      if (iconBox) iconBox.innerHTML = `<i data-lucide="${data.icon}" class="w-8 h-8"></i>`;
+      renderScreenerStocks(phase);
+    }
   }
 }
 
@@ -553,12 +574,12 @@ function renderScreenerStocks(phase) {
   if (!tbody) return;
 
   tbody.innerHTML = '';
-  const data = screenerDatabase[phase];
+  const data = cachedActiveScreenerData || screenerDatabase[phase];
   if (!data) return;
 
   data.stocks.forEach(stock => {
     const row = document.createElement('tr');
-    row.className = "hover:bg-slate-900/30 transition duration-150 cursor-pointer text-xs";
+    row.className = "hover:bg-slate-900/30 transition duration-150 cursor-pointer text-xs border-b border-cyber-border/20";
     row.onclick = () => focusScreenerStock(stock.code, phase);
     
     row.innerHTML = `
@@ -592,8 +613,7 @@ function renderScreenerStocks(phase) {
 }
 
 function focusScreenerStock(code, phase) {
-  const p = phase || appState.economicPhase;
-  const data = screenerDatabase[p];
+  const data = cachedActiveScreenerData || screenerDatabase[phase || appState.economicPhase];
   if (!data) return;
 
   const tech = data.tech[code];
@@ -626,8 +646,7 @@ function focusScreenerStock(code, phase) {
 }
 
 function openScreenerAuditDetails(code, phase) {
-  const p = phase || appState.economicPhase;
-  const data = screenerDatabase[p];
+  const data = cachedActiveScreenerData || screenerDatabase[phase || appState.economicPhase];
   if (!data) return;
 
   const audit = data.audits[code];
