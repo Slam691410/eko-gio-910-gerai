@@ -308,3 +308,286 @@ function calculateInheritance() {
     });
   }
 }
+
+// -------------------------------------------------------------
+// DYNAMIC INTERACTIVE TOP-DOWN STOCK SCREENING & AUDIT ENGINE
+
+const screenerDatabase = {
+  Boom: {
+    sector: "Sektor Perbankan, Finansial & Teknologi",
+    desc: "Pada fase Boom/Ekspansi, konsumsi domestik bertumbuh kuat, kredit meningkat, dan perbankan mendapatkan marjin bunga bersih (NIM) yang sangat lebar di tengah iklim investasi yang bergairah.",
+    icon: "landmark",
+    stocks: [
+      { code: "BBRI", pe: "11.2", pbv: "1.9", der: "0.8", roe: "16.5%", yield: "6.2%", name: "Bank Rakyat Indonesia" },
+      { code: "BBCA", pe: "24.5", pbv: "4.8", der: "0.1", roe: "20.2%", yield: "3.5%", name: "Bank Central Asia" },
+      { code: "BMRI", pe: "10.4", pbv: "2.1", der: "0.7", roe: "18.5%", yield: "5.8%", name: "Bank Mandiri" },
+      { code: "TLKM", pe: "13.8", pbv: "2.5", der: "0.4", roe: "17.2%", yield: "5.1%", name: "Telkom Indonesia" }
+    ],
+    audits: {
+      BBRI: {
+        accounting: "Lancar. Cash Flow Operation (CFO) positif konsisten di atas tingkat laba bersih terlapor (EBITDA), menandakan tidak ada manipulasi piutang. Debt Service Coverage Ratio (DSCR) di atas 2.5x.",
+        management: "Sangat Prima. Dikendalikan oleh Pemerintah RI dengan pengawasan regulasi OJK yang ketat. Komisaris independen menguasai >30% kursi pengambil keputusan.",
+        actions: "Penyebaran dividen tunai stabil dengan payout ratio >75%. Risiko dilusi saham melalui rights issue ditiadakan untuk 3 tahun ke depan."
+      },
+      BBCA: {
+        accounting: "Sangat Bersih. Tingkat Loan-to-Deposit Ratio (LDR) terjaga aman di 68%, rasio kredit bermasalah (NPL) gross di bawah 1.5% (terendah di industri perbankan).",
+        management: "Luar Biasa. Dikendalikan oleh Grup Djarum dengan rekam jejak tata kelola tata modal (GCG) terbaik di Asia Tenggara selama 20 tahun berturut-turut.",
+        actions: "Tidak ada rights issue atau rencana utang obligasi baru. Kenaikan modal organik murni dari akumulasi laba ditahan."
+      },
+      BMRI: {
+        accounting: "Sehat. Marjin Bunga Bersih (NIM) stabil tinggi di 5.6%. Pencadangan provisi NPL mencukupi (coverage ratio >200%).",
+        management: "Prima. Pengendali Pemerintah RI dengan integrasi digitalisasi korporat Bank Mandiri (Livin') yang sangat agresif.",
+        actions: "Rencana stock-split selesai dengan sukses untuk meningkatkan likuiditas ritel di bursa."
+      },
+      TLKM: {
+        accounting: "Lancar. Rasio EBITDA margin stabil tinggi di atas 50%, free cash flow stabil untuk mendukung belanja modal pembangunan infrastruktur fiber optik nasional.",
+        management: "Sangat Prima. Manajemen dikepalai oleh profesional berpengalaman telekomunikasi global di bawah naungan BUMN RI.",
+        actions: "Investasi pada infrastruktur pusat data (data center) berpotensi memicu spin-off anak usaha (Indibiz) di masa mendatang."
+      }
+    },
+    tech: {
+      BBRI: { trend: "BULLISH UPTREND", rsi: "42 (Neutral / Accumulation)", sr: "Support: Rp 4.600 / Resistance: Rp 5.200", action: "BUY ON WEAKNESS" },
+      BBCA: { trend: "BULLISH UPTREND", rsi: "58 (Neutral / Fair Value)", sr: "Support: Rp 9.800 / Resistance: Rp 10.500", action: "HOLD / ACCUMULATE" },
+      BMRI: { trend: "SIDEWAYS ACCUMULATION", rsi: "48 (Neutral / Accumulation)", sr: "Support: Rp 6.200 / Resistance: Rp 6.850", action: "BUY / ACCUMULATE" },
+      TLKM: { trend: "BEARISH REVERSAL", rsi: "35 (Oversold / Buy Zone)", sr: "Support: Rp 3.050 / Resistance: Rp 3.450", action: "STRONG BUY" }
+    }
+  },
+  Stagflasi: {
+    sector: "Sektor Consumer Staples & Utilitas Publik",
+    desc: "Dalam iklim Stagflasi di mana inflasi tinggi diiringi pelambatan ekonomi, masyarakat mengurangi belanja sekunder dan beralih ke barang kebutuhan pokok wajib. Emiten bahan pangan dan utilitas publik berkinerja paling tangguh.",
+    icon: "shopping-bag",
+    stocks: [
+      { code: "ICBP", pe: "14.2", pbv: "2.8", der: "0.6", roe: "19.1%", yield: "3.2%", name: "Indofood CBP Sukses Makmur" },
+      { code: "INDF", pe: "8.5", pbv: "1.1", der: "0.7", roe: "13.5%", yield: "4.8%", name: "Indofood Sukses Makmur" },
+      { code: "UNVR", pe: "19.4", pbv: "12.2", der: "0.3", roe: "65.2%", yield: "6.8%", name: "Unilever Indonesia" },
+      { code: "MYOR", pe: "15.2", pbv: "3.1", der: "0.4", roe: "21.0%", yield: "3.0%", name: "Mayora Indah" }
+    ],
+    audits: {
+      ICBP: {
+        accounting: "Stabil. Persediaan bahan baku ter-hedge dengan baik terhadap fluktuasi gandum global. Arus kas operasi setara dengan 1.2x laba bersih.",
+        management: "Sangat Prima. Dikendalikan oleh Grup Salim dengan jaringan distribusi ritel raksasa (Indomaret) terintegrasi.",
+        actions: "Rencana ekspansi pabrik ke Timur Tengah meningkatkan potensi ekspor non-rupiah."
+      },
+      INDF: {
+        accounting: "Sangat Murah. PBV mendekati 1.1x dengan kepemilikan saham ICBP yang bernilai jauh di atas kapitalisasi pasar induknya.",
+        management: "Sehat. Tata kelola solid dengan diversifikasi usaha mulai dari perkebunan hingga pengemasan tepung.",
+        actions: "Pembagian dividen tunai konsisten tumbuh rata-rata 10% per tahun."
+      },
+      UNVR: {
+        accounting: "Lancar. Modal kerja negatif yang efisien khas retail besar. ROE sangat fantastis di 65% karena efisiensi aset yang ekstrem.",
+        management: "Luar Biasa. Manajemen multinasional Unilever NV dengan kepatuhan ESG global peringkat emas.",
+        actions: "Restrukturisasi portofolio produk ke arah produk premium bermargin tebal selesai dilaksanakan."
+      },
+      MYOR: {
+        accounting: "Bersih. Rasio piutang usaha terkontrol dengan perputaran persediaan (*inventory turnover*) di bawah 45 hari.",
+        management: "Prima. Manajemen keluarga Mayora yang legendaris dengan pangsa pasar ekspor biskuit terbesar di Asia Pasifik.",
+        actions: "Rencana penambahan lini mesin produksi baru untuk produk kopi instan siap bergulir."
+      }
+    },
+    tech: {
+      ICBP: { trend: "BULLISH UPTREND", rsi: "52 (Neutral)", sr: "Support: Rp 10.800 / Resistance: Rp 11.500", action: "BUY / HOLD" },
+      INDF: { trend: "SIDEWAYS ACCUMULATION", rsi: "44 (Neutral)", sr: "Support: Rp 6.100 / Resistance: Rp 6.600", action: "BUY ON WEAKNESS" },
+      UNVR: { trend: "BEARISH REVERSAL", rsi: "28 (Oversold / Buy Zone)", sr: "Support: Rp 2.400 / Resistance: Rp 2.850", action: "BUY / ACCUMULATE" },
+      MYOR: { trend: "BULLISH UPTREND", rsi: "56 (Neutral)", sr: "Support: Rp 2.350 / Resistance: Rp 2.650", action: "HOLD" }
+    }
+  },
+  Resesi: {
+    sector: "Instrumen Defensif (SBN & Deposito Berjangka)",
+    desc: "Saat terjadi Kontraksi/Resesi, pasar saham mengalami penurunan tajam. Melindungi modal rill dengan mengalihkan aset ke instrumen defensif berpendapatan tetap yang dijamin negara seperti SBN dan deposito berjangka adalah prioritas tertinggi.",
+    icon: "shield",
+    stocks: [
+      { code: "SBN ORI025", pe: "N/A", pbv: "N/A", der: "Bebas Risiko", roe: "6.25%", yield: "6.25%", name: "Obligasi Ritel Indonesia 025" },
+      { code: "SBN SR020", pe: "N/A", pbv: "N/A", der: "Bebas Risiko", roe: "6.30%", yield: "6.30%", name: "Sukuk Ritel 020" },
+      { code: "BSI Deposito", pe: "N/A", pbv: "N/A", der: "Bebas Risiko", roe: "5.50%", yield: "5.50%", name: "Deposito Mudharabah Bank Syariah" },
+      { code: "Kas Rupiah", pe: "N/A", pbv: "N/A", der: "Bebas Risiko", roe: "1.00%", yield: "1.00%", name: "Likuiditas Kas / Giro Bank BUMN" }
+    ],
+    audits: {
+      "SBN ORI025": {
+        accounting: "Sempurna. Kupon dijamin 100% oleh Undang-Undang APBN Republik Indonesia. Tidak ada risiko gagal bayar (*sovereign risk zero*).",
+        management: "Mutlak. Di bawah kelola Direktorat Jenderal Pengelolaan Pembiayaan dan Risiko Kementerian Keuangan RI.",
+        actions: "Dapat diperdagangkan (*tradable*) di pasar sekunder setelah masa hold minimum terpenuhi."
+      },
+      "SBN SR020": {
+        accounting: "Sempurna. Struktur akad Wakalah syariah yang dijamin penuh APBN RI dan diawasi oleh DSN-MUI.",
+        management: "Mutlak. Pengelolaan profesional Kementerian Keuangan RI untuk pembiayaan proyek ramah lingkungan.",
+        actions: "Penerimaan kupon bulanan langsung ditransfer otomatis ke dompet kas holding."
+      },
+      "BSI Deposito": {
+        accounting: "Sangat Aman. Dijamin oleh Lembaga Penjamin Simpanan (LPS) hingga Rp 2 Miliar per nasabah.",
+        management: "Sangat Prima. Bank BUMN Syariah terbesar di Indonesia dengan kepatuhan audit syariah berlapis.",
+        actions: "Opsi perpanjangan otomatis (*Automatic Roll Over*) dengan bagi hasil bulanan kompetitif."
+      },
+      "Kas Rupiah": {
+        accounting: "Sempurna. Likuiditas instan untuk kebutuhan dana darurat tak terduga.",
+        management: "Prima. Disimpan di bank kustodian BUMN berskala sistemik nasional.",
+        actions: "Bebas dari fluktuasi nilai pasar modal, menjaga stabilitas net worth portofolio."
+      }
+    },
+    tech: {
+      "SBN ORI025": { trend: "STABLE INCOME", rsi: "N/A", sr: "Support: 100.0% / Resistance: 101.5%", action: "BUY & HOLD" },
+      "SBN SR020": { trend: "STABLE INCOME", rsi: "N/A", sr: "Support: 100.0% / Resistance: 101.5%", action: "BUY & HOLD" },
+      "BSI Deposito": { trend: "STABLE FIXED", rsi: "N/A", sr: "Support: Rp 2M / Resistance: Rp 2M", action: "ALLOCATE" },
+      "Kas Rupiah": { trend: "STABLE CASH", rsi: "N/A", sr: "Support: Instan / Resistance: Instan", action: "LIQUID RESERVE" }
+    }
+  },
+  Reflasi: {
+    sector: "Sektor Pertambangan, Energi & Komoditas",
+    desc: "Pada fase Reflasi/Pemulihan awal, roda industri kembali berputar, permintaan komoditas energi melesat tajam, memicu ledakan harga barang mentah dan keuntungan besar bagi emiten energi.",
+    icon: "trending-up",
+    stocks: [
+      { code: "ADRO", pe: "3.8", pbv: "0.8", der: "0.2", roe: "25.1%", yield: "12.4%", name: "Adaro Energy Indonesia" },
+      { code: "PTBA", pe: "4.2", pbv: "1.2", der: "0.3", roe: "28.5%", yield: "14.1%", name: "Bukit Asam" },
+      { code: "ITMG", pe: "3.5", pbv: "1.0", der: "0.1", roe: "30.2%", yield: "16.5%", name: "Indo Tambangraya Megah" },
+      { code: "PGAS", pe: "6.8", pbv: "0.9", der: "0.5", roe: "14.2%", yield: "8.5%", name: "Perusahaan Gas Negara" }
+    ],
+    audits: {
+      ADRO: {
+        accounting: "Sangat Murah. Valuasi P/E di bawah 4x dengan saldo kas bersih setara dengan 35% total asetnya. EBITDA tebal konsisten.",
+        management: "Sangat Prima. Tata kelola kelas dunia dipimpin oleh Boy Thohir dengan komitmen diversifikasi energi hijau (Adaro Green).",
+        actions: "Rencana spin-off bisnis batu bara thermal untuk fokus penuh pada pembangunan smelter aluminium hijau."
+      },
+      PTBA: {
+        accounting: "Sehat. Struktur modal bebas utang bank jangka panjang. Rasio lancar (*current ratio*) di atas 200%.",
+        management: "Prima. BUMN pertambangan bagian dari MIND ID dengan kepatuhan royalti negara yang patuh.",
+        actions: "Pembagian dividen jumbo tahunan dengan payout ratio konsisten mendekati 100%."
+      },
+      ITMG: {
+        accounting: "Sangat Likuid. Perusahaan tanpa utang bank sama sekali (*zero interest-bearing debt*). Marjin keuntungan bersih di atas 22%.",
+        management: "Luar Biasa. Manajemen multinasional Banpu Group Thailand dengan standar audit GCG internasional.",
+        actions: "Peningkatan porsi ekspor batubara kalori tinggi ke Jepang meningkatkan pendapatan valas."
+      },
+      PGAS: {
+        accounting: "Lancar. Monopoli jaringan transmisi pipa gas nasional menjamin pendapatan berulang (*recurring cash flow*) yang solid.",
+        management: "Prima. Anak usaha Pertamina (Persero) dengan sinergi infrastruktur hilir migas nasional.",
+        actions: "Penyelesaian sengketa pajak masa lalu memulihkan marjin profitabilitas korporasi."
+      }
+    },
+    tech: {
+      ADRO: { trend: "BULLISH UPTREND", rsi: "48 (Neutral / Accumulation)", sr: "Support: Rp 2.500 / Resistance: Rp 2.850", action: "BUY / ACCUMULATE" },
+      PTBA: { trend: "SIDEWAYS ACCUMULATION", rsi: "45 (Neutral)", sr: "Support: Rp 2.450 / Resistance: Rp 2.750", action: "BUY ON WEAKNESS" },
+      ITMG: { trend: "BULLISH REVERSAL", rsi: "41 (Neutral)", sr: "Support: Rp 24.500 / Resistance: Rp 26.800", action: "BUY / ACCUMULATE" },
+      PGAS: { trend: "BULLISH UPTREND", rsi: "55 (Neutral)", sr: "Support: Rp 1.150 / Resistance: Rp 1.350", action: "HOLD" }
+    }
+  }
+};
+
+function updateEconomicPhaseAll(phase) {
+  appState.economicPhase = phase;
+  
+  // 1. Update Phase selector buttons visual
+  document.querySelectorAll('.phase-btn').forEach(btn => {
+    btn.className = "phase-btn bg-slate-900 border border-cyber-border text-slate-400 p-3 rounded-xl text-xs font-bold text-center flex flex-col items-center gap-1 hover:border-blue-500";
+    if (btn.id === `phase-btn-${phase}`) {
+      btn.className = "phase-btn bg-slate-900 border border-brand-500/80 text-brand-400 p-3 rounded-xl text-xs font-bold text-center flex flex-col items-center gap-1";
+    }
+  });
+
+  // 2. Update Sector Spotlight
+  const data = screenerDatabase[phase];
+  if (data) {
+    document.getElementById('spotlight-sector-title').innerText = data.sector;
+    document.getElementById('spotlight-sector-desc').innerText = data.desc;
+    
+    const iconBox = document.getElementById('sector-icon-box');
+    if (iconBox) {
+      iconBox.innerHTML = `<i data-lucide="${data.icon}" class="w-8 h-8"></i>`;
+    }
+    
+    // 3. Render dynamic stock screener table
+    renderScreenerStocks(phase);
+  }
+}
+
+function renderScreenerStocks(phase) {
+  const tbody = document.getElementById('screener-fundamental-tbody');
+  if (!tbody) return;
+
+  tbody.innerHTML = '';
+  const data = screenerDatabase[phase];
+  if (!data) return;
+
+  data.stocks.forEach(stock => {
+    const row = document.createElement('tr');
+    row.className = "hover:bg-slate-900/30 transition duration-150 cursor-pointer text-xs";
+    row.onclick = () => focusScreenerStock(stock.code, phase);
+    
+    row.innerHTML = `
+      <td class="p-3 pl-4">
+        <div class="flex items-center gap-2">
+          <div class="w-2.5 h-2.5 rounded-full bg-brand-500"></div>
+          <div>
+            <strong class="text-slate-100 font-mono">${stock.code}</strong>
+            <span class="text-[10px] text-slate-500 block">${stock.name}</span>
+          </div>
+        </div>
+      </td>
+      <td class="p-3 font-mono text-slate-300">${stock.pe}</td>
+      <td class="p-3 font-mono text-slate-300">${stock.pbv}</td>
+      <td class="p-3 font-mono text-slate-300">${stock.der}</td>
+      <td class="p-3 font-mono text-slate-300">${stock.roe}</td>
+      <td class="p-3 font-mono text-brand-500 font-bold">${stock.yield}</td>
+      <td class="p-3 pr-4 text-right" onclick="event.stopPropagation()">
+        <button onclick="openScreenerAuditDetails('${stock.code}', '${phase}')" class="bg-brand-600/20 text-brand-400 border border-brand-600/30 hover:bg-brand-600/40 font-bold text-[9px] px-2.5 py-1 rounded-lg uppercase transition">Detail Audit</button>
+      </td>
+    `;
+    tbody.appendChild(row);
+  });
+
+  // Focus on the first stock in the list by default
+  if (data.stocks.length > 0) {
+    focusScreenerStock(data.stocks[0].code, phase);
+  }
+  
+  lucide.createIcons();
+}
+
+function focusScreenerStock(code, phase) {
+  const p = phase || appState.economicPhase;
+  const data = screenerDatabase[p];
+  if (!data) return;
+
+  const tech = data.tech[code];
+  if (tech) {
+    document.getElementById('tech-stock-code').innerText = code;
+    document.getElementById('tech-trend-status').innerText = tech.trend;
+    
+    const trendEl = document.getElementById('tech-trend-status');
+    if (tech.trend.includes('BEARISH')) {
+      trendEl.className = "text-red-400 font-bold";
+    } else if (tech.trend.includes('BULLISH')) {
+      trendEl.className = "text-green-400 font-bold";
+    } else {
+      trendEl.className = "text-yellow-400 font-bold";
+    }
+
+    document.getElementById('tech-rsi-status').innerText = tech.rsi;
+    document.getElementById('tech-support-resistance').innerText = tech.sr;
+    document.getElementById('tech-action-signal').innerText = tech.action;
+    
+    const sigEl = document.getElementById('tech-action-signal');
+    if (tech.action.includes('STRONG BUY') || tech.action.includes('BUY')) {
+      sigEl.className = "px-3 py-1.5 rounded-xl text-xs font-bold uppercase tracking-wider bg-green-950 text-green-400 border border-green-800 text-center animate-pulse";
+    } else if (tech.action.includes('HOLD')) {
+      sigEl.className = "px-3 py-1.5 rounded-xl text-xs font-bold uppercase tracking-wider bg-blue-950 text-blue-400 border border-blue-800 text-center";
+    } else {
+      sigEl.className = "px-3 py-1.5 rounded-xl text-xs font-bold uppercase tracking-wider bg-slate-900 text-slate-400 border border-cyber-border text-center";
+    }
+  }
+}
+
+function openScreenerAuditDetails(code, phase) {
+  const p = phase || appState.economicPhase;
+  const data = screenerDatabase[p];
+  if (!data) return;
+
+  const audit = data.audits[code];
+  if (audit) {
+    document.getElementById('audit-stock-title').innerText = `Laporan Audit Emiten ${code}`;
+    document.getElementById('audit-accounting-desc').innerText = audit.accounting;
+    document.getElementById('audit-management-desc').innerText = audit.management;
+    document.getElementById('audit-actions-desc').innerText = audit.actions;
+    
+    openModal('modal-audit-details');
+  }
+}
+

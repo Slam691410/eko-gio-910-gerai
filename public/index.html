@@ -2870,6 +2870,45 @@
     </div>
   </div>
 
+  <!-- ==================== MODAL: DETAIL AUDIT INTEGRITAS EMITEN ==================== -->
+  <div id="modal-audit-details" class="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 hidden">
+    <div class="bg-cyber-card border-2 border-brand-500 backdrop-blur-cyber rounded-3xl p-6 w-full max-w-xl space-y-4 shadow-2xl relative">
+      <div class="absolute top-0 right-0 bg-brand-500 text-slate-900 font-extrabold text-[8px] uppercase tracking-widest px-3 py-1 rounded-bl-xl">AUDIT INTEGRITAS</div>
+      
+      <div class="flex justify-between items-center pb-2 border-b border-cyber-border/40">
+        <div>
+          <h3 class="font-extrabold text-lg text-slate-100" id="audit-stock-title">Audit Emiten BBRI</h3>
+          <p class="text-[10px] text-slate-400 uppercase tracking-widest font-bold">Laporan Audit Forensik & Tata Kelola Korporat</p>
+        </div>
+        <button onclick="closeModal('modal-audit-details')" class="text-slate-400 hover:text-white"><i data-lucide="x" class="w-5 h-5"></i></button>
+      </div>
+
+      <div class="space-y-4 text-xs leading-relaxed max-h-96 overflow-y-auto pr-1">
+        <!-- Accounting checks -->
+        <div class="bg-slate-950 p-3.5 rounded-xl border border-cyber-border/40 space-y-2">
+          <span class="text-[9px] text-brand-500 font-extrabold uppercase tracking-wider block">1. Audit Forensik Akuntansi & Cash Flow</span>
+          <p class="text-slate-300" id="audit-accounting-desc">-</p>
+        </div>
+
+        <!-- Management checks -->
+        <div class="bg-slate-950 p-3.5 rounded-xl border border-cyber-border/40 space-y-2">
+          <span class="text-[9px] text-yellow-500 font-extrabold uppercase tracking-wider block">2. Audit Integritas Manajemen & Pengendali</span>
+          <p class="text-slate-300" id="audit-management-desc">-</p>
+        </div>
+
+        <!-- Corporate Action checks -->
+        <div class="bg-slate-950 p-3.5 rounded-xl border border-cyber-border/40 space-y-2">
+          <span class="text-[9px] text-purple-400 font-extrabold uppercase tracking-wider block">3. Risiko Aksi Korporasi & Dilusi Saham</span>
+          <p class="text-slate-300" id="audit-actions-desc">-</p>
+        </div>
+      </div>
+
+      <button onclick="closeModal('modal-audit-details')" class="w-full bg-slate-800 hover:bg-slate-700 text-slate-200 font-extrabold py-2.5 rounded-xl text-xs uppercase tracking-wider transition">
+        Selesai & Tutup Laporan Audit
+      </button>
+    </div>
+  </div>
+
   <!-- ENTERPRISE-GRADE MODULAR WEB3 & AI FRONTEND SCRIPTS -->
   <script src="/js/state.js"></script>
   <script src="/js/calculators.js"></script>

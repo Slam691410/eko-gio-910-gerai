@@ -533,15 +533,8 @@ function copyToClipboard(id) {
 }
 
 function setEconomicPhase(phase) {
-  appState.economicPhase = phase;
-  document.querySelectorAll('.phase-badge').forEach(badge => {
-    badge.className = "phase-badge cursor-pointer px-3 py-1.5 rounded-xl border text-xs font-semibold uppercase transition";
-    if (badge.getAttribute('data-phase') === phase) {
-      badge.className += " bg-brand-500 text-white border-brand-500 shadow-md";
-    } else {
-      badge.className += " bg-slate-900 border-cyber-border text-slate-400";
-    }
-  });
+  // Handled dynamically in calculators.js
+  updateEconomicPhaseAll(phase);
 }
 
 // ==================== CORE INTERACTIVE FORM SUBMISSIONS & WEB3/AI CONNECTORS ====================
