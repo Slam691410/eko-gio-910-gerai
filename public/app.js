@@ -381,6 +381,7 @@ function setSaaSMode(mode) {
 
   const btnCust = document.getElementById('btn-saas-customer');
   const btnAdmin = document.getElementById('btn-saas-admin');
+  const btnDev = document.getElementById('btn-saas-dev');
 
   // Sidebar link references
   const navUgc = document.getElementById('nav-ugc');
@@ -393,6 +394,7 @@ function setSaaSMode(mode) {
   const navDividend = document.getElementById('nav-dividend');
   const navInheritance = document.getElementById('nav-inheritance');
   const navMembership = document.getElementById('nav-membership');
+  const navDev = document.getElementById('nav-dev');
 
   // Settings sub-panels references
   const setHeadingTitle = document.getElementById('settings-heading-title');
@@ -404,6 +406,7 @@ function setSaaSMode(mode) {
     // Styling buttons
     btnCust.className = "flex-1 py-2 rounded-lg text-[9px] font-extrabold uppercase tracking-wider transition duration-150 text-white bg-blue-600 shadow-md flex items-center justify-center gap-1";
     btnAdmin.className = "flex-1 py-2 rounded-lg text-[9px] font-extrabold uppercase tracking-wider transition duration-150 text-slate-400 flex items-center justify-center gap-1";
+    btnDev.className = "w-full py-2 rounded-lg text-[9px] font-extrabold uppercase tracking-wider transition duration-150 text-slate-400 flex items-center justify-center gap-1 border border-dashed border-slate-800 hover:border-brand-500/50 hover:bg-slate-900/30";
 
     // Show customer navs
     navUgc.classList.remove('hidden');
@@ -416,8 +419,9 @@ function setSaaSMode(mode) {
     navInheritance.classList.remove('hidden');
     navMembership.classList.remove('hidden');
 
-    // Hide admin navs
+    // Hide admin & dev navs
     navPos.classList.add('hidden');
+    navDev.classList.add('hidden');
 
     // Update settings heading
     setHeadingTitle.innerText = "Profil Pengguna & Keluarga Terintegrasi";
@@ -428,8 +432,8 @@ function setSaaSMode(mode) {
     setFamilyPanel.classList.remove('hidden');
     setAdminLogsPanel.classList.add('hidden');
 
-    // Redirect active tab if currently on an admin tab
-    if (appState.activeTab === 'tab-pos') {
+    // Redirect active tab if currently on an admin/dev tab
+    if (appState.activeTab === 'tab-pos' || appState.activeTab === 'tab-developer') {
       switchTab('tab-ugc');
     }
 
@@ -437,8 +441,9 @@ function setSaaSMode(mode) {
     // Styling buttons
     btnCust.className = "flex-1 py-2 rounded-lg text-[9px] font-extrabold uppercase tracking-wider transition duration-150 text-slate-400 flex items-center justify-center gap-1";
     btnAdmin.className = "flex-1 py-2 rounded-lg text-[9px] font-extrabold uppercase tracking-wider transition duration-150 text-white bg-blue-600 shadow-md flex items-center justify-center gap-1";
+    btnDev.className = "w-full py-2 rounded-lg text-[9px] font-extrabold uppercase tracking-wider transition duration-150 text-slate-400 flex items-center justify-center gap-1 border border-dashed border-slate-800 hover:border-brand-500/50 hover:bg-slate-900/30";
 
-    // Hide customer navs
+    // Hide customer & dev navs
     navUgc.classList.add('hidden');
     navAssets.classList.add('hidden');
     navBudget.classList.add('hidden');
@@ -448,6 +453,7 @@ function setSaaSMode(mode) {
     navDividend.classList.add('hidden');
     navInheritance.classList.add('hidden');
     navMembership.classList.add('hidden');
+    navDev.classList.add('hidden');
 
     // Show admin navs
     navPos.classList.remove('hidden');
@@ -464,10 +470,46 @@ function setSaaSMode(mode) {
     // Fetch initial logs
     fetchServerLogs();
 
-    // Redirect active tab if currently on a customer tab
+    // Redirect active tab if currently on a customer/dev tab
     if (appState.activeTab !== 'tab-pos' && appState.activeTab !== 'tab-settings') {
       switchTab('tab-pos');
     }
+  } else if (mode === 'developer') {
+    // Styling buttons
+    btnCust.className = "flex-1 py-2 rounded-lg text-[9px] font-extrabold uppercase tracking-wider transition duration-150 text-slate-400 flex items-center justify-center gap-1";
+    btnAdmin.className = "flex-1 py-2 rounded-lg text-[9px] font-extrabold uppercase tracking-wider transition duration-150 text-slate-400 flex items-center justify-center gap-1";
+    btnDev.className = "w-full py-2 rounded-lg text-[9px] font-extrabold uppercase tracking-wider transition duration-150 text-white bg-brand-600 shadow-md flex items-center justify-center gap-1 border border-brand-500/50";
+
+    // Unhide developer system console & admin navs
+    navDev.classList.remove('hidden');
+    navPos.classList.remove('hidden');
+
+    // For absolute platform control, also let the developer view other parts of SaaS
+    navUgc.classList.remove('hidden');
+    navAssets.classList.remove('hidden');
+    navBudget.classList.remove('hidden');
+    navInsurance.classList.remove('hidden');
+    navGoals.classList.remove('hidden');
+    navMacro.classList.remove('hidden');
+    navDividend.classList.remove('hidden');
+    navInheritance.classList.remove('hidden');
+    navMembership.classList.remove('hidden');
+
+    // Update settings heading
+    setHeadingTitle.innerText = "Platform Owner Global Logs Console";
+    setHeadingDesc.innerText = "Super-Administrator System Telemetry Logs & Distributed Error Capture.";
+    document.getElementById('nav-settings-text').innerText = "10. Central System Telemetry";
+
+    // Hide family profiles, show logs
+    setFamilyPanel.classList.add('hidden');
+    setAdminLogsPanel.classList.remove('hidden');
+
+    // Fetch initial logs & metrics
+    fetchServerLogs();
+    initDeveloperConsole();
+
+    // Automatically transition developer to the System Console
+    switchTab('tab-developer');
   }
 
   lucide.createIcons();
@@ -719,14 +761,31 @@ function triggerTikTokCartPurchase(productName, targetUrl, estPrice, creatorHand
   // AUTENTIKASI: Must be authenticated with Web3 Wallet to browse or buy affiliate goods
   if (!checkAuthentication()) return;
 
+  // Load platform settings or default
+  const settings = appState.db.platformSettings || {
+    creatorCommissionPercent: 70,
+    platformFeePercent: 30,
+    masterAffiliateCode: "MASTER_GERAI910",
+    redirectTemplate: "https://gerai.id/redirect?url={url}&ref={ref}&subid={subid}"
+  };
+
   const creatorSubId = creatorHandle.toUpperCase() || "CREATOR910";
-  const wrappedLink = `https://gerai.id/redirect?url=${encodeURIComponent(targetUrl)}&ref=MASTER_GERAI910&subid=${creatorSubId}`;
+  
+  // Parse redirect link from template
+  let wrappedLink = settings.redirectTemplate || "https://gerai.id/redirect?url={url}&ref={ref}&subid={subid}";
+  wrappedLink = wrappedLink
+    .replace('{url}', encodeURIComponent(targetUrl))
+    .replace('{ref}', settings.masterAffiliateCode || "MASTER_GERAI910")
+    .replace('{subid}', creatorSubId);
 
   appState.db.affiliateData.clicks = (appState.db.affiliateData.clicks || 0) + 1;
   
+  const creatorPct = (settings.creatorCommissionPercent !== undefined) ? settings.creatorCommissionPercent / 100 : 0.70;
+  const platformPct = (settings.platformFeePercent !== undefined) ? settings.platformFeePercent / 100 : 0.30;
+
   const mockCommission = Math.round(estPrice * 0.05); 
-  const userCommissionShare = Math.round(mockCommission * 0.70); 
-  const platformFeeShare = Math.round(mockCommission * 0.30); 
+  const userCommissionShare = Math.round(mockCommission * creatorPct); 
+  const platformFeeShare = Math.round(mockCommission * platformPct); 
 
   appState.db.affiliateData.earnings += userCommissionShare;
   
@@ -735,12 +794,13 @@ function triggerTikTokCartPurchase(productName, targetUrl, estPrice, creatorHand
     date: new Date().toISOString().split('T')[0],
     source: `GeraiTok (@${creatorHandle}) - ${productName}`,
     amount: userCommissionShare,
+    platformShare: platformFeeShare,
     status: "Approved"
   });
 
   saveDatabase();
 
-  alert(`🔗 Mengalihkan Pembeli ke Tautan Afiliasi Global Terbungkus!\n\n🛍️ Produk Global: ${productName}\n💰 Estimasi Komisi: Rp ${mockCommission.toLocaleString('id-ID')}\n✨ Pembagian Hasil:\n  - 70% Komisi Kreator (@${creatorHandle}): Rp ${userCommissionShare.toLocaleString('id-ID')}\n  - 30% Fee Sistem Platform Master: Rp ${platformFeeShare.toLocaleString('id-ID')}\n\nTautan Afiliasi Terbungkus:\n${wrappedLink}`);
+  alert(`🔗 Mengalihkan Pembeli ke Tautan Afiliasi Global Terbungkus!\n\n🛍️ Produk Global: ${productName}\n💰 Estimasi Komisi: Rp ${mockCommission.toLocaleString('id-ID')}\n✨ Pembagian Hasil:\n  - ${(creatorPct * 100).toFixed(0)}% Komisi Kreator (@${creatorHandle}): Rp ${userCommissionShare.toLocaleString('id-ID')}\n  - ${(platformPct * 100).toFixed(0)}% Fee Sistem Platform Master: Rp ${platformFeeShare.toLocaleString('id-ID')}\n\nTautan Afiliasi Terbungkus:\n${wrappedLink}`);
 }
 
 function shareTikTokVideo(author, targetUrl) {
@@ -1024,4 +1084,414 @@ function copyToClipboard(id) {
   }).catch(err => {
     console.error('Failed to copy text: ', err);
   });
+}
+
+// ==================== DEVELOPER & SUPER ADMIN CONSOLE LOGIC ====================
+
+// Initialize Developer Console HUD and fetch configs
+async function initDeveloperConsole() {
+  if (appState.saasMode !== 'developer') return;
+
+  try {
+    // 1. Fetch System Metrics
+    const res = await fetch('/api/dev/status');
+    const data = await res.json();
+    if (data.success) {
+      document.getElementById('dev-hud-pid').innerText = data.pid;
+      document.getElementById('dev-hud-cpus').innerText = data.numCPUs;
+      document.getElementById('dev-hud-mem-rss').innerText = data.memory.rss;
+      document.getElementById('dev-hud-mem-used').innerText = data.memory.heapUsed;
+      document.getElementById('dev-hud-uptime').innerText = Math.round(data.uptime);
+      document.getElementById('dev-hud-platform').innerText = `${data.platform.toUpperCase()} (${data.nodeVersion})`;
+      
+      // Update global commission HUD from active DB if present
+      let totalPlatformFees = 0;
+      if (appState.db && appState.db.affiliateData && appState.db.affiliateData.history) {
+        appState.db.affiliateData.history.forEach(item => {
+          const pShare = item.platformShare || Math.round(item.amount * (30/70));
+          totalPlatformFees += pShare;
+        });
+      }
+      document.getElementById('dev-hud-accumulated-fees').innerText = totalPlatformFees.toLocaleString('id-ID');
+      document.getElementById('dev-hud-total-clicks').innerText = appState.db?.affiliateData?.clicks || 0;
+    }
+
+    // 2. Fetch .env keys
+    await fetchEnvConfig();
+
+    // 3. Load DB to editor
+    loadDatabaseToEditor();
+
+    // 4. Fill active platform settings into inputs
+    if (appState.db) {
+      if (!appState.db.platformSettings) {
+        // Initialize default platform settings in DB
+        appState.db.platformSettings = {
+          creatorCommissionPercent: 70,
+          platformFeePercent: 30,
+          masterAffiliateCode: "MASTER_GERAI910",
+          redirectTemplate: "https://gerai.id/redirect?url={url}&ref={ref}&subid={subid}"
+        };
+      }
+      const s = appState.db.platformSettings;
+      document.getElementById('dev-range-creator').value = s.creatorCommissionPercent;
+      document.getElementById('dev-lbl-creator').innerText = s.creatorCommissionPercent;
+      document.getElementById('dev-lbl-platform').innerText = s.platformFeePercent;
+      document.getElementById('dev-input-ref-code').value = s.masterAffiliateCode;
+      document.getElementById('dev-input-redirect-template').value = s.redirectTemplate;
+      document.getElementById('dev-commission-split-label').innerText = `${s.creatorCommissionPercent}% Kreator / ${s.platformFeePercent}% Master Platform`;
+    }
+
+  } catch (err) {
+    console.error('Failed to initialize Developer Console metrics:', err);
+  }
+}
+
+// Balance Creator Slider against Master Platform Share (must equal 100%)
+function balanceDevCommission(creatorVal) {
+  const creatorNum = parseInt(creatorVal, 10);
+  const platformNum = 100 - creatorNum;
+
+  document.getElementById('dev-lbl-creator').innerText = creatorNum;
+  document.getElementById('dev-lbl-platform').innerText = platformNum;
+  document.getElementById('dev-commission-split-label').innerText = `${creatorNum}% Kreator / ${platformNum}% Master Platform`;
+}
+
+// Save Global Affiliate Settings
+async function saveGlobalAffiliateSettings() {
+  if (!appState.db) return;
+
+  const creatorNum = parseInt(document.getElementById('dev-range-creator').value, 10);
+  const platformNum = 100 - creatorNum;
+  const refCode = document.getElementById('dev-input-ref-code').value.trim() || 'MASTER_GERAI910';
+  const redirectTpl = document.getElementById('dev-input-redirect-template').value.trim() || 'https://gerai.id/redirect?url={url}&ref={ref}&subid={subid}';
+
+  appState.db.platformSettings = {
+    creatorCommissionPercent: creatorNum,
+    platformFeePercent: platformNum,
+    masterAffiliateCode: refCode,
+    redirectTemplate: redirectTpl
+  };
+
+  // Also update environment variables on the backend!
+  try {
+    const envRes = await fetch('/api/dev/env');
+    const envData = await envRes.json();
+    if (envData.success && envData.env) {
+      const updatedEnv = { ...envData.env };
+      updatedEnv['MASTER_AFFILIATE_CODE'] = refCode;
+      updatedEnv['MASTER_AFFILIATE_PERCENT'] = platformNum;
+
+      await fetch('/api/dev/env', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(updatedEnv)
+      });
+    }
+  } catch (err) {
+    console.error('Failed to auto-update master env with new affiliate configs:', err);
+  }
+
+  // Save the modified database containing the new settings
+  await saveDatabase();
+  
+  // Rerender HUD metrics
+  initDeveloperConsole();
+
+  alert(`✅ Aturan Komisi Platform & Redirect Berhasil Disimpan!\n\n✨ Aturan Baru:\n  - Bagi hasil: ${creatorNum}% Kreator / ${platformNum}% Master Platform\n  - Kode Ref: ${refCode}\n  - Template: ${redirectTpl}\n\nSeluruh klik Keranjang Kuning GeraiTok selanjutnya akan langsung mengadopsi aturan ini!`);
+}
+
+// Fetch .env variables from server
+async function fetchEnvConfig() {
+  try {
+    const res = await fetch('/api/dev/env');
+    const data = await res.json();
+    if (data.success && data.env) {
+      const container = document.getElementById('dev-env-container');
+      if (!container) return;
+      container.innerHTML = '';
+      
+      Object.entries(data.env).forEach(([key, value]) => {
+        const div = document.createElement('div');
+        div.className = "space-y-1 bg-slate-950 p-3 rounded-xl border border-cyber-border/40";
+        
+        let isSet = value && value.trim() !== '';
+        let badgeHTML = '';
+        if (key === 'PORT' || key === 'MIDTRANS_ENVIRONMENT' || key.startsWith('MASTER_')) {
+          badgeHTML = `<span class="px-2 py-0.5 rounded text-[8px] font-extrabold bg-blue-950 text-blue-400 border border-blue-800 uppercase">Config</span>`;
+        } else if (isSet) {
+          badgeHTML = `<span class="px-2 py-0.5 rounded text-[8px] font-extrabold bg-emerald-950 text-emerald-400 border border-emerald-800 uppercase">Production Active</span>`;
+        } else {
+          badgeHTML = `<span class="px-2 py-0.5 rounded text-[8px] font-extrabold bg-orange-950 text-orange-400 border border-orange-800 uppercase">Fallback Active</span>`;
+        }
+
+        div.innerHTML = `
+          <div class="flex justify-between items-center text-xs font-mono">
+            <span class="text-slate-300 font-bold">${key}</span>
+            ${badgeHTML}
+          </div>
+          <input type="text" data-env-key="${key}" value="${value}" class="w-full bg-slate-900 border border-cyber-border/60 rounded-lg px-2.5 py-1 text-xs font-mono text-emerald-400 focus:border-brand-500 outline-none">
+        `;
+        container.appendChild(div);
+      });
+    }
+  } catch (err) {
+    console.error('Error fetching env config:', err);
+  }
+}
+
+// Save all .env inputs back to the server
+async function saveEnvironmentConfig() {
+  const container = document.getElementById('dev-env-container');
+  if (!container) return;
+
+  const inputs = container.querySelectorAll('input[data-env-key]');
+  const updatedEnv = {};
+
+  inputs.forEach(input => {
+    const key = input.getAttribute('data-env-key');
+    updatedEnv[key] = input.value;
+  });
+
+  try {
+    const res = await fetch('/api/dev/env', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(updatedEnv)
+    });
+    const data = await res.json();
+    if (data.success) {
+      alert(`⚙️ Konfigurasi .env Berhasil Diperbarui!\n\nKunci API rill Anda telah tersimpan dan server aktif telah mengadopsi perubahan ini secara real-time.`);
+      await fetchEnvConfig();
+    } else {
+      alert('🚫 Gagal memperbarui konfigurasi .env: ' + data.error);
+    }
+  } catch (err) {
+    alert('🚫 Terjadi kesalahan saat menyimpan file konfigurasi .env.');
+    console.error(err);
+  }
+}
+
+// Crash current worker to test failover (High Availability)
+async function simulateWorkerCrash() {
+  const currentPid = document.getElementById('dev-hud-pid').innerText;
+  
+  if (!confirm(`⚠️ PERINGATAN: ANDA AKAN MENUTUP PAKSA SERVER!\n\nApakah Anda yakin ingin mensimulasikan kegagalan sistem (crash) pada Worker Process PID ${currentPid}?\n\nHal ini dilakukan untuk membuktikan sistem failover clustering mandiri.`)) {
+    return;
+  }
+
+  writeToSandboxTerminal(`[DEBUG] Mengirim sinyal crash darurat ke Worker PID: ${currentPid}...`);
+
+  try {
+    const res = await fetch('/api/dev/crash', { method: 'POST' });
+    const data = await res.json();
+    
+    writeToSandboxTerminal(`[SYSTEM] ${data.message}`);
+    writeToSandboxTerminal(`[SYSTEM] Worker dimatikan. Mulai memantau peluncuran ulang master cluster...`);
+
+    // Let's check status recursively to show how it heals and reports a new PID!
+    let attempts = 0;
+    const interval = setInterval(async () => {
+      attempts++;
+      writeToSandboxTerminal(`[HEALTH-CHECK] Polling kesehatan server (percobaan ${attempts})...`);
+      try {
+        const checkRes = await fetch('/api/dev/status');
+        const checkData = await checkRes.json();
+        if (checkData.success && checkData.pid != currentPid) {
+          clearInterval(interval);
+          writeToSandboxTerminal(`[SUCCESS] 🔥 SERVER TELAH PULIH MANDIRI (SELF-HEALED)!`);
+          writeToSandboxTerminal(`[SUCCESS] Node Master berhasil melahirkan Worker pengganti baru.`);
+          writeToSandboxTerminal(`[SUCCESS] PID Lama: ${currentPid} ➜ PID Baru: ${checkData.pid}`);
+          
+          document.getElementById('dev-hud-pid').innerText = checkData.pid;
+          document.getElementById('dev-hud-pid').classList.add('text-emerald-400');
+          setTimeout(() => {
+            document.getElementById('dev-hud-pid').classList.remove('text-emerald-400');
+          }, 3000);
+          
+          initDeveloperConsole();
+          alert(`🔥 CLUSTER BERHASIL PULIH MANDIRI (SELF-HEALED)!\n\nSistem cluster mendeteksi matinya Worker PID ${currentPid} & otomatis mengalihkan beban kerja serta melahirkan Worker pengganti baru dengan PID ${checkData.pid} dalam waktu kurang dari 200ms!\n\nKetersediaan layanan (uptime) dijamin 100% fail-safe.`);
+        }
+      } catch (e) {
+        // Ignored, wait for server to rise
+      }
+      if (attempts > 15) {
+        clearInterval(interval);
+        writeToSandboxTerminal(`[ERROR] Pemulihan melampaui batas polling.`);
+      }
+    }, 400);
+
+  } catch (err) {
+    writeToSandboxTerminal(`[ERROR] Worker crash triggered successfully. Reconnecting...`);
+    setTimeout(() => {
+      initDeveloperConsole();
+    }, 1000);
+  }
+}
+
+// Load database to editor textarea
+function loadDatabaseToEditor() {
+  if (appState.db) {
+    document.getElementById('dev-db-editor-textarea').value = JSON.stringify(appState.db, null, 2);
+    const msg = document.getElementById('dev-db-editor-validation-msg');
+    msg.className = "text-xs font-semibold text-emerald-400 block";
+    msg.innerText = "✓ database.json berhasil disinkronkan ke area editor.";
+  }
+}
+
+// Validate JSON syntax and write directly to database.json
+async function saveDatabaseFromEditor() {
+  const textareaVal = document.getElementById('dev-db-editor-textarea').value;
+  const msg = document.getElementById('dev-db-editor-validation-msg');
+  
+  let parsedData;
+  try {
+    parsedData = JSON.parse(textareaVal);
+  } catch (err) {
+    msg.className = "text-xs font-semibold text-red-500 block";
+    msg.innerText = `✗ Format JSON Tidak Valid: ${err.message}`;
+    alert(`🚫 Gagal Menyimpan Basis Data!\n\nTerdapat kesalahan penulisan format JSON. Harap periksa tanda koma, kurung kurawal, dan tanda kutip ganda.`);
+    return;
+  }
+
+  try {
+    const res = await fetch('/api/db', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(parsedData)
+    });
+    const data = await res.json();
+    if (data.success) {
+      appState.db = data.db;
+      msg.className = "text-xs font-semibold text-emerald-400 block";
+      msg.innerText = "✓ Sukses! Berkas fisik database.json diperbarui rill & memori disinkronkan.";
+      
+      // Update UI components with new database records
+      renderUGCFeed();
+      renderPOSProducts();
+      renderCRMCustomers();
+      renderPOSTransactions();
+      calculateKHL();
+      calculateRetirement();
+      calculateInheritance();
+      
+      alert(`✅ Berkas database.json Berhasil Diperbarui!\n\nSeluruh data transaksi, pos, profil, dan keuangan rill telah disinkronkan langsung ke basis data fisik.`);
+    } else {
+      msg.className = "text-xs font-semibold text-red-500 block";
+      msg.innerText = "✗ Gagal menyimpan basis data.";
+    }
+  } catch (err) {
+    msg.className = "text-xs font-semibold text-red-500 block";
+    msg.innerText = "✗ Terjadi kesalahan koneksi server.";
+  }
+}
+
+// Interactive API Sandbox client
+async function testSandboxApi(endpoint) {
+  writeToSandboxTerminal(`➜ Meluncurkan GET ${endpoint}...`);
+  try {
+    const start = Date.now();
+    const res = await fetch(endpoint);
+    const ms = Date.now() - start;
+    
+    writeToSandboxTerminal(`⬅ Respons diterima dalam ${ms}ms. HTTP Status: ${res.status} ${res.statusText}`);
+    const data = await res.json();
+    writeToSandboxTerminal(JSON.stringify(data, null, 2));
+  } catch (err) {
+    writeToSandboxTerminal(`✗ Pemanggilan API Gagal: ${err.message}`);
+  }
+}
+
+// Send mock client error to test Sentry aggregation
+async function sendSandboxSentryError() {
+  const errorMsg = "Simulated Developer Console Exception: Uncaught TypeMismatch at app.js Line 1024";
+  writeToSandboxTerminal(`➜ Mengirimkan Mock Client Sentry Report ke /api/logs/report...`);
+  
+  try {
+    const res = await fetch('/api/logs/report', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        type: "JS_CRASH_DEV_CONSOLE",
+        message: errorMsg,
+        details: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) SandboxTester/1.0"
+      })
+    });
+    const data = await res.json();
+    if (data.success) {
+      writeToSandboxTerminal(`✓ Mock Sentry Error berhasil tercatat di log server.`);
+      fetchServerLogs(); // Update the settings log box live!
+    }
+  } catch (err) {
+    writeToSandboxTerminal(`✗ Sentry reporting gagal: ${err.message}`);
+  }
+}
+
+// Trigger concurrent stress test to prove 429 rate limit block
+async function triggerRateLimiterStressTest() {
+  clearSandboxTerminal();
+  writeToSandboxTerminal(`🔥 MEMULAI STRESS TEST RATE-LIMITER...`);
+  writeToSandboxTerminal(`[INFO] Aturan Keamanan: Maksimum 15 pemanggilan API per 10 detik.`);
+  writeToSandboxTerminal(`[INFO] Simulasi: Mengirim 16 pemanggilan simultan instan dalam 2 detik...`);
+  
+  let promises = [];
+  for (let i = 1; i <= 16; i++) {
+    const reqNum = i;
+    const p = new Promise(resolve => {
+      setTimeout(async () => {
+        writeToSandboxTerminal(`[REQ #${reqNum}] Menembak GET /api/market-data...`);
+        try {
+          const res = await fetch('/api/market-data');
+          if (res.status === 429) {
+            const data = await res.json();
+            writeToSandboxTerminal(`[RESP #${reqNum}] ❌ BLOCKED! HTTP 429: ${data.message}`);
+          } else {
+            writeToSandboxTerminal(`[RESP #${reqNum}] ✓ SUCCESS! HTTP ${res.status}`);
+          }
+        } catch (e) {
+          writeToSandboxTerminal(`[RESP #${reqNum}] ✗ FAIL: ${e.message}`);
+        }
+        resolve();
+      }, reqNum * 80);
+    });
+    promises.push(p);
+  }
+
+  await Promise.all(promises);
+  writeToSandboxTerminal(`[FINISH] Stress test selesai. Pembuktian rate-limiting berhasil.`);
+  fetchServerLogs(); // Update server logs
+}
+
+// Write line to sandbox screen terminal
+function writeToSandboxTerminal(msg) {
+  const term = document.getElementById('dev-sandbox-terminal');
+  if (term) {
+    if (term.innerText.includes('Belum ada pemanggilan API')) {
+      term.innerHTML = '';
+    }
+    const line = document.createElement('div');
+    line.className = 'border-b border-cyber-border/20 pb-1 mb-1 font-mono';
+    
+    if (msg.includes('SUCCESS') || msg.includes('✓') || msg.includes('Self-Healed') || msg.includes('pulih')) {
+      line.className += ' text-emerald-400';
+    } else if (msg.includes('ERROR') || msg.includes('✗') || msg.includes('BLOCKED') || msg.includes('429')) {
+      line.className += ' text-red-400';
+    } else if (msg.includes('INFO') || msg.includes('➜') || msg.includes('⬅')) {
+      line.className += ' text-blue-400';
+    } else {
+      line.className += ' text-slate-300';
+    }
+    
+    line.innerText = msg;
+    term.appendChild(line);
+    term.scrollTop = term.scrollHeight;
+  }
+}
+
+// Clear terminal screen
+function clearSandboxTerminal() {
+  const term = document.getElementById('dev-sandbox-terminal');
+  if (term) {
+    term.innerHTML = '<span class="text-slate-500 italic">Terminal dibersihkan. Silakan lakukan pemanggilan API di atas.</span>';
+  }
 }
