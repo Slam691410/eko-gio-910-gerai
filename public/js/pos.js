@@ -74,6 +74,51 @@ function renderCRMCustomers() {
       listContainer.appendChild(card);
     });
   }
+
+  // Also render CRM Customer Table in the main panel
+  renderCRMCustomersTable();
+}
+
+function renderCRMCustomersTable() {
+  const tbody = document.getElementById('crm-customers-tbody');
+  if (!tbody || !appState.db?.crmCustomers) return;
+
+  tbody.innerHTML = '';
+  appState.db.crmCustomers.forEach(cust => {
+    const row = document.createElement('tr');
+    row.className = "hover:bg-slate-900/30 transition duration-150 text-xs border-b border-cyber-border/20";
+    
+    let tierClass = "text-slate-400 bg-slate-900/50 border border-slate-700";
+    if (cust.tier === 'Gold') {
+      tierClass = "text-yellow-400 bg-yellow-950/40 border border-yellow-800";
+    } else if (cust.tier === 'Platinum') {
+      tierClass = "text-brand-400 bg-brand-950/40 border border-brand-800";
+    }
+
+    const date = new Date();
+    date.setDate(date.getDate() - Math.floor(Math.random() * 5));
+    const lastDate = date.toISOString().split('T')[0];
+
+    row.innerHTML = `
+      <td class="p-4 pl-6 font-bold text-slate-200">#${cust.id} ${cust.name}</td>
+      <td class="p-4">
+        <span class="block text-slate-300">${cust.phone}</span>
+        <span class="block text-[10px] text-slate-500">${cust.email || '-'}</span>
+      </td>
+      <td class="p-4 text-slate-400">${cust.address || '-'}</td>
+      <td class="p-4">
+        <span class="px-2 py-0.5 rounded text-[9px] font-extrabold uppercase ${tierClass}">
+          ${cust.tier}
+        </span>
+      </td>
+      <td class="p-4 font-mono font-semibold text-slate-300 text-center">${cust.totalOrders || 0} Transaksi</td>
+      <td class="p-4 font-mono text-slate-500">${lastDate}</td>
+      <td class="p-4 pr-6 text-right">
+        <button onclick="sendCRMPromo('${cust.name}', '${cust.tier}')" class="bg-brand-600/20 text-brand-400 border border-brand-600/30 hover:bg-brand-600/40 font-bold text-[9px] px-2.5 py-1.5 rounded-lg uppercase transition">Kirim Promo</button>
+      </td>
+    `;
+    tbody.appendChild(row);
+  });
 }
 
 // Add custom retail product to database physical store inventory

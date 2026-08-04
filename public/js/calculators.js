@@ -771,3 +771,156 @@ function forecastCompounding() {
   document.getElementById('goal-forecast-interest-only').innerText = `Rp ${Math.round(totalInterest).toLocaleString('id-ID')}`;
 }
 
+// -------------------------------------------------------------
+// DYNAMIC DEBT SNOWBALL RENDERING & REMOVALS
+
+function renderDebts() {
+  const tbody = document.getElementById('debt-tbody');
+  if (!tbody || !appState.db) return;
+
+  const debtList = appState.db.debts || [];
+  tbody.innerHTML = '';
+
+  if (debtList.length === 0) {
+    tbody.innerHTML = `<tr><td colspan="5" class="p-4 text-center text-slate-500 italic">Belum ada liabilitas utang terdaftar. Klik tombol Tambah Utang.</td></tr>`;
+    document.getElementById('lbl-total-debts').innerText = "Rp 0";
+    return;
+  }
+
+  let totalDebts = 0;
+  debtList.forEach(debt => {
+    totalDebts += debt.remaining;
+    const row = document.createElement('tr');
+    row.className = "hover:bg-slate-900/30 transition duration-150 text-xs border-b border-cyber-border/20";
+    row.innerHTML = `
+      <td class="p-3 pl-4 font-semibold text-slate-200">${debt.name}</td>
+      <td class="p-3 text-slate-300 font-mono">Rp ${debt.remaining.toLocaleString('id-ID')}</td>
+      <td class="p-3 text-slate-400 font-mono">${debt.rate}% p.a.</td>
+      <td class="p-3 text-yellow-500 font-bold font-mono">Rp ${debt.minPayment.toLocaleString('id-ID')} / bln</td>
+      <td class="p-3 pr-4 text-right">
+        <button onclick="removeDebt(${debt.id})" class="text-red-400 hover:text-red-300 font-bold text-[10px] uppercase">Lunas / Hapus</button>
+      </td>
+    `;
+    tbody.appendChild(row);
+  });
+
+  document.getElementById('lbl-total-debts').innerText = `Rp ${totalDebts.toLocaleString('id-ID')}`;
+}
+
+async function removeDebt(id) {
+  const idx = appState.db?.debts.findIndex(d => d.id === id);
+  if (idx !== -1) {
+    appState.db.debts.splice(idx, 1);
+    await saveDatabase();
+    renderDebts();
+    recalculateAssetNetWorth();
+    alert('✓ Liabilitas berhasil dihapus.');
+  }
+}
+
+// -------------------------------------------------------------
+// DYNAMIC 12-MONTH DIVIDEND CALENDAR & DRIP REINVESTMENT
+
+function renderDividendCalendar() {
+  const tbody = document.getElementById('dividend-calendar-tbody');
+  if (!tbody || !appState.db) return;
+
+  const dividendSchedule = [
+    { month: "Januari", code: "ADRO", name: "Adaro Energy", payout: 250, lotPrice: 2800 },
+    { month: "Februari", code: "BJTM", name: "Bank Jatim", payout: 55, lotPrice: 650 },
+    { month: "Maret", code: "BSSR", name: "Baramulti Suksessarana", payout: 350, lotPrice: 3800 },
+    { month: "April", code: "BBRI", name: "Bank Rakyat Indonesia", payout: 310, lotPrice: 4800 },
+    { month: "Mei", code: "BMRI", name: "Bank Mandiri", payout: 350, lotPrice: 6400 },
+    { month: "Juni", code: "TLKM", name: "Telkom Indonesia", payout: 190, lotPrice: 3100 },
+    { month: "Juli", code: "AMRT", name: "Sumber Alfaria Trijaya", payout: 80, lotPrice: 2900 },
+    { month: "Agustus", code: "AKRA", name: "AKR Corporindo", payout: 125, lotPrice: 1500 },
+    { month: "September", code: "SIDO", name: "Sido Muncul", payout: 40, lotPrice: 700 },
+    { month: "Oktober", code: "GEMS", name: "Golden Energy Mines", payout: 450, lotPrice: 5800 },
+    { month: "November", code: "ASII", name: "Astra International", payout: 240, lotPrice: 4850 },
+    { month: "Desember", code: "UNTR", name: "United Tractors", payout: 700, lotPrice: 24500 }
+  ];
+
+  tbody.innerHTML = '';
+  let totalAnnualDividends = 0;
+
+  const ownedStocks = appState.db.assets?.stocks || [];
+
+  dividendSchedule.forEach(div => {
+    const match = ownedStocks.find(s => s.code === div.code);
+    const sharesOwned = match ? match.shares || 0 : 0;
+    const lots = sharesOwned / 100;
+
+    const totalPayout = sharesOwned * div.payout;
+    totalAnnualDividends += totalPayout;
+
+    const goldPriceGrams = appState.liveMarket?.gold || 2610000;
+    const goldGramsBought = totalPayout > 0 ? (totalPayout / goldPriceGrams) : 0;
+
+    const row = document.createElement('tr');
+    row.className = "hover:bg-slate-900/30 transition duration-150 text-xs border-b border-cyber-border/20";
+    row.innerHTML = `
+      <td class="p-3 pl-4 font-semibold text-slate-300 font-mono">${div.month}</td>
+      <td class="p-3">
+        <div class="flex items-center gap-2">
+          <div class="w-1.5 h-1.5 rounded-full bg-yellow-500 animate-pulse"></div>
+          <div>
+            <strong class="text-slate-100 font-mono">${div.code}</strong>
+            <span class="text-[10px] text-slate-500 block">${div.name}</span>
+          </div>
+        </div>
+      </td>
+      <td class="p-3 font-mono text-slate-400">Rp ${div.payout} / lbr</td>
+      <td class="p-3 font-mono text-slate-300">${lots} Lot (${sharesOwned.toLocaleString()} lbr)</td>
+      <td class="p-3 font-mono text-brand-500 font-bold">Rp ${totalPayout.toLocaleString('id-ID')}</td>
+      <td class="p-3 pr-4 text-right">
+        ${totalPayout > 0 
+          ? `<button onclick="executeDRIPReinvestment('${div.code}', ${totalPayout}, ${goldGramsBought})" class="bg-yellow-600 hover:bg-yellow-500 text-slate-950 font-bold text-[9px] px-2.5 py-1 rounded-lg uppercase transition flex items-center gap-1 ml-auto"><i data-lucide="gem" class="w-3 h-3"></i> Reinvestasi (${goldGramsBought.toFixed(4)}g)</button>`
+          : `<span class="text-slate-600 text-[10px] italic">Tidak Ada Kepemilikan</span>`
+        }
+      </td>
+    `;
+    tbody.appendChild(row);
+  });
+
+  const monthlyAverage = totalAnnualDividends / 12;
+  document.getElementById('div-summary-annual').innerText = `Rp ${totalAnnualDividends.toLocaleString('id-ID')} / thn`;
+  document.getElementById('div-summary-monthly').innerText = `Rp ${Math.round(monthlyAverage).toLocaleString('id-ID')} / bln`;
+  
+  lucide.createIcons();
+}
+
+async function executeDRIPReinvestment(stockCode, cashAmount, goldGrams) {
+  if (!appState.db) return;
+  if (!checkAuthentication()) return;
+
+  alert(`🪙 MEMPROSES DIVIDEND REINVESTMENT PLAN (DRIP)...\n\nEmiten: ${stockCode}\nHasil Dividen: Rp ${cashAmount.toLocaleString('id-ID')}\nKonversi Emas: ${goldGrams.toFixed(5)} Gram\n\nMentransfer dividen tunai ke Smart Treasury dan melakukan minting gGMR...`);
+
+  const addr = appState.db.profile.web3Address;
+  try {
+    const res = await fetch('/api/blockchain/mint', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        token: 'gGMR (Gerai Gold)',
+        value: goldGrams,
+        address: addr
+      })
+    });
+    
+    const data = await res.json();
+    if (data.success) {
+      appState.db.assets = data.updatedAssets;
+      appState.db.blockchainLedger.unshift(data.transaction);
+      
+      await saveDatabase();
+      recalculateAssetNetWorth();
+      renderBlockchainLedger();
+      renderDividendCalendar(); 
+
+      alert(`✅ REINVESTMENT DRIP SUKSES!\n\nHasil dividen tunai Rp ${cashAmount.toLocaleString('id-ID')} dari ${stockCode} berhasil secara otonom diinvestasikan kembali menjadi ${goldGrams.toFixed(5)} Gram emas batangan fisik di blockchain Polygon!`);
+    }
+  } catch (err) {
+    console.error('Failed DRIP execution:', err);
+  }
+}
+

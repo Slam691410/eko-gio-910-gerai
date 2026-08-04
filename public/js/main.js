@@ -45,6 +45,8 @@ async function fetchDatabase(showToast = false) {
     renderPOSTransactions();
     renderBlockchainLedger();
     renderProfileDependents();
+    renderDebts();
+    renderDividendCalendar();
     
     // Recalculate financial formulas
     recalculateAssetNetWorth();
