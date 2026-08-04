@@ -2234,11 +2234,18 @@
                 </div>
 
                 <!-- Smart Contract source code drawer -->
-                <div class="space-y-1.5">
-                  <button onclick="toggleSoliditySourceCode()" class="w-full bg-slate-950 hover:bg-slate-900 border border-cyber-border/60 text-slate-400 text-xs py-2 px-3 rounded-lg font-bold flex justify-between items-center transition">
-                    <span class="flex items-center gap-1.5 font-mono"><i data-lucide="file-text" class="w-4 h-4 text-orange-500"></i> Gerai910SmartTreasury.sol</span>
-                    <span id="dev-sol-btn-lbl" class="text-[10px] text-brand-500">TAMPILKAN SOURCE CODE</span>
-                  </button>
+                <div class="space-y-2">
+                  <label class="block text-[9px] text-slate-500 uppercase font-bold tracking-wider">Pilih Smart Contract On-Chain untuk Ditinjau</label>
+                  <div class="flex gap-2">
+                    <select id="dev-contract-select" class="flex-1 bg-slate-950 border border-cyber-border rounded-xl px-2.5 py-1.5 text-xs text-slate-300 outline-none">
+                      <option value="Gerai910SmartTreasury.sol">🪙 Gerai910SmartTreasury.sol (Global Holding Treasury)</option>
+                      <option value="Gerai910SmartPOS.sol">🛒 Gerai910SmartPOS.sol (Smart Retail & Tax Router)</option>
+                      <option value="Gerai910SmartCRM.sol">🛡️ Gerai910SmartCRM.sol (Loyalty Points & NFTs)</option>
+                    </select>
+                    <button onclick="toggleSoliditySourceCode()" class="bg-brand-600 hover:bg-brand-500 text-white font-extrabold px-3 py-1.5 rounded-xl text-xs uppercase tracking-wider transition">
+                      <span id="dev-sol-btn-lbl">Tampilkan</span>
+                    </button>
+                  </div>
                   <pre id="dev-solidity-code-block" class="hidden bg-slate-950 border border-cyber-border text-slate-400 font-mono text-[9px] p-3 rounded-lg max-h-64 overflow-y-auto leading-relaxed select-all">
 // Memuat berkas kontrak pintar...
                   </pre>

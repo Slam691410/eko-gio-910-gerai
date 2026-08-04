@@ -473,26 +473,29 @@ function triggerSimulatedCrossBorderTx() {
 async function toggleSoliditySourceCode() {
   const block = document.getElementById('dev-solidity-code-block');
   const btn = document.getElementById('dev-sol-btn-lbl');
+  const select = document.getElementById('dev-contract-select');
   if (!block || !btn) return;
+
+  const fileName = select ? select.value : 'Gerai910SmartTreasury.sol';
 
   if (block.classList.contains('hidden')) {
     block.classList.remove('hidden');
-    btn.innerText = "SEMBUNYIKAN SOURCE CODE";
+    btn.innerText = "SEMBUNYIKAN";
     
     try {
-      const res = await fetch('/contracts/Gerai910SmartTreasury.sol');
+      const res = await fetch(`/contracts/${fileName}`);
       if (res.ok) {
         const text = await res.text();
         block.innerText = text;
       } else {
-        block.innerText = "// Gagal membaca file dari server.";
+        block.innerText = `// Gagal membaca file ${fileName} dari server.`;
       }
     } catch (err) {
       block.innerText = "// Gagal memuat file kontrak pintar.";
     }
   } else {
     block.classList.add('hidden');
-    btn.innerText = "TAMPILKAN SOURCE CODE";
+    btn.innerText = "TAMPILKAN";
   }
 }
 
