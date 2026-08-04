@@ -1647,3 +1647,63 @@ async function toggleSoliditySourceCode() {
     btn.innerText = "TAMPILKAN SOURCE CODE";
   }
 }
+
+// --- GLOBAL HQ & MULTI-REGION NODE COORDINATOR ---
+
+let activeNodesCount = 3;
+
+function triggerSimulatedExpansionNode() {
+  const select = document.getElementById('dev-expansion-region-select');
+  if (!select) return;
+
+  const value = select.value;
+  const label = select.options[select.selectedIndex].text;
+  
+  writeToSandboxTerminal(`[GLOBAL-HQ] Menginisiasi penyediaan (provisioning) Node Ekspansi Baru: ${label}...`);
+  
+  setTimeout(() => {
+    writeToSandboxTerminal(`[GLOBAL-HQ] ➜ Mengunduh aturan kepatuhan regulasi finansial setempat...`);
+  }, 400);
+
+  setTimeout(() => {
+    writeToSandboxTerminal(`[GLOBAL-HQ] ➜ Membuat instance smart contract Smart Treasury regional baru...`);
+  }, 800);
+
+  setTimeout(() => {
+    activeNodesCount++;
+    document.getElementById('dev-active-nodes-badge').innerText = `${activeNodesCount} NODES ACTIVE`;
+    
+    writeToSandboxTerminal(`[GLOBAL-HQ] SUCCESS! Node Wilayah baru [${value}] berhasil dipasang dan terhubung secara otonom ke Holding HQ Singapura!`);
+    
+    alert(`🌐 EKSPANSI REGIONAL BERHASIL!\n\nPlatform Gerai 910 kini aktif melayani wilayah baru:\n${label}\n\nSistem secara otonom melakukan routing lintas batas negara, sinkronisasi kurs mata uang asing, serta menerapkan regulasi perpajakan & waris lokal secara real-time!`);
+  }, 1200);
+}
+
+function triggerSimulatedCrossBorderTx() {
+  writeToSandboxTerminal(`[CROSS-BORDER] Memulai Simulasi Transaksi Keuangan Lintas Batas Negara...`);
+  writeToSandboxTerminal(`[CROSS-BORDER] Pelanggan membeli paket premium seharga S$ 1.500 SGD.`);
+
+  setTimeout(() => {
+    writeToSandboxTerminal(`[CROSS-BORDER] ➜ Mendeteksi lokasi operasi lokal: INDONESIA.`);
+    writeToSandboxTerminal(`[CROSS-BORDER] ➜ Kurs rill terdeteksi: 1 SGD = Rp 11.500 IDR.`);
+    writeToSandboxTerminal(`[CROSS-BORDER] ➜ Konversi Nilai Transaksi: S$ 1.500 ➜ Rp 17.250.000 IDR.`);
+  }, 500);
+
+  setTimeout(() => {
+    writeToSandboxTerminal(`[CROSS-BORDER] ➜ Memotong PPN 12% (Kepatuhan Pajak Lokal Indonesia 2026): Rp 1.962.000 IDR.`);
+    writeToSandboxTerminal(`[CROSS-BORDER] ➜ PPN berhasil disisihkan untuk disetor ke kas negara (Kemenkeu RI).`);
+  }, 1000);
+
+  setTimeout(() => {
+    writeToSandboxTerminal(`[CROSS-BORDER] ➜ Menyisihkan 30% Fee Platform Master untuk Holding HQ Singapura: S$ 450 SGD.`);
+    writeToSandboxTerminal(`[CROSS-BORDER] ➜ Fee Platform ditransfer otonom ke Dompet Smart Treasury Global.`);
+  }, 1500);
+
+  setTimeout(() => {
+    writeToSandboxTerminal(`[CROSS-BORDER] ➜ Mengonversi 40% dari platform fee Singapura ke Emas Fisik Token: 0.07 PAXG.`);
+    writeToSandboxTerminal(`[CROSS-BORDER] ➜ Mentransfer 0.07 PAXG ke dompet cadangan emas fisik di Blockchain.`);
+    writeToSandboxTerminal(`[CROSS-BORDER] SUCCESS! Aliran dana transaksi lintas batas terselesaikan 100% secara autopilot.`);
+    
+    alert(`✈️ Aliran Dana Lintas Batas Berhasil Disimulasikan!\n\nAliran Keuangan:\n1. Transaksi: S$ 1.500 SGD (Rp 17.250.000 IDR)\n2. PPN 12% Indonesia Terbayar: Rp 1.962.000 IDR\n3. Fee Platform ke Singapura: S$ 450 SGD\n4. Dana Cadangan Emas Terbeli: 0.07 PAXG\n\nSistem otonom multinasional Anda berjalan 100% otomatis, aman dari tuntutan pajak lokal, dan terus menimbun cadangan emas fisik abadi di Singapura!`);
+  }, 2000);
+}
