@@ -8,7 +8,22 @@ const PORT = process.env.PORT || 3000;
 
 app.use(cors());
 app.use(express.json());
-app.use(express.static(path.join(__dirname, 'public')));
+
+// -----------------------------------------------------------------
+// NEW: ADVANCED HTTP STATIC ASSETS CACHING & ETAG MANAGEMENT (CDN & SENSITIVE CACHE OPTIMIZATION)
+const STATIC_CACHE_AGE_MS = 24 * 60 * 60 * 1000; // 1 Day in milliseconds
+app.use(express.static(path.join(__dirname, 'public'), {
+  maxAge: STATIC_CACHE_AGE_MS,
+  etag: true,
+  lastModified: true,
+  setHeaders: (res, filePath, stat) => {
+    // Cache static assets (JS, CSS, images, icons) at the client browser and CDN edge for 1 day
+    res.setHeader('Cache-Control', 'public, max-age=86400'); // 86400 seconds = 1 day
+    res.setHeader('X-Content-Type-Options', 'nosniff');
+    res.setHeader('X-Frame-Options', 'SAMEORIGIN');
+  }
+}));
+// -----------------------------------------------------------------
 
 const DB_PATH = path.join(__dirname, 'database.json');
 
@@ -39,11 +54,10 @@ if (!fs.existsSync(DB_PATH)) {
   writeDB({});
 }
 
-// -----------------------------------------------------------------
-// NEW: ENTERPRISE-GRADE SERVER-SIDE API RATE LIMITER (NO-MOCK BOT DEFENSE)
-const rateLimitMap = new Map(); // Map to track IP -> { count, windowStart }
-const RATE_LIMIT_WINDOW_MS = 10000; // 10 seconds sliding window
-const RATE_LIMIT_MAX_REQUESTS = 15; // Max 15 requests per 10 seconds per IP
+// ENTERPRISE-GRADE SERVER-SIDE API RATE LIMITER
+const rateLimitMap = new Map(); 
+const RATE_LIMIT_WINDOW_MS = 10000; 
+const RATE_LIMIT_MAX_REQUESTS = 15; 
 
 function apiRateLimiter(req, res, next) {
   const ip = req.ip || req.headers['x-forwarded-for'] || '127.0.0.1';
@@ -56,7 +70,6 @@ function apiRateLimiter(req, res, next) {
 
   const clientData = rateLimitMap.get(ip);
   if (now - clientData.windowStart > RATE_LIMIT_WINDOW_MS) {
-    // Sliding window expired, reset metrics
     clientData.count = 1;
     clientData.windowStart = now;
     return next();
@@ -74,9 +87,7 @@ function apiRateLimiter(req, res, next) {
   next();
 }
 
-// Apply the server-side API rate limiter to all sensitive /api/ routes automatically
 app.use('/api/', apiRateLimiter);
-// -----------------------------------------------------------------
 
 // 1. GET full database
 app.get('/api/db', (req, res) => {
