@@ -39,6 +39,45 @@ if (!fs.existsSync(DB_PATH)) {
   writeDB({});
 }
 
+// -----------------------------------------------------------------
+// NEW: ENTERPRISE-GRADE SERVER-SIDE API RATE LIMITER (NO-MOCK BOT DEFENSE)
+const rateLimitMap = new Map(); // Map to track IP -> { count, windowStart }
+const RATE_LIMIT_WINDOW_MS = 10000; // 10 seconds sliding window
+const RATE_LIMIT_MAX_REQUESTS = 15; // Max 15 requests per 10 seconds per IP
+
+function apiRateLimiter(req, res, next) {
+  const ip = req.ip || req.headers['x-forwarded-for'] || '127.0.0.1';
+  const now = Date.now();
+
+  if (!rateLimitMap.has(ip)) {
+    rateLimitMap.set(ip, { count: 1, windowStart: now });
+    return next();
+  }
+
+  const clientData = rateLimitMap.get(ip);
+  if (now - clientData.windowStart > RATE_LIMIT_WINDOW_MS) {
+    // Sliding window expired, reset metrics
+    clientData.count = 1;
+    clientData.windowStart = now;
+    return next();
+  }
+
+  clientData.count++;
+  if (clientData.count > RATE_LIMIT_MAX_REQUESTS) {
+    console.warn(`[Rate Limit Triggered] Blocked request from IP: ${ip}. Exceeded request limits.`);
+    return res.status(429).json({
+      error: 'Too Many Requests',
+      message: 'Deteksi Aktivitas Tidak Wajar: Server Komputasi Awan (Cloud Compute) memblokir sementara IP Anda karena melebihi kuota pemanggilan aman (Maksimum 15 pemanggilan per 10 detik). Silakan tunggu beberapa detik.'
+    });
+  }
+
+  next();
+}
+
+// Apply the server-side API rate limiter to all sensitive /api/ routes automatically
+app.use('/api/', apiRateLimiter);
+// -----------------------------------------------------------------
+
 // 1. GET full database
 app.get('/api/db', (req, res) => {
   const db = readDB();
@@ -94,7 +133,7 @@ app.get('/api/market-data', (req, res) => {
   });
 });
 
-// 4. Simulated AI Financial Assistant ("GeraiAI") Endpoint (Aligned with User Feedback)
+// 4. Simulated AI Financial Assistant ("GeraiAI") Endpoint
 app.post('/api/ai-chat', (req, res) => {
   const { message } = req.body;
   const db = readDB();
@@ -106,7 +145,6 @@ app.post('/api/ai-chat', (req, res) => {
   const prompt = message.toLowerCase();
   let reply = '';
   
-  // Calculate total values from user's current DB state to make response fully customized & real-time
   const goldGrams = db.assets?.gold?.grams || 0;
   const silverGrams = db.assets?.silver?.grams || 0;
   const goldVal = goldGrams * 2610000;
@@ -136,9 +174,8 @@ app.post('/api/ai-chat', (req, res) => {
 
   const totalDebt = db.debts?.reduce((acc, curr) => acc + curr.remaining, 0) || 0;
   
-  // Dynamic family members & KHL based on new formula: members * baseKHL
-  const familyMembers = 3; // Estimated default
-  const baseKhlPerPerson = 3200000; // DKI Jakarta default
+  const familyMembers = 3; 
+  const baseKhlPerPerson = 3200000; 
   const estimatedKhlFamily = familyMembers * baseKhlPerPerson;
   const emergencyFundCurrent = db.emergencyFund?.current || 0;
   const emergencyFundTargetMonths = db.emergencyFund?.targetMonths || 6;
