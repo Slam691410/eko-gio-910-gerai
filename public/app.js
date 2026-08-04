@@ -5,6 +5,7 @@ let appState = {
   posSubTab: 'pos-cashier',
   screenerTab: 'screener-stocks',
   economicPhase: 'Boom', // Reflasi, Boom, Stagflasi, Resesi
+  freeChatCount: 0, // Free tier chat rate limiter
   checkout: {
     tier: 'Pro',
     basePrice: 99000,
@@ -276,6 +277,7 @@ function syncUIWithDB() {
   toggleWeddingFormPlan();
   renderProfileDependents();
 
+  // Automatically lock family members input in KHL to profile dependents count
   let familyCount = 1; 
   if (db.profile?.maritalStatus === 'Menikah') familyCount += 1; 
   familyCount += (db.profile?.dependents?.length || 0); 
@@ -338,6 +340,36 @@ function switchTab(tabId) {
       if (appState.allocationChartInstance) appState.allocationChartInstance.resize();
     }, 150);
   }
+}
+
+// AUTHENTICATION GUARD (Web3 Wallet Authentication Check)
+function checkAuthentication() {
+  if (!appState.db?.profile?.web3Address) {
+    alert("🔐 Autentikasi Diperlukan!\nSistem SaaS mendeteksi Anda belum menghubungkan identitas wallet Web3 Anda.\nSilakan hubungkan dompet MetaMask terlebih dahulu!");
+    connectWallet();
+    return false;
+  }
+  return true;
+}
+
+// AUTHORIZATION ACCESS CONTROL GUARD (Premium Tier Authorization)
+function checkAuthorization(requiredTier, featureName) {
+  const userTier = appState.db?.profile?.premiumTier || 'Free';
+  
+  // Tier clearance check
+  if (requiredTier === 'Pro' && userTier === 'Free') {
+    alert(`🚫 Akses Ditangguhkan (Otorisasi Gagal)!\n\nFitur '${featureName}' khusus diperuntukkan bagi member PREMIUM PRO atau ENTERPRISE.\nSilakan upgrade keanggotaan Anda di Kategori 11 untuk membuka akses kuota tanpa batas!`);
+    switchTab('tab-membership');
+    return false;
+  }
+  
+  if (requiredTier === 'Enterprise' && userTier !== 'Enterprise') {
+    alert(`🚫 Akses Ditangguhkan (Otorisasi Khusus)!\n\nFitur '${featureName}' memerlukan lisensi level ENTERPRISE.\nSilakan upgrade keanggotaan Anda di Kategori 11.`);
+    switchTab('tab-membership');
+    return false;
+  }
+  
+  return true;
 }
 
 function togglePosSubTab(subTabId) {
@@ -432,7 +464,6 @@ function renderUGCPosts() {
     'from-purple-600 via-pink-900 to-slate-950'
   ];
 
-  // REAL GLOBAL MARKETPLACE LINKS FOR AFFILIATES IN VIDEOS (NO POS INTEGRATION CONFUSION)
   const realGlobalAffiliateProducts = [
     { name: "Logam Mulia Antam 1 Gram Certi - Tokopedia", targetUrl: "https://www.tokopedia.com/search?q=emas+antam+1+gram", estPrice: 2610000 },
     { name: "Sakura Car Filter Radiator - Shopee Global", targetUrl: "https://shopee.co.id/search?keyword=sakura+filter", estPrice: 125000 },
@@ -528,19 +559,20 @@ function renderUGCPosts() {
 function triggerTikTokCartPurchase(productName, targetUrl, estPrice, creatorHandle) {
   if (!appState.db) return;
   
+  // AUTENTIKASI: Must be authenticated with Web3 Wallet to browse or buy affiliate goods
+  if (!checkAuthentication()) return;
+
   const creatorSubId = creatorHandle.toUpperCase() || "CREATOR910";
   const wrappedLink = `https://gerai.id/redirect?url=${encodeURIComponent(targetUrl)}&ref=MASTER_GERAI910&subid=${creatorSubId}`;
 
-  // Log clicking analytics
   appState.db.affiliateData.clicks = (appState.db.affiliateData.clicks || 0) + 1;
   
-  const mockCommission = Math.round(estPrice * 0.05); // 5% average global affiliate fee
-  const userCommissionShare = Math.round(mockCommission * 0.70); // 70% goes to the Sub-Affiliate creator
-  const platformFeeShare = Math.round(mockCommission * 0.30); // 30% goes to the Master SaaS Platform owner
+  const mockCommission = Math.round(estPrice * 0.05); 
+  const userCommissionShare = Math.round(mockCommission * 0.70); 
+  const platformFeeShare = Math.round(mockCommission * 0.30); 
 
   appState.db.affiliateData.earnings += userCommissionShare;
   
-  // Append as a successful commission receipt ledger
   appState.db.affiliateData.history.unshift({
     id: Date.now(),
     date: new Date().toISOString().split('T')[0],
@@ -566,10 +598,9 @@ function shareTikTokVideo(author, targetUrl) {
 }
 
 // -------------------------------------------------------------
-// NEW: SAAS MEMBERSHIP PREMIUM CHECKOUT SYSTEM WITH AFFILIATE TRACKING & WEB3 INTEGRATION
+// PREMIUM CHECKOUT INTEGRATION (SaaS Access Control Billing Panel)
 function openMembershipCheckout(tier) {
   if (tier === 'Free') {
-    // If standard plan, upgrade directly
     upgradeTier('Free');
     return;
   }
@@ -582,7 +613,6 @@ function openMembershipCheckout(tier) {
   appState.checkout.couponCode = '';
   appState.checkout.paymentMethod = 'qris';
 
-  // Update UI Elements in Modal
   document.getElementById('checkout-plan-name').innerText = tier === 'Pro' ? 'Pro Wealth Advisor' : 'Gerai Enterprise';
   document.getElementById('checkout-base-price').innerText = `Rp ${appState.checkout.basePrice.toLocaleString('id-ID')} / bln`;
   document.getElementById('checkout-total-price').innerText = `Rp ${appState.checkout.basePrice.toLocaleString('id-ID')}`;
@@ -590,14 +620,10 @@ function openMembershipCheckout(tier) {
   document.getElementById('checkout-coupon-status').className = 'text-xs text-slate-500 font-bold';
   document.getElementById('checkout-coupon-input').value = '';
 
-  // USDT Conversion representation
   const usdPrice = parseFloat((appState.checkout.basePrice / 16350).toFixed(2));
   document.getElementById('checkout-web3-convert-price').innerText = `${usdPrice} USDT`;
 
-  // Select Default QRIS
   setCheckoutPaymentMethod('qris');
-
-  // Open modal
   openModal('modal-membership-checkout');
 }
 
@@ -608,13 +634,11 @@ function applyCheckoutCoupon() {
     return;
   }
 
-  // Grant a real 5% discount if a valid referral code is entered!
   appState.checkout.couponApplied = true;
   appState.checkout.couponCode = code;
-  appState.checkout.discountPrice = Math.round(appState.checkout.basePrice * 0.05); // 5% discount
+  appState.checkout.discountPrice = Math.round(appState.checkout.basePrice * 0.05); 
   appState.checkout.totalPrice = appState.checkout.basePrice - appState.checkout.discountPrice;
 
-  // Update UI Labels
   document.getElementById('checkout-total-price').innerText = `Rp ${appState.checkout.totalPrice.toLocaleString('id-ID')}`;
   const statusEl = document.getElementById('checkout-coupon-status');
   statusEl.innerText = `AKTIF (DISKON 5%: -Rp ${appState.checkout.discountPrice.toLocaleString('id-ID')})`;
@@ -646,18 +670,11 @@ async function executeMembershipSubscription() {
   const tier = appState.checkout.tier;
   const payMethod = appState.checkout.paymentMethod;
 
-  // Web3 MetaMask balance security check
   if (payMethod === 'web3') {
-    if (!db.profile.web3Address) {
-      alert('Metode DApp memerlukan dompet Web3 terhubung!\nSilakan klik hubungkan dompet MetaMask terlebih dahulu.');
-      connectWallet();
-      return;
-    }
+    if (!checkAuthentication()) return; // Must be authenticated to execute Web3 smart contract payment
 
-    // Simulate MetaMask smart contract payment transaction signing
     alert(`🦊 MetaMask Prompt!\nMenandatangani kontrak pembayaran langganan: ${tier.toUpperCase()}.\nUSDT Nominal: ${document.getElementById('checkout-web3-convert-price').innerText}\nGas Fee: 1.2 Gwei`);
     
-    // Add transaction to block explorer
     const latestBlock = db.blockchainLedger?.length > 0 ? db.blockchainLedger[0].block + 1 : 3284103;
     const txHash = '0x' + Array.from({length: 64}, () => '0123456789abcdef'[Math.floor(Math.random()*16)]).join('');
     
@@ -673,16 +690,12 @@ async function executeMembershipSubscription() {
     });
   }
 
-  // Upgrade the tier
   db.profile.premiumTier = tier;
 
-  // AUTOMATED REFERRAL COMMISSION Payout sweep!
   if (appState.checkout.couponApplied) {
     const referrerId = appState.checkout.couponCode;
-    // Automatically credit the referer with their commission reward!
-    const rewardCommission = Math.round(appState.checkout.totalPrice * 0.10); // 10% affiliate commission!
+    const rewardCommission = Math.round(appState.checkout.totalPrice * 0.10); 
     
-    // Increment signups & affiliate commissions dynamically
     db.affiliateData.signups = (db.affiliateData.signups || 0) + 1;
     db.affiliateData.earnings += rewardCommission;
 
@@ -814,7 +827,7 @@ function renderDebts() {
       <td class="p-3 font-mono">${d.interestRate}% p.a.</td>
       <td class="p-3 font-mono">Rp ${d.minPayment.toLocaleString('id-ID')}/bln</td>
       <td class="p-3 text-right">
-        <button onclick="deleteDebt(${d.id})" class="text-red-400 hover:text-red-300 font-bold bg-red-950/20 border border-red-900/20 px-2 py-0.5 rounded text-[10px]">Hapus</button>
+        <button onclick="deleteDebt(${d.id})" class="text-red-400 hover:text-red-300 bg-red-950/20 border border-red-900/20 px-2 py-0.5 rounded text-[10px] font-bold">Hapus</button>
       </td>
     `;
     tbody.appendChild(tr);
@@ -836,7 +849,7 @@ function renderInsurance() {
       <td class="p-3 font-mono">Rp ${i.premium.toLocaleString('id-ID')}</td>
       <td class="p-3"><span class="bg-green-950 text-green-400 border border-green-800/40 px-2.5 py-0.5 rounded-full text-[10px] font-bold">AKTIF</span></td>
       <td class="p-3 text-right">
-        <button onclick="deleteInsurance(${i.id})" class="text-red-400 hover:text-red-300 font-bold bg-red-950/20 border border-red-900/20 px-2 py-0.5 rounded text-[10px]">Hapus</button>
+        <button onclick="deleteInsurance(${i.id})" class="text-red-400 hover:text-red-300 bg-red-950/20 border border-red-900/20 px-2 py-0.5 rounded text-[10px] font-bold">Hapus</button>
       </td>
     `;
     tbody.appendChild(tr);
@@ -1708,7 +1721,6 @@ function renderUGCPosts() {
     'from-purple-600 via-pink-900 to-slate-950'
   ];
 
-  // REAL GLOBAL MARKETPLACE LINKS FOR AFFILIATES IN VIDEOS (NO POS INTEGRATION CONFUSION)
   const realGlobalAffiliateProducts = [
     { name: "Logam Mulia Antam 1 Gram Certi - Tokopedia", targetUrl: "https://www.tokopedia.com/search?q=emas+antam+1+gram", estPrice: 2610000 },
     { name: "Sakura Car Filter Radiator - Shopee Global", targetUrl: "https://shopee.co.id/search?keyword=sakura+filter", estPrice: 125000 },
@@ -1804,19 +1816,20 @@ function renderUGCPosts() {
 function triggerTikTokCartPurchase(productName, targetUrl, estPrice, creatorHandle) {
   if (!appState.db) return;
   
+  // AUTENTIKASI: Must be authenticated with Web3 Wallet to browse or buy affiliate goods
+  if (!checkAuthentication()) return;
+
   const creatorSubId = creatorHandle.toUpperCase() || "CREATOR910";
   const wrappedLink = `https://gerai.id/redirect?url=${encodeURIComponent(targetUrl)}&ref=MASTER_GERAI910&subid=${creatorSubId}`;
 
-  // Log clicking analytics
   appState.db.affiliateData.clicks = (appState.db.affiliateData.clicks || 0) + 1;
   
-  const mockCommission = Math.round(estPrice * 0.05); // 5% average global affiliate fee
-  const userCommissionShare = Math.round(mockCommission * 0.70); // 70% goes to the Sub-Affiliate creator
-  const platformFeeShare = Math.round(mockCommission * 0.30); // 30% goes to the Master SaaS Platform owner
+  const mockCommission = Math.round(estPrice * 0.05); 
+  const userCommissionShare = Math.round(mockCommission * 0.70); 
+  const platformFeeShare = Math.round(mockCommission * 0.30); 
 
   appState.db.affiliateData.earnings += userCommissionShare;
   
-  // Append as a successful commission receipt ledger
   appState.db.affiliateData.history.unshift({
     id: Date.now(),
     date: new Date().toISOString().split('T')[0],
@@ -1842,7 +1855,7 @@ function shareTikTokVideo(author, targetUrl) {
 }
 
 // -------------------------------------------------------------
-// NEW: SAAS MEMBERSHIP PREMIUM CHECKOUT SYSTEM WITH AFFILIATE TRACKING & WEB3 INTEGRATION
+// PREMIUM CHECKOUT INTEGRATION (SaaS Access Control Billing Panel)
 function openMembershipCheckout(tier) {
   if (tier === 'Free') {
     upgradeTier('Free');
@@ -1857,7 +1870,6 @@ function openMembershipCheckout(tier) {
   appState.checkout.couponCode = '';
   appState.checkout.paymentMethod = 'qris';
 
-  // Update UI Elements in Modal
   document.getElementById('checkout-plan-name').innerText = tier === 'Pro' ? 'Pro Wealth Advisor' : 'Gerai Enterprise';
   document.getElementById('checkout-base-price').innerText = `Rp ${appState.checkout.basePrice.toLocaleString('id-ID')} / bln`;
   document.getElementById('checkout-total-price').innerText = `Rp ${appState.checkout.basePrice.toLocaleString('id-ID')}`;
@@ -1865,7 +1877,6 @@ function openMembershipCheckout(tier) {
   document.getElementById('checkout-coupon-status').className = 'text-xs text-slate-500 font-bold';
   document.getElementById('checkout-coupon-input').value = '';
 
-  // USDT Conversion representation
   const usdPrice = parseFloat((appState.checkout.basePrice / 16350).toFixed(2));
   document.getElementById('checkout-web3-convert-price').innerText = `${usdPrice} USDT`;
 
@@ -1882,7 +1893,7 @@ function applyCheckoutCoupon() {
 
   appState.checkout.couponApplied = true;
   appState.checkout.couponCode = code;
-  appState.checkout.discountPrice = Math.round(appState.checkout.basePrice * 0.05); // 5% discount
+  appState.checkout.discountPrice = Math.round(appState.checkout.basePrice * 0.05); 
   appState.checkout.totalPrice = appState.checkout.basePrice - appState.checkout.discountPrice;
 
   document.getElementById('checkout-total-price').innerText = `Rp ${appState.checkout.totalPrice.toLocaleString('id-ID')}`;
@@ -1917,11 +1928,7 @@ async function executeMembershipSubscription() {
   const payMethod = appState.checkout.paymentMethod;
 
   if (payMethod === 'web3') {
-    if (!db.profile.web3Address) {
-      alert('Metode DApp memerlukan dompet Web3 terhubung!\nSilakan klik hubungkan dompet MetaMask terlebih dahulu.');
-      connectWallet();
-      return;
-    }
+    if (!checkAuthentication()) return; // Must be authenticated to execute Web3 smart contract payment
 
     alert(`🦊 MetaMask Prompt!\nMenandatangani kontrak pembayaran langganan: ${tier.toUpperCase()}.\nUSDT Nominal: ${document.getElementById('checkout-web3-convert-price').innerText}\nGas Fee: 1.2 Gwei`);
     
@@ -1944,7 +1951,7 @@ async function executeMembershipSubscription() {
 
   if (appState.checkout.couponApplied) {
     const referrerId = appState.checkout.couponCode;
-    const rewardCommission = Math.round(appState.checkout.totalPrice * 0.10); // 10% affiliate commission!
+    const rewardCommission = Math.round(appState.checkout.totalPrice * 0.10); 
     
     db.affiliateData.signups = (db.affiliateData.signups || 0) + 1;
     db.affiliateData.earnings += rewardCommission;
