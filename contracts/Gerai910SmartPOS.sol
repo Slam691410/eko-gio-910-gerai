@@ -75,7 +75,7 @@ contract Gerai910SmartPOS {
         require(token.transfer(taxAuthorityWallet, taxShare), "Gagal menyetor PPN 12% ke kas negara");
 
         // 2. Salurkan 5% Platform Fee ke Smart Treasury Singapura untuk konversi emas abadi (PAXG)
-        token.transfer(platformTreasuryAddress, platformShare);
+        require(token.transfer(platformTreasuryAddress, platformShare), "Gagal mengirim fee platform ke treasury");
 
         // 3. Salurkan sisa bersih 83% langsung ke dompet merchant lokal
         require(token.transfer(_merchantWallet, merchantNet), "Gagal mengirim pendapatan bersih ke merchant");

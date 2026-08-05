@@ -15,12 +15,16 @@ function bootWorkerApp() {
   // SECURITY HEADERS - helmet defaults
   app.use(helmet());
 
-  // Content Security Policy - tune sources as needed
+  // Content Security Policy
+  // Catatan: index.html masih memakai inline <script> (tailwind.config) dan
+  // 136 atribut handler inline (onclick=...), sehingga script-src harus
+  // mengizinkan 'unsafe-inline'. TODO: pindahkan handler ke file JS eksternal
+  // lalu hapus 'unsafe-inline' untuk memperketat CSP.
   app.use(
     helmet.contentSecurityPolicy({
       directives: {
         defaultSrc: ["'self'"],
-        scriptSrc: ["'self'", "https://cdn.tailwindcss.com", "https://cdn.jsdelivr.net", "https://unpkg.com"],
+        scriptSrc: ["'self'", "'unsafe-inline'", "https://cdn.tailwindcss.com", "https://cdn.jsdelivr.net", "https://unpkg.com"],
         styleSrc: ["'self'", "'unsafe-inline'", "https://cdn.tailwindcss.com"],
         imgSrc: ["'self'", 'data:', 'https:'],
         connectSrc: ["'self'", 'https:', 'wss:'],
@@ -31,12 +35,11 @@ function bootWorkerApp() {
     })
   );
 
-  // Restrict CORS via env var if provided
+  // CORS: hanya diaktifkan jika CORS_ORIGIN disetel di env.
+  // Default TIDAK mengirim header CORS (same-origin saja) — lebih aman.
   const allowedOrigin = process.env.CORS_ORIGIN || null;
   if (allowedOrigin) {
     app.use(cors({ origin: allowedOrigin }));
-  } else {
-    app.use(cors()); // permissive during development
   }
 
   app.use(express.json());
@@ -80,6 +83,14 @@ function bootWorkerApp() {
   // Apply Security Rate Limiter and Mount Organized Router Modules
   app.use('/api/', apiRateLimiter);
   app.use('/api/', apiRouter);
+
+  // Global error middleware: pastikan request yang gagal selalu dapat respons
+  // (sebelumnya async handler yang error bisa menggantung tanpa balasan).
+  app.use((err, req, res, next) => {
+    logEvent('ERROR', `Unhandled error on ${req.method} ${req.path}: ${err.message}`, err.stack);
+    if (res.headersSent) return next(err);
+    res.status(500).json({ error: 'Internal Server Error', details: err.message });
+  });
 
   const server = app.listen(PORT, '0.0.0.0', () => {
     logEvent('INFO', `[Worker Process] Active on PID: ${process.pid}. Server is running at http://0.0.0.0:${PORT}`);

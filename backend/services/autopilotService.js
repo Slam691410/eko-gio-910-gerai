@@ -1,9 +1,9 @@
 const { readDB, writeDB, logEvent } = require('../config/db');
 
-function runAutopilotCycle() {
+async function runAutopilotCycle() {
   try {
-    const db = readDB();
-    
+    const db = await readDB();
+
     if (!db.platformSettings) db.platformSettings = {};
     if (!db.platformSettings.autopilot) {
       db.platformSettings.autopilot = {
@@ -76,7 +76,7 @@ function runAutopilotCycle() {
     }
 
     if (dbUpdated) {
-      writeDB(db);
+      await writeDB(db);
     }
 
   } catch (err) {
@@ -87,29 +87,33 @@ function runAutopilotCycle() {
 // Start Background Autopilot Daemon (Runs every 15 seconds)
 function startAutopilotDaemon() {
   logEvent('INFO', '[SaaS Autopilot Daemon] Active and monitoring core platform database...');
-  
+
   // Initialize default state in DB if missing
-  try {
-    const db = readDB();
-    if (!db.platformSettings) db.platformSettings = {};
-    if (!db.platformSettings.autopilot) {
-      db.platformSettings.autopilot = {
-        isGrowthActive: true,
-        isHeartbeatActive: true,
-        uptimeTicks: 0
-      };
-      writeDB(db);
+  (async () => {
+    try {
+      const db = await readDB();
+      if (!db.platformSettings) db.platformSettings = {};
+      if (!db.platformSettings.autopilot) {
+        db.platformSettings.autopilot = {
+          isGrowthActive: true,
+          isHeartbeatActive: true,
+          uptimeTicks: 0
+        };
+        await writeDB(db);
+      }
+    } catch (e) {
+      logEvent('WARN', 'Autopilot init: gagal membaca database awal.', e.message);
     }
-  } catch (e) {}
+  })();
 
   // Run first cycle and schedule intervals
   setTimeout(runAutopilotCycle, 2000);
-  setInterval(runAutopilotCycle, 15000); 
+  setInterval(runAutopilotCycle, 15000);
 }
 
-function getAutopilotState() {
+async function getAutopilotState() {
   try {
-    const db = readDB();
+    const db = await readDB();
     return db.platformSettings?.autopilot || {
       isGrowthActive: true,
       isHeartbeatActive: true,
@@ -120,16 +124,16 @@ function getAutopilotState() {
   }
 }
 
-function setAutopilotState(growth, heartbeat) {
+async function setAutopilotState(growth, heartbeat) {
   try {
-    const db = readDB();
+    const db = await readDB();
     if (!db.platformSettings) db.platformSettings = {};
     db.platformSettings.autopilot = {
       isGrowthActive: growth,
       isHeartbeatActive: heartbeat,
       uptimeTicks: db.platformSettings?.autopilot?.uptimeTicks || 0
     };
-    writeDB(db);
+    await writeDB(db);
     logEvent('INFO', `[SaaS Autopilot] State changed: Growth=${growth}, Heartbeat=${heartbeat}`);
     return db.platformSettings.autopilot;
   } catch (e) {

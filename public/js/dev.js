@@ -6,7 +6,7 @@ async function initDeveloperConsole() {
 
   try {
     // 1. Fetch System Metrics
-    const res = await fetch('/api/dev/status');
+    const res = await apiFetch('/api/dev/status');
     const data = await res.json();
     if (data.success) {
       document.getElementById('dev-hud-pid').innerText = data.pid;
@@ -90,14 +90,14 @@ async function saveGlobalAffiliateSettings() {
 
   // Also update environment variables on the backend!
   try {
-    const envRes = await fetch('/api/dev/env');
+    const envRes = await apiFetch('/api/dev/env');
     const envData = await envRes.json();
     if (envData.success && envData.env) {
       const updatedEnv = { ...envData.env };
       updatedEnv['MASTER_AFFILIATE_CODE'] = refCode;
       updatedEnv['MASTER_AFFILIATE_PERCENT'] = platformNum;
 
-      await fetch('/api/dev/env', {
+      await apiFetch('/api/dev/env', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(updatedEnv)
@@ -119,7 +119,7 @@ async function saveGlobalAffiliateSettings() {
 // Fetch .env variables from server
 async function fetchEnvConfig() {
   try {
-    const res = await fetch('/api/dev/env');
+    const res = await apiFetch('/api/dev/env');
     const data = await res.json();
     if (data.success && data.env) {
       const container = document.getElementById('dev-env-container');
@@ -169,7 +169,7 @@ async function saveEnvironmentConfig() {
   });
 
   try {
-    const res = await fetch('/api/dev/env', {
+    const res = await apiFetch('/api/dev/env', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(updatedEnv)
@@ -198,7 +198,7 @@ async function triggerWorkerCrash() {
   writeToSandboxTerminal(`[DEBUG] Mengirim sinyal crash darurat ke Worker PID: ${currentPid}...`);
 
   try {
-    const res = await fetch('/api/dev/crash', { method: 'POST' });
+    const res = await apiFetch('/api/dev/crash', { method: 'POST' });
     const data = await res.json();
     
     writeToSandboxTerminal(`[SYSTEM] ${data.message}`);
@@ -210,7 +210,7 @@ async function triggerWorkerCrash() {
       attempts++;
       writeToSandboxTerminal(`[HEALTH-CHECK] Polling kesehatan server (percobaan ${attempts})...`);
       try {
-        const checkRes = await fetch('/api/dev/status');
+        const checkRes = await apiFetch('/api/dev/status');
         const checkData = await checkRes.json();
         if (checkData.success && checkData.pid != currentPid) {
           clearInterval(interval);
@@ -270,7 +270,7 @@ async function saveDatabaseFromEditor() {
   }
 
   try {
-    const res = await fetch('/api/db', {
+    const res = await apiFetch('/api/db', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(parsedData)
@@ -306,7 +306,7 @@ async function testSandboxApi(endpoint) {
   writeToSandboxTerminal(`➜ Meluncurkan GET ${endpoint}...`);
   try {
     const start = Date.now();
-    const res = await fetch(endpoint);
+    const res = await apiFetch(endpoint);
     const ms = Date.now() - start;
     
     writeToSandboxTerminal(`⬅ Respons diterima dalam ${ms}ms. HTTP Status: ${res.status} ${res.statusText}`);
@@ -323,7 +323,7 @@ async function sendSandboxSentryError() {
   writeToSandboxTerminal(`➜ Mengirimkan aktif Client Sentry Report ke /api/logs/report...`);
   
   try {
-    const res = await fetch('/api/logs/report', {
+    const res = await apiFetch('/api/logs/report', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -356,7 +356,7 @@ async function triggerRateLimiterStressTest() {
       setTimeout(async () => {
         writeToSandboxTerminal(`[REQ #${reqNum}] Menembak GET /api/market-data...`);
         try {
-          const res = await fetch('/api/market-data');
+          const res = await apiFetch('/api/market-data');
           if (res.status === 429) {
             const data = await res.json();
             writeToSandboxTerminal(`[RESP #${reqNum}] ❌ BLOCKED! HTTP 429: ${data.message}`);
@@ -483,7 +483,7 @@ async function toggleSoliditySourceCode() {
     btn.innerText = "SEMBUNYIKAN";
     
     try {
-      const res = await fetch(`/contracts/${fileName}`);
+      const res = await apiFetch(`/contracts/${fileName}`);
       if (res.ok) {
         const text = await res.text();
         block.innerText = text;
@@ -636,7 +636,7 @@ async function searchAndExecuteGlobalAudit() {
   writeToSandboxTerminal(`[GLOBAL-AUDITOR] Menginisiasi audit forensik rill untuk emiten: ${ticker}...`);
 
   try {
-    const res = await fetch(`/api/screener/audit?ticker=${ticker}`);
+    const res = await apiFetch(`/api/screener/audit?ticker=${ticker}`);
     const data = await res.json();
     if (data.success) {
       // Open the modal and populate with real, dynamic data!

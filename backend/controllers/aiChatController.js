@@ -11,7 +11,7 @@ const { searchWebAndScrape } = require('../services/scraperService');
 
 async function handleAIChat(req, res) {
   const { message } = req.body;
-  const db = readDB();
+  const db = await readDB();
   
   if (!message) {
     return res.status(400).json({ error: 'Message is required' });

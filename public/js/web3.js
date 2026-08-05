@@ -37,7 +37,7 @@ async function triggerWeb3Mint(tokenType, amountGrams) {
   if (btn) btn.disabled = true;
 
   try {
-    const res = await fetch('/api/blockchain/mint', {
+    const res = await apiFetch('/api/blockchain/mint', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({

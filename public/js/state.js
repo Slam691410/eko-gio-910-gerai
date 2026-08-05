@@ -72,3 +72,35 @@ function verifyAuthorization(requiredTier, featureName) {
   
   return true;
 }
+
+// ---------------------------------------------------------------------------
+// HELPER FETCH DENGAN TOKEN ADMIN
+// Endpoint yang diproteksi (POST /api/db, /api/blockchain/mint, /api/dev/*)
+// memerlukan header: Authorization: Bearer <ADMIN_API_TOKEN>.
+// Token diminta sekali lalu disimpan di localStorage.
+// ---------------------------------------------------------------------------
+function getAdminToken() {
+  try {
+    return localStorage.getItem('gerai_admin_token') || '';
+  } catch (e) {
+    return '';
+  }
+}
+
+async function apiFetch(url, opts = {}) {
+  opts.headers = Object.assign({}, opts.headers || {});
+  const token = getAdminToken();
+  if (token) opts.headers['Authorization'] = 'Bearer ' + token;
+
+  const res = await fetch(url, opts);
+
+  // Jika server menolak (401), minta token sekali lalu coba lagi
+  if (res.status === 401) {
+    const input = window.prompt('Endpoint ini membutuhkan ADMIN_API_TOKEN server. Masukkan token:');
+    if (input && input.trim()) {
+      try { localStorage.setItem('gerai_admin_token', input.trim()); } catch (e) {}
+      return apiFetch(url, opts);
+    }
+  }
+  return res;
+}

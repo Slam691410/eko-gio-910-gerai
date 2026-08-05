@@ -1,12 +1,14 @@
 const fsSync = require('fs');
 const fs = require('fs').promises;
 const path = require('path');
+const crypto = require('crypto');
 const sqlite3 = require('sqlite3').verbose();
 const pino = require('pino');
 
+// NOTE: __dirname = <repo>/backend/config, jadi naik 2 level = root repo.
 const DATA_DIR = path.join(__dirname, '../../data');
-const JSON_DB_PATH = path.join(__dirname, '../../../database.json');
-const LOG_FILE = path.join(__dirname, '../../../server.log');
+const JSON_DB_PATH = path.join(__dirname, '../../database.json');
+const LOG_FILE = path.join(__dirname, '../../server.log');
 const SQLITE_FILE = path.join(DATA_DIR, 'database.sqlite');
 
 if (!fsSync.existsSync(DATA_DIR)) {
@@ -23,8 +25,10 @@ const db = new sqlite3.Database(SQLITE_FILE, (err) => {
   }
 });
 
-// Ensure schema
+// Ensure schema + concurrency tuning (WAL & busy_timeout mencegah SQLITE_BUSY)
 db.serialize(() => {
+  db.run(`PRAGMA journal_mode = WAL`);
+  db.run(`PRAGMA busy_timeout = 5000`);
   db.run(`CREATE TABLE IF NOT EXISTS kv (key TEXT PRIMARY KEY, value TEXT)`);
   db.run(`CREATE TABLE IF NOT EXISTS logs (id INTEGER PRIMARY KEY AUTOINCREMENT, level TEXT, message TEXT, ts TEXT)`);
 });
@@ -48,22 +52,35 @@ function getAsync(sql, params = []) {
   });
 }
 
+// Migrasi database.json -> SQLite HANYA SEKALI (idempotent):
+// - Hitung hash isi database.json, simpan di kv 'migration_marker'.
+// - Jika hash sama dengan marker, file sudah pernah dimigrasi -> skip.
+// - Dengan begitu data live TIDAK akan ditimpa seed lagi saat restart/respawn worker.
 async function migrateIfNeeded() {
   try {
-    if (fsSync.existsSync(JSON_DB_PATH)) {
-      const raw = fsSync.readFileSync(JSON_DB_PATH, 'utf8');
-      let obj = {};
-      try {
-        obj = JSON.parse(raw);
-      } catch (e) {
-        logger.error({ err: e }, 'Failed to parse existing database.json during migration');
-      }
+    if (!fsSync.existsSync(JSON_DB_PATH)) return;
 
-      await writeKV('root', obj);
-      const bakPath = path.join(DATA_DIR, `database.json.bak.${Date.now()}`);
-      fsSync.copyFileSync(JSON_DB_PATH, bakPath);
-      logger.info(`Migrated database.json to sqlite and backed up to ${bakPath}`);
+    const raw = fsSync.readFileSync(JSON_DB_PATH, 'utf8');
+    const hash = crypto.createHash('sha256').update(raw).digest('hex');
+
+    const marker = await getAsync(`SELECT value FROM kv WHERE key = 'migration_marker'`);
+    if (marker && marker.value === hash) {
+      logger.info('database.json already migrated (marker match). Skipping.');
+      return;
     }
+
+    let obj = {};
+    try {
+      obj = JSON.parse(raw);
+    } catch (e) {
+      logger.error({ err: e }, 'Failed to parse existing database.json during migration');
+    }
+
+    await writeKV('root', obj);
+    await writeKV('migration_marker', hash);
+    const bakPath = path.join(DATA_DIR, `database.json.bak.${Date.now()}`);
+    fsSync.copyFileSync(JSON_DB_PATH, bakPath);
+    logger.info(`Migrated database.json to sqlite and backed up to ${bakPath}`);
   } catch (err) {
     logger.error({ err }, 'Error during migration');
   }
@@ -94,31 +111,36 @@ async function writeDB(data) {
   return true;
 }
 
+let logInsertCounter = 0;
+
 function logEvent(level, msg, errorDetails = null) {
   const timestamp = new Date().toISOString();
-  const workerPid = process.pid;
-  const entry = { timestamp, pid: workerPid, level, msg };
-  if (errorDetails) entry.error = errorDetails;
-
+  const base = { timestamp, pid: process.pid };
   if (level === 'ERROR' || level === 'CRITICAL') {
-    logger.error(entry, msg);
+    logger.error({ ...base, error: errorDetails || undefined }, msg);
+  } else if (level === 'WARN') {
+    logger.warn({ ...base, error: errorDetails || undefined }, msg);
   } else {
-    logger.info(entry, msg);
+    logger.info({ ...base }, msg);
   }
 
-  // also insert lightweight summary into sqlite logs table (async, don't await)
+  // ringkasan log ke tabel sqlite (async, jangan di-await)
   db.run(`INSERT INTO logs(level, message, ts) VALUES(?,?,?)`, [level, msg, timestamp], (err) => {
     if (err) logger.error({ err }, 'Failed to insert log summary into sqlite logs table');
   });
-}
 
-// Start migration in background
-migrateIfNeeded().catch((e) => logger.error({ err: e }, 'Migration error'));
+  // Prune tabel log agar tidak membengkak tanpa batas (sisakan 5000 baris terakhir)
+  logInsertCounter++;
+  if (logInsertCounter % 1000 === 0) {
+    db.run(`DELETE FROM logs WHERE id <= (SELECT MAX(id) FROM logs) - 5000`);
+  }
+}
 
 module.exports = {
   readDB,
   writeDB,
   logEvent,
+  migrateIfNeeded,
   DB_PATH: SQLITE_FILE,
   LOG_FILE
 };
