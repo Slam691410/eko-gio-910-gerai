@@ -1,0 +1,29 @@
+{
+  "name": "eko-gio-910-gerai",
+  "version": "1.0.0",
+  "description": "Premium All-in-One Real-Time Financial Portal, POS, CRM, Wealth, Sharia Inheritance, AI Assistant and Blockchain Asset Tokenization Hub",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "start:dev": "NODE_ENV=development node server.js",
+    "smoke-test": "bash scripts/smoke-test.sh"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^17.4.2",
+    "express": "^4.19.2",
+    "helmet": "^7.0.0",
+    "sqlite3": "^5.1.6",
+    "pino": "^8.12.0"
+  },
+  "keywords": [
+    "pos",
+    "crm",
+    "wealth",
+    "sharia",
+    "ai",
+    "blockchain"
+  ],
+  "author": "Arena Agent",
+  "license": "ISC"
+}
