@@ -1,0 +1,383 @@
+{
+  "tahun": 2026,
+  "jumlah_provinsi": 38,
+  "meta": {
+    "tahun": 2026,
+    "khl": {
+      "sumber": "Kementerian Ketenagakerjaan RI",
+      "metode": "Berbasis studi ILO 2025 — (konsumsi per kapita x ART) / ART bekerja",
+      "kelompok_konsumsi": [
+        "makanan",
+        "kesehatan dan pendidikan",
+        "perumahan",
+        "kebutuhan pokok lainnya"
+      ],
+      "tanggal_rilis": "2025-12-20",
+      "catatan": "Dipakai sebagai acuan penetapan UMP 2026 secara bertahap mendekati KHL."
+    },
+    "ump": {
+      "sumber": "Penetapan UMP 2026 oleh gubernur, berlaku 1 Januari 2026",
+      "tanggal_rilis": "2025-12-24",
+      "dasar": "UU 6/2023, PP 51/2023, dan Putusan MK 168/PUU-XXI/2023"
+    },
+    "garis_kemiskinan_nasional": {
+      "nilai_per_kapita_per_bulan": 609160,
+      "sumber": "BPS, Susenas Maret 2025",
+      "catatan": "Ambang MISKIN, bukan ambang LAYAK. Jauh di bawah KHL."
+    },
+    "standar_hidup_layak_bps": {
+      "nilai_per_kapita_per_bulan": 1028333,
+      "sumber": "BPS 2024 (pengeluaran riil per kapita Rp 12,34 juta/tahun untuk komponen IPM)",
+      "catatan": "BPS menegaskan angka ini BUKAN kriteria layak/tidak layak, hanya komponen IPM."
+    },
+    "asumsi_rumah_tangga_acuan": {
+      "jumlah_art": 4,
+      "art_bekerja": 1,
+      "catatan": "Asumsi yang dipakai aplikasi untuk menurunkan konsumsi per kapita dari angka KHL provinsi. Kemnaker tidak mempublikasikan angka ART per provinsi secara rinci, jadi ini ASUMSI yang bisa diubah pengguna, bukan angka resmi."
+    }
+  },
+  "provinsi": [
+    {
+      "kode": "11",
+      "nama": "Aceh",
+      "slug": "aceh",
+      "pulau": "Sumatera",
+      "khl": 3654466,
+      "ump": 3932552,
+      "konsumsiPerKapita": 913617
+    },
+    {
+      "kode": "12",
+      "nama": "Sumatera Utara",
+      "slug": "sumatera-utara",
+      "pulau": "Sumatera",
+      "khl": 3599803,
+      "ump": 3228949,
+      "konsumsiPerKapita": 899951
+    },
+    {
+      "kode": "13",
+      "nama": "Sumatera Barat",
+      "slug": "sumatera-barat",
+      "pulau": "Sumatera",
+      "khl": 4076173,
+      "ump": 3182955,
+      "konsumsiPerKapita": 1019043
+    },
+    {
+      "kode": "14",
+      "nama": "Riau",
+      "slug": "riau",
+      "pulau": "Sumatera",
+      "khl": 4158948,
+      "ump": 3780495,
+      "konsumsiPerKapita": 1039737
+    },
+    {
+      "kode": "15",
+      "nama": "Jambi",
+      "slug": "jambi",
+      "pulau": "Sumatera",
+      "khl": 3931596,
+      "ump": 3471497,
+      "konsumsiPerKapita": 982899
+    },
+    {
+      "kode": "16",
+      "nama": "Sumatera Selatan",
+      "slug": "sumatera-selatan",
+      "pulau": "Sumatera",
+      "khl": 3299907,
+      "ump": 3942963,
+      "konsumsiPerKapita": 824977
+    },
+    {
+      "kode": "17",
+      "nama": "Bengkulu",
+      "slug": "bengkulu",
+      "pulau": "Sumatera",
+      "khl": 3714932,
+      "ump": 2827250,
+      "konsumsiPerKapita": 928733
+    },
+    {
+      "kode": "18",
+      "nama": "Lampung",
+      "slug": "lampung",
+      "pulau": "Sumatera",
+      "khl": 3343494,
+      "ump": 3047734,
+      "konsumsiPerKapita": 835874
+    },
+    {
+      "kode": "19",
+      "nama": "Kepulauan Bangka Belitung",
+      "slug": "kep-bangka-belitung",
+      "pulau": "Sumatera",
+      "khl": 4714805,
+      "ump": 4035000,
+      "konsumsiPerKapita": 1178701
+    },
+    {
+      "kode": "21",
+      "nama": "Kepulauan Riau",
+      "slug": "kep-riau",
+      "pulau": "Sumatera",
+      "khl": 5717082,
+      "ump": 3879520,
+      "konsumsiPerKapita": 1429271
+    },
+    {
+      "kode": "31",
+      "nama": "DKI Jakarta",
+      "slug": "dki-jakarta",
+      "pulau": "Jawa",
+      "khl": 5898511,
+      "ump": 5729876,
+      "konsumsiPerKapita": 1474628
+    },
+    {
+      "kode": "32",
+      "nama": "Jawa Barat",
+      "slug": "jawa-barat",
+      "pulau": "Jawa",
+      "khl": 4122871,
+      "ump": 2317601,
+      "konsumsiPerKapita": 1030718
+    },
+    {
+      "kode": "33",
+      "nama": "Jawa Tengah",
+      "slug": "jawa-tengah",
+      "pulau": "Jawa",
+      "khl": 3512997,
+      "ump": 2327386,
+      "konsumsiPerKapita": 878249
+    },
+    {
+      "kode": "34",
+      "nama": "DI Yogyakarta",
+      "slug": "di-yogyakarta",
+      "pulau": "Jawa",
+      "khl": 4604982,
+      "ump": 2417495,
+      "konsumsiPerKapita": 1151246
+    },
+    {
+      "kode": "35",
+      "nama": "Jawa Timur",
+      "slug": "jawa-timur",
+      "pulau": "Jawa",
+      "khl": 3575938,
+      "ump": 2446880,
+      "konsumsiPerKapita": 893985
+    },
+    {
+      "kode": "36",
+      "nama": "Banten",
+      "slug": "banten",
+      "pulau": "Jawa",
+      "khl": 4295985,
+      "ump": 3100881,
+      "konsumsiPerKapita": 1073996
+    },
+    {
+      "kode": "51",
+      "nama": "Bali",
+      "slug": "bali",
+      "pulau": "Bali & Nusa Tenggara",
+      "khl": 5253107,
+      "ump": 3207459,
+      "konsumsiPerKapita": 1313277
+    },
+    {
+      "kode": "52",
+      "nama": "Nusa Tenggara Barat",
+      "slug": "nusa-tenggara-barat",
+      "pulau": "Bali & Nusa Tenggara",
+      "khl": 3410833,
+      "ump": 2673861,
+      "konsumsiPerKapita": 852708
+    },
+    {
+      "kode": "53",
+      "nama": "Nusa Tenggara Timur",
+      "slug": "nusa-tenggara-timur",
+      "pulau": "Bali & Nusa Tenggara",
+      "khl": 3054508,
+      "ump": 2455898,
+      "konsumsiPerKapita": 763627
+    },
+    {
+      "kode": "61",
+      "nama": "Kalimantan Barat",
+      "slug": "kalimantan-barat",
+      "pulau": "Kalimantan",
+      "khl": 4083420,
+      "ump": 3054552,
+      "konsumsiPerKapita": 1020855
+    },
+    {
+      "kode": "62",
+      "nama": "Kalimantan Tengah",
+      "slug": "kalimantan-tengah",
+      "pulau": "Kalimantan",
+      "khl": 4279888,
+      "ump": 3686138,
+      "konsumsiPerKapita": 1069972
+    },
+    {
+      "kode": "63",
+      "nama": "Kalimantan Selatan",
+      "slug": "kalimantan-selatan",
+      "pulau": "Kalimantan",
+      "khl": 4112552,
+      "ump": 3725000,
+      "konsumsiPerKapita": 1028138
+    },
+    {
+      "kode": "64",
+      "nama": "Kalimantan Timur",
+      "slug": "kalimantan-timur",
+      "pulau": "Kalimantan",
+      "khl": 5735353,
+      "ump": 3762431,
+      "konsumsiPerKapita": 1433838
+    },
+    {
+      "kode": "65",
+      "nama": "Kalimantan Utara",
+      "slug": "kalimantan-utara",
+      "pulau": "Kalimantan",
+      "khl": 4968935,
+      "ump": 3775243,
+      "konsumsiPerKapita": 1242234
+    },
+    {
+      "kode": "71",
+      "nama": "Sulawesi Utara",
+      "slug": "sulawesi-utara",
+      "pulau": "Sulawesi",
+      "khl": 3864224,
+      "ump": 4002630,
+      "konsumsiPerKapita": 966056
+    },
+    {
+      "kode": "72",
+      "nama": "Sulawesi Tengah",
+      "slug": "sulawesi-tengah",
+      "pulau": "Sulawesi",
+      "khl": 3546013,
+      "ump": 3179565,
+      "konsumsiPerKapita": 886503
+    },
+    {
+      "kode": "73",
+      "nama": "Sulawesi Selatan",
+      "slug": "sulawesi-selatan",
+      "pulau": "Sulawesi",
+      "khl": 3670085,
+      "ump": 3921088,
+      "konsumsiPerKapita": 917521
+    },
+    {
+      "kode": "74",
+      "nama": "Sulawesi Tenggara",
+      "slug": "sulawesi-tenggara",
+      "pulau": "Sulawesi",
+      "khl": 3645086,
+      "ump": 3306496,
+      "konsumsiPerKapita": 911272
+    },
+    {
+      "kode": "75",
+      "nama": "Gorontalo",
+      "slug": "gorontalo",
+      "pulau": "Sulawesi",
+      "khl": 3398395,
+      "ump": 3405144,
+      "konsumsiPerKapita": 849599
+    },
+    {
+      "kode": "76",
+      "nama": "Sulawesi Barat",
+      "slug": "sulawesi-barat",
+      "pulau": "Sulawesi",
+      "khl": 3091442,
+      "ump": 3315934,
+      "konsumsiPerKapita": 772861
+    },
+    {
+      "kode": "81",
+      "nama": "Maluku",
+      "slug": "maluku",
+      "pulau": "Maluku & Papua",
+      "khl": 4168498,
+      "ump": 3334490,
+      "konsumsiPerKapita": 1042125
+    },
+    {
+      "kode": "82",
+      "nama": "Maluku Utara",
+      "slug": "maluku-utara",
+      "pulau": "Maluku & Papua",
+      "khl": 4431339,
+      "ump": 3510240,
+      "konsumsiPerKapita": 1107835
+    },
+    {
+      "kode": "91",
+      "nama": "Papua Barat",
+      "slug": "papua-barat",
+      "pulau": "Maluku & Papua",
+      "khl": 5246172,
+      "ump": 3841000,
+      "konsumsiPerKapita": 1311543
+    },
+    {
+      "kode": "92",
+      "nama": "Papua Barat Daya",
+      "slug": "papua-barat-daya",
+      "pulau": "Maluku & Papua",
+      "khl": 5246172,
+      "ump": 3766000,
+      "konsumsiPerKapita": 1311543
+    },
+    {
+      "kode": "94",
+      "nama": "Papua",
+      "slug": "papua",
+      "pulau": "Maluku & Papua",
+      "khl": 5314281,
+      "ump": 4436283,
+      "konsumsiPerKapita": 1328570
+    },
+    {
+      "kode": "95",
+      "nama": "Papua Selatan",
+      "slug": "papua-selatan",
+      "pulau": "Maluku & Papua",
+      "khl": 5314281,
+      "ump": 4508100,
+      "konsumsiPerKapita": 1328570
+    },
+    {
+      "kode": "96",
+      "nama": "Papua Tengah",
+      "slug": "papua-tengah",
+      "pulau": "Maluku & Papua",
+      "khl": 5314281,
+      "ump": 4285848,
+      "konsumsiPerKapita": 1328570
+    },
+    {
+      "kode": "97",
+      "nama": "Papua Pegunungan",
+      "slug": "papua-pegunungan",
+      "pulau": "Maluku & Papua",
+      "khl": 5314281,
+      "ump": 4508714,
+      "konsumsiPerKapita": 1328570
+    }
+  ]
+}

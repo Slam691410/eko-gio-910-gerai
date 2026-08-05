@@ -6,7 +6,10 @@
   "scripts": {
     "start": "node server.js",
     "start:dev": "NODE_ENV=development node server.js",
-    "smoke-test": "bash scripts/smoke-test.sh"
+    "smoke-test": "bash scripts/smoke-test.sh",
+    "test": "node --test \"packages/domain-khl/test/*.test.js\"",
+    "test:khl": "node --test \"packages/domain-khl/test/*.test.js\"",
+    "seed:khl": "node infra/seed/tulis-data-khl.js"
   },
   "dependencies": {
     "cors": "^2.8.5",

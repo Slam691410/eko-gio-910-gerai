@@ -5,6 +5,13 @@ const { readDB, writeDB, LOG_FILE, logEvent } = require('../config/db');
 const { getMarketData, getDynamicScreenerData, getGlobalStockAudit } = require('../controllers/marketDataController');
 const { handleAIChat } = require('../controllers/aiChatController');
 const { mintToken } = require('../controllers/web3Controller');
+const {
+  getProvinsiList,
+  getProvinsiDetail,
+  getKomponen,
+  hitungKhl,
+  surveiKhl
+} = require('../controllers/khlController');
 const adminAuth = require('../middleware/adminAuth');
 const {
   getSystemStatus,
@@ -60,6 +67,13 @@ router.post('/logs/report', asyncHandler(async (req, res) => {
 router.get('/market-data', asyncHandler(getMarketData));
 router.get('/screener', asyncHandler(getDynamicScreenerData));
 router.get('/screener/audit', asyncHandler(getGlobalStockAudit));
+
+// 3b. KHL (Kebutuhan Hidup Layak) 2026 — data 38 provinsi + analisis
+router.get('/khl/provinsi', asyncHandler(getProvinsiList));
+router.get('/khl/provinsi/:kode', asyncHandler(getProvinsiDetail));
+router.get('/khl/komponen', asyncHandler(getKomponen));
+router.post('/khl/hitung', asyncHandler(hitungKhl));
+router.post('/khl/survei', asyncHandler(surveiKhl));
 
 // 4. AI Chat Assistant
 router.post('/ai-chat', asyncHandler(handleAIChat));

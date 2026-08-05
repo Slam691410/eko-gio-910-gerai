@@ -1,0 +1,273 @@
+{
+  "tahun": 2026,
+  "jumlah_provinsi": 38,
+  "sumber": "Penetapan UMP 2026 oleh gubernur, berlaku 1 Januari 2026",
+  "provinsi": [
+    {
+      "kode": "11",
+      "nama": "Aceh",
+      "ump": 3932552,
+      "khl": 3654466,
+      "selisih": 278086
+    },
+    {
+      "kode": "12",
+      "nama": "Sumatera Utara",
+      "ump": 3228949,
+      "khl": 3599803,
+      "selisih": -370854
+    },
+    {
+      "kode": "13",
+      "nama": "Sumatera Barat",
+      "ump": 3182955,
+      "khl": 4076173,
+      "selisih": -893218
+    },
+    {
+      "kode": "14",
+      "nama": "Riau",
+      "ump": 3780495,
+      "khl": 4158948,
+      "selisih": -378453
+    },
+    {
+      "kode": "15",
+      "nama": "Jambi",
+      "ump": 3471497,
+      "khl": 3931596,
+      "selisih": -460099
+    },
+    {
+      "kode": "16",
+      "nama": "Sumatera Selatan",
+      "ump": 3942963,
+      "khl": 3299907,
+      "selisih": 643056
+    },
+    {
+      "kode": "17",
+      "nama": "Bengkulu",
+      "ump": 2827250,
+      "khl": 3714932,
+      "selisih": -887682
+    },
+    {
+      "kode": "18",
+      "nama": "Lampung",
+      "ump": 3047734,
+      "khl": 3343494,
+      "selisih": -295760
+    },
+    {
+      "kode": "19",
+      "nama": "Kepulauan Bangka Belitung",
+      "ump": 4035000,
+      "khl": 4714805,
+      "selisih": -679805
+    },
+    {
+      "kode": "21",
+      "nama": "Kepulauan Riau",
+      "ump": 3879520,
+      "khl": 5717082,
+      "selisih": -1837562
+    },
+    {
+      "kode": "31",
+      "nama": "DKI Jakarta",
+      "ump": 5729876,
+      "khl": 5898511,
+      "selisih": -168635
+    },
+    {
+      "kode": "32",
+      "nama": "Jawa Barat",
+      "ump": 2317601,
+      "khl": 4122871,
+      "selisih": -1805270
+    },
+    {
+      "kode": "33",
+      "nama": "Jawa Tengah",
+      "ump": 2327386,
+      "khl": 3512997,
+      "selisih": -1185611
+    },
+    {
+      "kode": "34",
+      "nama": "DI Yogyakarta",
+      "ump": 2417495,
+      "khl": 4604982,
+      "selisih": -2187487
+    },
+    {
+      "kode": "35",
+      "nama": "Jawa Timur",
+      "ump": 2446880,
+      "khl": 3575938,
+      "selisih": -1129058
+    },
+    {
+      "kode": "36",
+      "nama": "Banten",
+      "ump": 3100881,
+      "khl": 4295985,
+      "selisih": -1195104
+    },
+    {
+      "kode": "51",
+      "nama": "Bali",
+      "ump": 3207459,
+      "khl": 5253107,
+      "selisih": -2045648
+    },
+    {
+      "kode": "52",
+      "nama": "Nusa Tenggara Barat",
+      "ump": 2673861,
+      "khl": 3410833,
+      "selisih": -736972
+    },
+    {
+      "kode": "53",
+      "nama": "Nusa Tenggara Timur",
+      "ump": 2455898,
+      "khl": 3054508,
+      "selisih": -598610
+    },
+    {
+      "kode": "61",
+      "nama": "Kalimantan Barat",
+      "ump": 3054552,
+      "khl": 4083420,
+      "selisih": -1028868
+    },
+    {
+      "kode": "62",
+      "nama": "Kalimantan Tengah",
+      "ump": 3686138,
+      "khl": 4279888,
+      "selisih": -593750
+    },
+    {
+      "kode": "63",
+      "nama": "Kalimantan Selatan",
+      "ump": 3725000,
+      "khl": 4112552,
+      "selisih": -387552
+    },
+    {
+      "kode": "64",
+      "nama": "Kalimantan Timur",
+      "ump": 3762431,
+      "khl": 5735353,
+      "selisih": -1972922
+    },
+    {
+      "kode": "65",
+      "nama": "Kalimantan Utara",
+      "ump": 3775243,
+      "khl": 4968935,
+      "selisih": -1193692
+    },
+    {
+      "kode": "71",
+      "nama": "Sulawesi Utara",
+      "ump": 4002630,
+      "khl": 3864224,
+      "selisih": 138406
+    },
+    {
+      "kode": "72",
+      "nama": "Sulawesi Tengah",
+      "ump": 3179565,
+      "khl": 3546013,
+      "selisih": -366448
+    },
+    {
+      "kode": "73",
+      "nama": "Sulawesi Selatan",
+      "ump": 3921088,
+      "khl": 3670085,
+      "selisih": 251003
+    },
+    {
+      "kode": "74",
+      "nama": "Sulawesi Tenggara",
+      "ump": 3306496,
+      "khl": 3645086,
+      "selisih": -338590
+    },
+    {
+      "kode": "75",
+      "nama": "Gorontalo",
+      "ump": 3405144,
+      "khl": 3398395,
+      "selisih": 6749
+    },
+    {
+      "kode": "76",
+      "nama": "Sulawesi Barat",
+      "ump": 3315934,
+      "khl": 3091442,
+      "selisih": 224492
+    },
+    {
+      "kode": "81",
+      "nama": "Maluku",
+      "ump": 3334490,
+      "khl": 4168498,
+      "selisih": -834008
+    },
+    {
+      "kode": "82",
+      "nama": "Maluku Utara",
+      "ump": 3510240,
+      "khl": 4431339,
+      "selisih": -921099
+    },
+    {
+      "kode": "91",
+      "nama": "Papua Barat",
+      "ump": 3841000,
+      "khl": 5246172,
+      "selisih": -1405172
+    },
+    {
+      "kode": "92",
+      "nama": "Papua Barat Daya",
+      "ump": 3766000,
+      "khl": 5246172,
+      "selisih": -1480172
+    },
+    {
+      "kode": "94",
+      "nama": "Papua",
+      "ump": 4436283,
+      "khl": 5314281,
+      "selisih": -877998
+    },
+    {
+      "kode": "95",
+      "nama": "Papua Selatan",
+      "ump": 4508100,
+      "khl": 5314281,
+      "selisih": -806181
+    },
+    {
+      "kode": "96",
+      "nama": "Papua Tengah",
+      "ump": 4285848,
+      "khl": 5314281,
+      "selisih": -1028433
+    },
+    {
+      "kode": "97",
+      "nama": "Papua Pegunungan",
+      "ump": 4508714,
+      "khl": 5314281,
+      "selisih": -805567
+    }
+  ]
+}

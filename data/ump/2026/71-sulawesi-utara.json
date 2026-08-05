@@ -1,0 +1,15 @@
+{
+  "tahun": 2026,
+  "kode_provinsi": "71",
+  "nama_provinsi": "Sulawesi Utara",
+  "slug": "sulawesi-utara",
+  "ump_bulanan": 4002630,
+  "khl_bulanan": 3864224,
+  "selisih_ump_khl": 138406,
+  "rasio_ump_terhadap_khl": 1.0358,
+  "ump_menutupi_khl": true,
+  "sumber": "Penetapan UMP 2026 oleh gubernur, berlaku 1 Januari 2026",
+  "dasar_hukum": "UU 6/2023, PP 51/2023, dan Putusan MK 168/PUU-XXI/2023",
+  "tanggal_rilis": "2025-12-24",
+  "terverifikasi": false
+}

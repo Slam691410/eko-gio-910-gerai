@@ -47,6 +47,33 @@ npm run smoke-test
 
 ---
 
+## 🧩 Integrasi Modul KHL 2026 (dari branch `arena/019fc5bb`)
+
+Branch `arena/019fc5bb-eko-gio-910-gerai` berisi aplikasi terpisah (PyraBudget) dengan
+**data KHL/UMP 2026 lengkap 38 provinsi** + **paket rumus domain-khl (9 rumus, 35 tes)**.
+Daripada merge mentah (bentrok besar karena branch itu berbasis komit awal), isinya
+diintegrasikan secara bersih ke arsitektur main:
+
+| Aset | Status |
+|---|---|
+| `data/khl/2026/*` (41 file: 38 provinsi + indeks + asumsi + komponen-64) | ✅ disalin utuh |
+| `data/ump/2026/*` (39 file: 38 provinsi + indeks) | ✅ disalin utuh |
+| `packages/domain-khl/` (9 rumus + 35 tes, ESM murni) | ✅ disalin + `package.json` (`type: module`) |
+| `infra/seed/` (skrip regenerasi data) | ✅ disalin |
+| 5 endpoint API KHL | ✅ ditulis ulang di `backend/controllers/khlController.js` (arsitektur main, CJS) |
+| Panel frontend KHL 2026 | ✅ ditambahkan di Tab 4 (budget) + `public/js/khl.js` |
+| `npm run test:khl` (35 tes) | ✅ lulus |
+| Smoke test cek `/api/khl/provinsi` & `/api/khl/komponen` | ✅ ditambahkan |
+
+**Hasil verifikasi live:** 38 provinsi terbaca, 32 dari 38 provinsi UMP < KHL (sesuai klaim
+data), analisis KHL mengembalikan status LAYAK/kurang lengkap dengan mode anggaran,
+64 komponen Permenaker 18/2020 tersaji, validasi masukan bekerja.
+
+**Catatan:** branch `arena/019fc5bb` dipertahankan di origin sebagai sumber historis.
+Setelah PR integrasi ini di-merge, branch itu bisa dihapus bila diinginkan.
+
+---
+
 ## 📋 Temuan awal (sebelum perbaikan)
 
 ### 🔴 CRITICAL

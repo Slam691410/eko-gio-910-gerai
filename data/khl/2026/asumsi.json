@@ -1,0 +1,17 @@
+{
+  "asumsi_rumah_tangga": {
+    "jumlah_art": 4,
+    "art_bekerja": 1,
+    "catatan": "Asumsi yang dipakai aplikasi untuk menurunkan konsumsi per kapita dari angka KHL provinsi. Kemnaker tidak mempublikasikan angka ART per provinsi secara rinci, jadi ini ASUMSI yang bisa diubah pengguna, bukan angka resmi."
+  },
+  "garis_kemiskinan_nasional": {
+    "nilai_per_kapita_per_bulan": 609160,
+    "sumber": "BPS, Susenas Maret 2025",
+    "catatan": "Ambang MISKIN, bukan ambang LAYAK. Jauh di bawah KHL."
+  },
+  "standar_hidup_layak_bps": {
+    "nilai_per_kapita_per_bulan": 1028333,
+    "sumber": "BPS 2024 (pengeluaran riil per kapita Rp 12,34 juta/tahun untuk komponen IPM)",
+    "catatan": "BPS menegaskan angka ini BUKAN kriteria layak/tidak layak, hanya komponen IPM."
+  }
+}

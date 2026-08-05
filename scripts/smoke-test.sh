@@ -32,6 +32,10 @@ check_http "/js/calculators.js" 200
 # Health endpoint
 check_http "/api/health" 200
 
+# KHL 2026 endpoint (data 38 provinsi)
+check_http "/api/khl/provinsi" 200
+check_http "/api/khl/komponen" 200
+
 # API root or health endpoint (if available)
 code=$(curl -s -o /dev/null -w '%{http_code}' --max-time $TIMEOUT "$BASE_URL/api/" || echo "000")
 if [ "$code" = "200" ] || [ "$code" = "404" ]; then
