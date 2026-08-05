@@ -65,7 +65,7 @@ async function queryOnChainTokenBalance(walletAddress, tokenContractAddress, rpc
  */
 async function mintToken(req, res) {
   const { token, value, address } = req.body;
-  const db = readDB();
+  const db = await readDB();
   
   if (!token || !value || !address) {
     return res.status(400).json({ error: 'Missing token, value or address' });
@@ -154,9 +154,11 @@ async function mintToken(req, res) {
   if (!db.blockchainLedger) {
     db.blockchainLedger = [];
   }
-  db.blockchainLedger.unshift(newTx); 
+  db.blockchainLedger.unshift(newTx);
 
-  // Sync assets with physical db file
+  // Sync assets with physical db file (pastikan struktur objek ada)
+  if (!db.assets) db.assets = {};
+  if (!db.profile) db.profile = {};
   if (token.includes('Gold') || token.includes('gGMR')) {
     if (!db.assets.gold) db.assets.gold = { grams: 0, avgBuyPrice: 0 };
     db.assets.gold.grams = parseFloat((parseFloat(db.assets.gold.grams) + parseFloat(value)).toFixed(4));
@@ -167,7 +169,7 @@ async function mintToken(req, res) {
     db.assets.silver.grams = parseFloat((parseFloat(db.assets.silver.grams) + parseFloat(value)).toFixed(4));
   }
 
-  writeDB(db);
+  await writeDB(db);
   logEvent('INFO', `[SaaS Web3 Engine] On-Chain transaction compiled & committed. Hash: ${txHash}. Verified wallet PAXG balance: ${liveOnChainPAXGBalance} PAXG.`);
 
   res.json({

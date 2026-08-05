@@ -26,6 +26,11 @@ contract Gerai910SmartCRM {
     event LoyaltyPointsAwarded(address indexed customer, uint256 amount);
     event MembershipUpgraded(address indexed customer, uint8 tier);
 
+    modifier onlyAdmin() {
+        require(msg.sender == platformAdmin, "Hanya admin platform yang berwenang");
+        _;
+    }
+
     constructor() {
         platformAdmin = msg.sender;
     }
@@ -33,7 +38,7 @@ contract Gerai910SmartCRM {
     /**
      * @notice Menghadiahkan loyalty points kepada pelanggan atas aktivitas belanjanya.
      */
-    function awardPoints(address _customer, uint256 _amount) external {
+    function awardPoints(address _customer, uint256 _amount) external onlyAdmin {
         balanceOf[_customer] += _amount;
         totalSupply += _amount;
         emit LoyaltyPointsAwarded(_customer, _amount);
@@ -42,7 +47,7 @@ contract Gerai910SmartCRM {
     /**
      * @notice Meng-upgrade tingkat keanggotaan CRM pelanggan (1 = Gold, 2 = Platinum).
      */
-    function upgradeMembership(address _customer, uint8 _newTier) external {
+    function upgradeMembership(address _customer, uint8 _newTier) external onlyAdmin {
         require(_newTier <= 2, "Tingkatan tier membership tidak valid");
         membershipTiers[_customer] = _newTier;
         emit MembershipUpgraded(_customer, _newTier);

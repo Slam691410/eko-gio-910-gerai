@@ -1,0 +1,497 @@
+{
+  "dasar_hukum": "Permenaker No. 18 Tahun 2020 (perubahan atas Permenaker No. 21 Tahun 2016)",
+  "tanggal_penetapan": "2020-10-09",
+  "jumlah_komponen": 64,
+  "kelompok": [
+    {
+      "kode": "makanan_minuman",
+      "nama": "Makanan & Minuman",
+      "jumlah": 13
+    },
+    {
+      "kode": "sandang",
+      "nama": "Sandang",
+      "jumlah": 13
+    },
+    {
+      "kode": "perumahan",
+      "nama": "Perumahan",
+      "jumlah": 26
+    },
+    {
+      "kode": "pendidikan",
+      "nama": "Pendidikan",
+      "jumlah": 2
+    },
+    {
+      "kode": "kesehatan",
+      "nama": "Kesehatan",
+      "jumlah": 5
+    },
+    {
+      "kode": "transportasi",
+      "nama": "Transportasi",
+      "jumlah": 1
+    },
+    {
+      "kode": "komunikasi",
+      "nama": "Komunikasi",
+      "jumlah": 1
+    },
+    {
+      "kode": "rekreasi_tabungan",
+      "nama": "Rekreasi, Tabungan & Jaminan Sosial",
+      "jumlah": 3
+    }
+  ],
+  "komponen": [
+    {
+      "kelompok": "makanan_minuman",
+      "nama": "Beras kualitas sedang",
+      "satuan": "kg",
+      "kuantitas": null,
+      "catatan": ""
+    },
+    {
+      "kelompok": "makanan_minuman",
+      "nama": "Protein: daging kualitas sedang",
+      "satuan": "kg",
+      "kuantitas": null,
+      "catatan": ""
+    },
+    {
+      "kelompok": "makanan_minuman",
+      "nama": "Protein: ikan segar kualitas baik",
+      "satuan": "kg",
+      "kuantitas": null,
+      "catatan": ""
+    },
+    {
+      "kelompok": "makanan_minuman",
+      "nama": "Protein: telur ayam ras",
+      "satuan": "kg",
+      "kuantitas": null,
+      "catatan": ""
+    },
+    {
+      "kelompok": "makanan_minuman",
+      "nama": "Kacang-kacangan (tahu/tempe)",
+      "satuan": "kg",
+      "kuantitas": null,
+      "catatan": ""
+    },
+    {
+      "kelompok": "makanan_minuman",
+      "nama": "Susu bubuk kualitas sedang",
+      "satuan": "gram",
+      "kuantitas": null,
+      "catatan": ""
+    },
+    {
+      "kelompok": "makanan_minuman",
+      "nama": "Gula pasir kualitas sedang",
+      "satuan": "kg",
+      "kuantitas": null,
+      "catatan": ""
+    },
+    {
+      "kelompok": "makanan_minuman",
+      "nama": "Minyak goreng curah",
+      "satuan": "liter",
+      "kuantitas": null,
+      "catatan": ""
+    },
+    {
+      "kelompok": "makanan_minuman",
+      "nama": "Sayuran kualitas baik",
+      "satuan": "kg",
+      "kuantitas": null,
+      "catatan": ""
+    },
+    {
+      "kelompok": "makanan_minuman",
+      "nama": "Buah-buahan (setara pisang/pepaya)",
+      "satuan": "kg",
+      "kuantitas": null,
+      "catatan": ""
+    },
+    {
+      "kelompok": "makanan_minuman",
+      "nama": "Karbohidrat lain (setara tepung terigu)",
+      "satuan": "kg",
+      "kuantitas": null,
+      "catatan": ""
+    },
+    {
+      "kelompok": "makanan_minuman",
+      "nama": "Teh celup & kopi sachet",
+      "satuan": "paket",
+      "kuantitas": null,
+      "catatan": "Pada 2020 teh dan kopi dipisah"
+    },
+    {
+      "kelompok": "makanan_minuman",
+      "nama": "Air minum galon curah/refill",
+      "satuan": "galon",
+      "kuantitas": 3,
+      "catatan": "Komponen baru pada Permenaker 18/2020"
+    },
+    {
+      "kelompok": "sandang",
+      "nama": "Celana panjang / pakaian muslim katun",
+      "satuan": "potong/tahun",
+      "kuantitas": null,
+      "catatan": ""
+    },
+    {
+      "kelompok": "sandang",
+      "nama": "Celana pendek katun",
+      "satuan": "potong/tahun",
+      "kuantitas": null,
+      "catatan": ""
+    },
+    {
+      "kelompok": "sandang",
+      "nama": "Ikat pinggang kulit sintetis",
+      "satuan": "buah/tahun",
+      "kuantitas": null,
+      "catatan": ""
+    },
+    {
+      "kelompok": "sandang",
+      "nama": "Kemeja lengan pendek katun",
+      "satuan": "potong/tahun",
+      "kuantitas": null,
+      "catatan": ""
+    },
+    {
+      "kelompok": "sandang",
+      "nama": "Kaos oblong poliester",
+      "satuan": "potong/tahun",
+      "kuantitas": null,
+      "catatan": ""
+    },
+    {
+      "kelompok": "sandang",
+      "nama": "Celana dalam poliester",
+      "satuan": "potong/tahun",
+      "kuantitas": null,
+      "catatan": ""
+    },
+    {
+      "kelompok": "sandang",
+      "nama": "Sarung kualitas sedang",
+      "satuan": "helai/tahun",
+      "kuantitas": null,
+      "catatan": ""
+    },
+    {
+      "kelompok": "sandang",
+      "nama": "Sepatu kulit sintetis",
+      "satuan": "pasang/tahun",
+      "kuantitas": null,
+      "catatan": ""
+    },
+    {
+      "kelompok": "sandang",
+      "nama": "Kaos kaki polos",
+      "satuan": "pasang/tahun",
+      "kuantitas": null,
+      "catatan": ""
+    },
+    {
+      "kelompok": "sandang",
+      "nama": "Perlengkapan pembersih sepatu (semir & sikat)",
+      "satuan": "set/tahun",
+      "kuantitas": null,
+      "catatan": ""
+    },
+    {
+      "kelompok": "sandang",
+      "nama": "Sandal jepit karet",
+      "satuan": "pasang/tahun",
+      "kuantitas": null,
+      "catatan": ""
+    },
+    {
+      "kelompok": "sandang",
+      "nama": "Handuk mandi 100 x 60 cm",
+      "satuan": "helai/tahun",
+      "kuantitas": null,
+      "catatan": ""
+    },
+    {
+      "kelompok": "sandang",
+      "nama": "Perlengkapan ibadah (sajadah, kitab suci, peci)",
+      "satuan": "set/tahun",
+      "kuantitas": null,
+      "catatan": ""
+    },
+    {
+      "kelompok": "perumahan",
+      "nama": "Sewa/kontrak kamar 16 m2",
+      "satuan": "bulan",
+      "kuantitas": 1,
+      "catatan": ""
+    },
+    {
+      "kelompok": "perumahan",
+      "nama": "Dipan / tempat tidur",
+      "satuan": "buah",
+      "kuantitas": null,
+      "catatan": ""
+    },
+    {
+      "kelompok": "perumahan",
+      "nama": "Perlengkapan tidur (kasur & bantal busa)",
+      "satuan": "set",
+      "kuantitas": null,
+      "catatan": ""
+    },
+    {
+      "kelompok": "perumahan",
+      "nama": "Sprei & sarung bantal katun",
+      "satuan": "set",
+      "kuantitas": null,
+      "catatan": ""
+    },
+    {
+      "kelompok": "perumahan",
+      "nama": "Meja dan kursi (1 meja, 4 kursi)",
+      "satuan": "set",
+      "kuantitas": null,
+      "catatan": ""
+    },
+    {
+      "kelompok": "perumahan",
+      "nama": "Lemari pakaian kayu",
+      "satuan": "buah",
+      "kuantitas": null,
+      "catatan": ""
+    },
+    {
+      "kelompok": "perumahan",
+      "nama": "Sapu ijuk",
+      "satuan": "buah",
+      "kuantitas": null,
+      "catatan": ""
+    },
+    {
+      "kelompok": "perumahan",
+      "nama": "Perlengkapan makan (piring, gelas, sendok, garpu)",
+      "satuan": "set",
+      "kuantitas": null,
+      "catatan": ""
+    },
+    {
+      "kelompok": "perumahan",
+      "nama": "Ceret aluminium 1,5 liter",
+      "satuan": "buah",
+      "kuantitas": null,
+      "catatan": ""
+    },
+    {
+      "kelompok": "perumahan",
+      "nama": "Wajan aluminium 26 cm",
+      "satuan": "buah",
+      "kuantitas": null,
+      "catatan": ""
+    },
+    {
+      "kelompok": "perumahan",
+      "nama": "Panci aluminium 24 cm",
+      "satuan": "buah",
+      "kuantitas": null,
+      "catatan": ""
+    },
+    {
+      "kelompok": "perumahan",
+      "nama": "Sendok masak aluminium",
+      "satuan": "buah",
+      "kuantitas": null,
+      "catatan": ""
+    },
+    {
+      "kelompok": "perumahan",
+      "nama": "Rice cooker 0,5 liter SNI",
+      "satuan": "buah",
+      "kuantitas": null,
+      "catatan": ""
+    },
+    {
+      "kelompok": "perumahan",
+      "nama": "Kompor gas 1 tungku + selang + regulator + tabung 3 kg",
+      "satuan": "set",
+      "kuantitas": null,
+      "catatan": ""
+    },
+    {
+      "kelompok": "perumahan",
+      "nama": "Gas elpiji tabung 3 kg",
+      "satuan": "tabung/bulan",
+      "kuantitas": null,
+      "catatan": ""
+    },
+    {
+      "kelompok": "perumahan",
+      "nama": "Ember plastik 20 liter",
+      "satuan": "buah",
+      "kuantitas": null,
+      "catatan": ""
+    },
+    {
+      "kelompok": "perumahan",
+      "nama": "Gayung plastik",
+      "satuan": "buah",
+      "kuantitas": null,
+      "catatan": ""
+    },
+    {
+      "kelompok": "perumahan",
+      "nama": "Listrik PLN 1.300 VA",
+      "satuan": "bulan",
+      "kuantitas": 1,
+      "catatan": ""
+    },
+    {
+      "kelompok": "perumahan",
+      "nama": "Bola lampu hemat energi 14 watt",
+      "satuan": "buah",
+      "kuantitas": null,
+      "catatan": ""
+    },
+    {
+      "kelompok": "perumahan",
+      "nama": "Air bersih standar PDAM",
+      "satuan": "bulan",
+      "kuantitas": 1,
+      "catatan": ""
+    },
+    {
+      "kelompok": "perumahan",
+      "nama": "Sabun cuci pakaian (deterjen bubuk)",
+      "satuan": "kg/bulan",
+      "kuantitas": null,
+      "catatan": ""
+    },
+    {
+      "kelompok": "perumahan",
+      "nama": "Sabun cuci piring cair refill",
+      "satuan": "ml/bulan",
+      "kuantitas": null,
+      "catatan": ""
+    },
+    {
+      "kelompok": "perumahan",
+      "nama": "Setrika SNI",
+      "satuan": "buah",
+      "kuantitas": null,
+      "catatan": ""
+    },
+    {
+      "kelompok": "perumahan",
+      "nama": "Rak piring portabel plastik",
+      "satuan": "buah",
+      "kuantitas": null,
+      "catatan": ""
+    },
+    {
+      "kelompok": "perumahan",
+      "nama": "Pisau dapur stainless",
+      "satuan": "buah",
+      "kuantitas": null,
+      "catatan": ""
+    },
+    {
+      "kelompok": "perumahan",
+      "nama": "Cermin 30 x 50 cm",
+      "satuan": "buah",
+      "kuantitas": null,
+      "catatan": ""
+    },
+    {
+      "kelompok": "pendidikan",
+      "nama": "Bacaan / saluran informasi",
+      "satuan": "bulan",
+      "kuantitas": 1,
+      "catatan": ""
+    },
+    {
+      "kelompok": "pendidikan",
+      "nama": "Ballpoint atau pensil non-refill",
+      "satuan": "buah/bulan",
+      "kuantitas": null,
+      "catatan": ""
+    },
+    {
+      "kelompok": "kesehatan",
+      "nama": "Sarana kesehatan (pasta gigi, sabun mandi, sikat gigi, sampo, cotton bud, alat cukur)",
+      "satuan": "paket/bulan",
+      "kuantitas": 1,
+      "catatan": ""
+    },
+    {
+      "kelompok": "kesehatan",
+      "nama": "Deodoran 100 ml/gram",
+      "satuan": "buah",
+      "kuantitas": null,
+      "catatan": ""
+    },
+    {
+      "kelompok": "kesehatan",
+      "nama": "Obat anti nyamuk cair semprot 325 ml",
+      "satuan": "buah",
+      "kuantitas": null,
+      "catatan": ""
+    },
+    {
+      "kelompok": "kesehatan",
+      "nama": "Potong rambut non-salon",
+      "satuan": "kali/bulan",
+      "kuantitas": null,
+      "catatan": ""
+    },
+    {
+      "kelompok": "kesehatan",
+      "nama": "Sisir plastik",
+      "satuan": "buah",
+      "kuantitas": null,
+      "catatan": ""
+    },
+    {
+      "kelompok": "transportasi",
+      "nama": "Angkutan umum (kerja dan lainnya)",
+      "satuan": "bulan",
+      "kuantitas": 1,
+      "catatan": ""
+    },
+    {
+      "kelompok": "komunikasi",
+      "nama": "Paket pulsa & data HP (setara 2 GB)",
+      "satuan": "bulan",
+      "kuantitas": 1,
+      "catatan": "Komponen baru pada Permenaker 18/2020"
+    },
+    {
+      "kelompok": "rekreasi_tabungan",
+      "nama": "Rekreasi dalam kota/kabupaten",
+      "satuan": "kali/bulan",
+      "kuantitas": null,
+      "catatan": ""
+    },
+    {
+      "kelompok": "rekreasi_tabungan",
+      "nama": "Tabungan (2% dari total pengeluaran)",
+      "satuan": "persen",
+      "kuantitas": 2,
+      "catatan": ""
+    },
+    {
+      "kelompok": "rekreasi_tabungan",
+      "nama": "Jaminan sosial (2% dari total pengeluaran)",
+      "satuan": "persen",
+      "kuantitas": 2,
+      "catatan": ""
+    }
+  ]
+}

@@ -5,13 +5,21 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
+    "start:dev": "NODE_ENV=development node server.js",
+    "smoke-test": "bash scripts/smoke-test.sh",
+    "test": "node --test \"packages/domain-khl/test/*.test.js\"",
+    "test:khl": "node --test \"packages/domain-khl/test/*.test.js\"",
+    "seed:khl": "node infra/seed/tulis-data-khl.js",
     "crosscheck": "node scripts/crosscheck.js",
     "crosscheck:json": "node scripts/crosscheck.js --json=docs/crosscheck-report.json"
   },
   "dependencies": {
     "cors": "^2.8.5",
     "dotenv": "^17.4.2",
-    "express": "^4.19.2"
+    "express": "^4.19.2",
+    "helmet": "^7.0.0",
+    "sqlite3": "^5.1.6",
+    "pino": "^8.12.0"
   },
   "keywords": [
     "pos",

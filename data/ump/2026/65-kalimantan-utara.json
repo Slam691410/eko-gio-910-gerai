@@ -1,0 +1,15 @@
+{
+  "tahun": 2026,
+  "kode_provinsi": "65",
+  "nama_provinsi": "Kalimantan Utara",
+  "slug": "kalimantan-utara",
+  "ump_bulanan": 3775243,
+  "khl_bulanan": 4968935,
+  "selisih_ump_khl": -1193692,
+  "rasio_ump_terhadap_khl": 0.7598,
+  "ump_menutupi_khl": false,
+  "sumber": "Penetapan UMP 2026 oleh gubernur, berlaku 1 Januari 2026",
+  "dasar_hukum": "UU 6/2023, PP 51/2023, dan Putusan MK 168/PUU-XXI/2023",
+  "tanggal_rilis": "2025-12-24",
+  "terverifikasi": false
+}

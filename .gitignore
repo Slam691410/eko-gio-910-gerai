@@ -2,3 +2,9 @@ node_modules/
 package-lock.json
 *.log
 .env
+
+# Runtime artifacts (dibuat saat server berjalan)
+data/*.sqlite
+data/*.sqlite-wal
+data/*.sqlite-shm
+data/database.json.bak.*

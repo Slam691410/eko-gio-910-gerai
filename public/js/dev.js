@@ -6,7 +6,7 @@ async function initDeveloperConsole() {
 
   try {
     // 1. Fetch System Metrics
-    const res = await fetch('/api/dev/status');
+    const res = await apiFetch('/api/dev/status');
     const data = await res.json();
     if (data.success) {
       document.getElementById('dev-hud-pid').innerText = data.pid;
@@ -90,14 +90,14 @@ async function saveGlobalAffiliateSettings() {
 
   // Also update environment variables on the backend!
   try {
-    const envRes = await fetch('/api/dev/env');
+    const envRes = await apiFetch('/api/dev/env');
     const envData = await envRes.json();
     if (envData.success && envData.env) {
       const updatedEnv = { ...envData.env };
       updatedEnv['MASTER_AFFILIATE_CODE'] = refCode;
       updatedEnv['MASTER_AFFILIATE_PERCENT'] = platformNum;
 
-      await fetch('/api/dev/env', {
+      await apiFetch('/api/dev/env', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(updatedEnv)
@@ -119,7 +119,7 @@ async function saveGlobalAffiliateSettings() {
 // Fetch .env variables from server
 async function fetchEnvConfig() {
   try {
-    const res = await fetch('/api/dev/env');
+    const res = await apiFetch('/api/dev/env');
     const data = await res.json();
     if (data.success && data.env) {
       const container = document.getElementById('dev-env-container');
@@ -169,7 +169,7 @@ async function saveEnvironmentConfig() {
   });
 
   try {
-    const res = await fetch('/api/dev/env', {
+    const res = await apiFetch('/api/dev/env', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(updatedEnv)
@@ -198,7 +198,7 @@ async function triggerWorkerCrash() {
   writeToSandboxTerminal(`[DEBUG] Mengirim sinyal crash darurat ke Worker PID: ${currentPid}...`);
 
   try {
-    const res = await fetch('/api/dev/crash', { method: 'POST' });
+    const res = await apiFetch('/api/dev/crash', { method: 'POST' });
     const data = await res.json();
     
     writeToSandboxTerminal(`[SYSTEM] ${data.message}`);
@@ -210,7 +210,7 @@ async function triggerWorkerCrash() {
       attempts++;
       writeToSandboxTerminal(`[HEALTH-CHECK] Polling kesehatan server (percobaan ${attempts})...`);
       try {
-        const checkRes = await fetch('/api/dev/status');
+        const checkRes = await apiFetch('/api/dev/status');
         const checkData = await checkRes.json();
         if (checkData.success && checkData.pid != currentPid) {
           clearInterval(interval);
@@ -270,7 +270,7 @@ async function saveDatabaseFromEditor() {
   }
 
   try {
-    const res = await fetch('/api/db', {
+    const res = await apiFetch('/api/db', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(parsedData)
@@ -306,7 +306,7 @@ async function testSandboxApi(endpoint) {
   writeToSandboxTerminal(`➜ Meluncurkan GET ${endpoint}...`);
   try {
     const start = Date.now();
-    const res = await fetch(endpoint);
+    const res = await apiFetch(endpoint);
     const ms = Date.now() - start;
     
     writeToSandboxTerminal(`⬅ Respons diterima dalam ${ms}ms. HTTP Status: ${res.status} ${res.statusText}`);
@@ -323,7 +323,7 @@ async function sendSandboxSentryError() {
   writeToSandboxTerminal(`➜ Mengirimkan aktif Client Sentry Report ke /api/logs/report...`);
   
   try {
-    const res = await fetch('/api/logs/report', {
+    const res = await apiFetch('/api/logs/report', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -356,7 +356,7 @@ async function triggerRateLimiterStressTest() {
       setTimeout(async () => {
         writeToSandboxTerminal(`[REQ #${reqNum}] Menembak GET /api/market-data...`);
         try {
-          const res = await fetch('/api/market-data');
+          const res = await apiFetch('/api/market-data');
           if (res.status === 429) {
             const data = await res.json();
             writeToSandboxTerminal(`[RESP #${reqNum}] ❌ BLOCKED! HTTP 429: ${data.message}`);
@@ -483,7 +483,7 @@ async function toggleSoliditySourceCode() {
     btn.innerText = "SEMBUNYIKAN";
     
     try {
-      const res = await fetch(`/contracts/${fileName}`);
+      const res = await apiFetch(`/contracts/${fileName}`);
       if (res.ok) {
         const text = await res.text();
         block.innerText = text;
@@ -618,4 +618,88 @@ function triggerSmartRevenueSplit() {
     
     alert(`🛡️ Alokasi Autopilot Sukses!\n\nKontrak Pintar otomatis membagi pemasukan platform SaaS sebesar $10.000 USDT secara real-time:\n  - Rp 65.400.000 (PAXG Emas) masuk ke Dana Abadi Cadangan Anti-Pailit\n  - Rp 65.400.000 masuk Kas Operasional Cloud Server\n  - Rp 32.700.000 masuk Pool Likuiditas Buyback Token\n\nSistem Anda kini memiliki pertahanan kas absolut yang melindunginya dari risiko pailit!`);
   }, 1200);
+}
+
+// -------------------------------------------------------------
+// UNIVERSAL GLOBAL STOCK AUDITING SEARCH ENGINE
+
+async function searchAndExecuteGlobalAudit() {
+  const input = document.getElementById('dev-global-audit-search-input');
+  if (!input) return;
+
+  const ticker = input.value.trim().toUpperCase();
+  if (!ticker) {
+    alert('Mohon masukkan kode emiten global terlebih dahulu.');
+    return;
+  }
+
+  writeToSandboxTerminal(`[GLOBAL-AUDITOR] Menginisiasi audit forensik rill untuk emiten: ${ticker}...`);
+
+  try {
+    const res = await apiFetch(`/api/screener/audit?ticker=${ticker}`);
+    const data = await res.json();
+    if (data.success) {
+      // Open the modal and populate with real, dynamic data!
+      document.getElementById('audit-stock-title').innerText = `Laporan Audit Emiten ${data.ticker}`;
+      
+      const accDesc = document.getElementById('audit-accounting-desc');
+      accDesc.innerHTML = `
+        <strong>Nama Korporat:</strong> ${data.companyName}<br>
+        <strong>Industri & Sektor:</strong> ${data.sector} - ${data.industry}<br>
+        <strong>Rasio Likuiditas (Current Ratio):</strong> ${data.currentRatio}<br>
+        <strong>Kas Operasional:</strong> ${data.operatingCashflow}<br><br>
+        <strong>Hasil Audit Forensik:</strong><br>
+        ${data.redFlags.join('<br>')}
+      `;
+
+      document.getElementById('audit-management-desc').innerHTML = `
+        <strong>Karyawan Tetap:</strong> ${data.employees} orang<br>
+        <strong>Pemegang Saham Institusi:</strong> ${data.shareholders?.insHoldersPct}<br>
+        <strong>Pemegang Saham Pengendali/Insider:</strong> ${data.shareholders?.mutualFundHoldersPct}<br><br>
+        <strong>Dewan Direksi / Eksekutif Utama:</strong><br>
+        ${data.management.map(m => `• ${m.name} (${m.title}, Usia: ${m.age})`).join('<br>')}
+      `;
+
+      document.getElementById('audit-actions-desc').innerHTML = `
+        <strong>Deskripsi Bisnis Korporasi:</strong><br>
+        ${data.description.slice(0, 350)}...<br><br>
+        <strong>Rasio Dividen & Fundamental:</strong><br>
+        • P/E Ratio: ${data.pe}<br>
+        • PBV Ratio: ${data.pbv}<br>
+        • Debt to Equity (DER): ${data.der}x<br>
+        • Return on Equity (ROE): ${data.roe}<br>
+        • Dividend Yield: ${data.divYield}
+      `;
+
+      // Render live news list
+      const newsContainer = document.getElementById('audit-news-container');
+      if (newsContainer) {
+        newsContainer.innerHTML = '';
+        if (data.news && data.news.length > 0) {
+          data.news.forEach(art => {
+            const item = document.createElement('div');
+            item.className = "p-2 bg-slate-900 rounded-lg border border-cyber-border/40 text-[11px] font-sans";
+            item.innerHTML = `
+              <div class="flex justify-between items-center text-[10px] text-slate-500 mb-1">
+                <span>${art.publisher}</span>
+                <span>${art.time}</span>
+              </div>
+              <a href="${art.link}" target="_blank" class="font-bold text-slate-200 hover:text-brand-400 transition">${art.title}</a>
+            `;
+            newsContainer.appendChild(item);
+          });
+        } else {
+          newsContainer.innerHTML = `<span class="text-slate-500 italic">Tidak ada berita terhangat terlacak untuk emiten ini saat ini.</span>`;
+        }
+      }
+
+      openModal('modal-audit-details');
+      writeToSandboxTerminal(`[GLOBAL-AUDITOR] SUCCESS! Audit forensik selesai untuk ${data.companyName}.`);
+    } else {
+      alert(`Gagal mengaudit emiten ${ticker}. Harap pastikan kode emiten valid.`);
+    }
+  } catch (err) {
+    console.error('Failed global audit:', err);
+    alert('Terjadi kesalahan koneksi server.');
+  }
 }

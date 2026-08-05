@@ -8,6 +8,7 @@
     "premiumTier": "Pro",
     "affiliateCode": "EKOGERAI910",
     "maritalStatus": "Belum Menikah",
+    "province": "DKI Jakarta",
     "weddingPlan": {
       "hasPlan": true,
       "targetYear": 2028,
@@ -381,6 +382,31 @@
       "timestamp": "2026-08-02T10:15:30.000Z"
     }
   ],
+  "forumMessages": [
+    {
+      "author": "Budi_Santoso",
+      "time": "11:15",
+      "text": "Sistem pencatatan di video GeraiTok sangat keren! Setiap video mengarah ke keranjang kuning produk POS atau link afiliasi global yang dibungkus otomatis."
+    },
+    {
+      "author": "Siti_Rahma_Syarifah",
+      "time": "11:22",
+      "text": "Betul sekali! Dan KHL-nya terintegrasi otomatis dari data tanggungan profil keluarga kita berdasarkan Permenaker No. 18/2020. Sangat pintar kalkulasinya."
+    }
+  ],
+  "platformSettings": {
+    "creatorCommissionPercent": 70,
+    "platformFeePercent": 30,
+    "masterAffiliateCode": "MASTER_GERAI910",
+    "redirectTemplate": "https://gerai.id/redirect?url={url}&ref={ref}&subid={subid}",
+    "activeNodesCount": 3,
+    "accumulatedGoldPAXG": 16.45,
+    "autopilot": {
+      "isGrowthActive": true,
+      "isHeartbeatActive": true,
+      "uptimeTicks": 1
+    }
+  },
   "affiliateData": {
     "clicks": 348,
     "signups": 42,
@@ -411,6 +437,8 @@
         "date": "2026-08-02",
         "source": "UGC Post (Analisis Makro)",
         "amount": 250000,
+        "platformShare": 75000,
+        "isAutopilotHarvested": true,
         "status": "Approved"
       },
       {
@@ -418,6 +446,8 @@
         "date": "2026-08-03",
         "source": "Grup WA Komunitas",
         "amount": 99900,
+        "platformShare": 29970,
+        "isAutopilotHarvested": true,
         "status": "Pending"
       }
     ]

@@ -89,7 +89,12 @@ async function getMarketData(req, res) {
  */
 async function fetchYahooFinanceData(ticker) {
   try {
-    const url = `https://query2.finance.yahoo.com/v10/finance/quoteSummary/${ticker}.JK?modules=financialData,defaultKeyStatistics,summaryDetail`;
+    let yfTicker = ticker.toUpperCase().trim();
+    if (yfTicker.length === 4 && !yfTicker.includes('.')) {
+      yfTicker += '.JK';
+    }
+
+    const url = `https://query2.finance.yahoo.com/v10/finance/quoteSummary/${yfTicker}?modules=financialData,defaultKeyStatistics,summaryDetail,calendarEvents`;
     const res = await fetch(url, {
       headers: {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.0.0 Safari/537.36'
@@ -111,8 +116,12 @@ async function fetchYahooFinanceData(ticker) {
         // Extract Debt to Equity Ratio (DER)
         const rawDER = result.financialData?.debtToEquity?.raw;
         const der = rawDER !== undefined ? (rawDER / 100).toFixed(2) : 'N/A';
+        
+        // Extract Ex-Dividend Date and Dividend Rate
+        const exDivDate = result.calendarEvents?.exDividendDate?.fmt || 'N/A';
+        const divRate = result.summaryDetail?.dividendRate?.raw || result.summaryDetail?.trailingAnnualDividendRate?.raw || 0;
 
-        return { pe, pbv, yield: divYield, roe, der };
+        return { pe, pbv, yield: divYield, roe, der, exDivDate, divRate };
       }
     }
   } catch (err) {
@@ -300,7 +309,6 @@ async function getDynamicScreenerData(req, res) {
   // 4. MENGAMBIL SECARA RIILTIME: Loop over stocks and fetch live PE/PBV/ROE/Yield from Yahoo Finance!
   const compiledStocks = [];
   for (const stock of selectedData.stocks) {
-    // If it is a defensive debt instrument (like SBN), use static guaranteed yields
     if (currentPhase === 'Resesi') {
       compiledStocks.push(stock);
     } else {
@@ -316,7 +324,6 @@ async function getDynamicScreenerData(req, res) {
           yield: liveData.yield
         });
       } else {
-        // Fallback to high-fidelity baselines if Yahoo servers block request
         const baselines = {
           BBRI: { pe: "11.2", pbv: "1.9", der: "0.8", roe: "16.5%", yield: "6.2%" },
           BBCA: { pe: "24.5", pbv: "4.8", der: "0.1", roe: "20.2%", yield: "3.5%" },
@@ -324,7 +331,7 @@ async function getDynamicScreenerData(req, res) {
           TLKM: { pe: "13.8", pbv: "2.5", der: "0.4", roe: "17.2%", yield: "5.1%" },
           ICBP: { pe: "14.2", pbv: "2.8", der: "0.6", roe: "19.1%", yield: "3.2%" },
           INDF: { pe: "8.5",  pbv: "1.1", der: "0.7", roe: "13.5%", yield: "4.8%" },
-          UNVR: { pe: "19.4", pbv: "12.2", der: "0.3", roe: "65.2%", yield: "6.8%" },
+          UNVR: { pe: "19.4", pbv: "12.2", border: "0.3", roe: "65.2%", yield: "6.8%" },
           MYOR: { pe: "15.2", pbv: "3.1", der: "0.4", roe: "21.0%", yield: "3.0%" },
           ADRO: { pe: "3.8",  pbv: "0.8", der: "0.2", roe: "25.1%", yield: "12.4%" },
           PTBA: { pe: "4.2",  pbv: "1.2", der: "0.3", roe: "28.5%", yield: "14.1%" },
@@ -352,9 +359,9 @@ async function getDynamicScreenerData(req, res) {
 }
 
 /**
- * Universal Global Stock Audit & Forensic Analysis API
+ * Universal Global Stock Audit, News Scraper, & Forensic Analysis API
  * Connects to live Yahoo Finance servers to fetch real-time profile, major holders breakdown,
- * executive board, and accounting ratios for ANY stock symbol globally!
+ * executive board, live news streams, and accounting ratios for ANY stock symbol globally!
  */
 async function getGlobalStockAudit(req, res) {
   const { ticker } = req.query;
@@ -368,15 +375,42 @@ async function getGlobalStockAudit(req, res) {
     yfTicker += '.JK';
   }
 
-  logEvent('INFO', `[SaaS Global Auditor] Fetching full corporate audit details for ticker: ${yfTicker}...`);
+  logEvent('INFO', `[SaaS Global Auditor] Fetching full corporate audit details & news for ticker: ${yfTicker}...`);
 
   try {
+    // 1. Fetch Key Quote Summaries from Yahoo Finance
     const url = `https://query2.finance.yahoo.com/v10/finance/quoteSummary/${yfTicker}?modules=assetProfile,financialData,defaultKeyStatistics,summaryDetail,majorHoldersBreakdown`;
     const yfRes = await fetch(url, {
       headers: {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.0.0 Safari/537.36'
       }
     });
+
+    // 2. Fetch Live news stream from Yahoo Finance Search
+    let liveNews = [];
+    try {
+      const newsUrl = `https://query2.finance.yahoo.com/v15/finance/search?q=${yfTicker}&newsCount=5`;
+      const newsRes = await fetch(newsUrl, {
+        headers: {
+          'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.0.0 Safari/537.36'
+        }
+      });
+      if (newsRes.ok) {
+        const newsJson = await newsRes.json();
+        if (newsJson.news && newsJson.news.length > 0) {
+          newsJson.news.slice(0, 5).forEach(article => {
+            liveNews.push({
+              title: article.title,
+              publisher: article.publisher,
+              link: article.link,
+              time: article.providerPublishTime ? new Date(article.providerPublishTime * 1000).toLocaleDateString('id-ID') : 'Hari ini'
+            });
+          });
+        }
+      }
+    } catch (ne) {
+      logEvent('WARN', `Failed to scrape live news for ${yfTicker}.`, ne.message);
+    }
 
     if (yfRes.ok) {
       const json = await yfRes.json();
@@ -455,7 +489,8 @@ async function getGlobalStockAudit(req, res) {
             mutualFundHoldersPct
           },
           management,
-          redFlags
+          redFlags,
+          news: liveNews
         });
       }
     }

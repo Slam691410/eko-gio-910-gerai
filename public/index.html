@@ -750,6 +750,21 @@
                 </div>
               </div>
 
+              <!-- PERMENAKER NO. 18/2020: 64-COMPONENT KHL BREAKDOWN -->
+              <div class="bg-cyber-card border border-cyber-border rounded-2xl p-6 space-y-4">
+                <div class="flex justify-between items-center pb-2 border-b border-cyber-border/40">
+                  <h4 class="font-bold text-sm text-slate-100 flex items-center gap-2">
+                    <i data-lucide="list" class="w-4 h-4 text-brand-500"></i> Rincian 64 Komponen Hidup Layak (Permenaker No. 18 Tahun 2020)
+                  </h4>
+                  <span class="px-2 py-0.5 rounded text-[8px] font-extrabold bg-blue-950 text-blue-400 border border-blue-800 uppercase">7 KELOMPOK UTAMA</span>
+                </div>
+                <p class="text-xs text-slate-400">Pecahan rill biaya hidup minimum per bulan di wilayah Anda berdasarkan 64 item komponen kebutuhan hidup layak yang diatur dalam regulasi resmi Kemenaker RI:</p>
+                
+                <div class="space-y-2.5 max-h-80 overflow-y-auto pr-1" id="khl-permenaker-breakdown-container">
+                  <!-- Dynamic loaded Permenaker 7 groups with accordion-style breakdowns -->
+                </div>
+              </div>
+
               <!-- Emergency Fund (Dana Darurat) Card -->
               <div class="bg-cyber-card border border-cyber-border rounded-2xl p-6 space-y-6">
                 <div class="flex items-center justify-between">
@@ -812,6 +827,23 @@
                     </tbody>
                   </table>
                 </div>
+
+                <!-- Debt Snowball Payoff Simulator Actions -->
+                <div class="pt-4 border-t border-cyber-border/40 space-y-3">
+                  <div class="flex justify-between items-center text-xs">
+                    <span class="text-slate-400 font-semibold flex items-center gap-1">
+                      <i data-lucide="zap" class="w-3.5 h-3.5 text-yellow-500"></i> Alokasi Dana Tambahan Pelunasan Bulanan (Rupiah)
+                    </span>
+                    <input type="number" id="debt-snowball-extra-payment" value="1000000" class="w-32 bg-slate-950 border border-cyber-border rounded-lg px-2 py-1 text-xs text-brand-400 font-mono text-right outline-none">
+                  </div>
+                  <button onclick="simulateDebtSnowballPayoff()" class="w-full bg-gradient-to-r from-yellow-600 to-yellow-500 hover:from-yellow-500 hover:to-yellow-400 text-slate-950 font-extrabold py-2.5 rounded-xl text-[10px] uppercase tracking-wider transition flex items-center justify-center gap-1.5 shadow-md">
+                    <i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i> Kalkulasi Urutan Pelunasan Debt Snowball
+                  </button>
+                  
+                  <div id="debt-snowball-result-container" class="hidden bg-slate-950 p-4 rounded-xl border border-cyber-border/50 text-xs font-mono-tech text-yellow-500 leading-relaxed max-h-48 overflow-y-auto">
+                    <!-- Dynamic month-by-month payoffs loaded here -->
+                  </div>
+                </div>
               </div>
 
             </div>
@@ -872,6 +904,83 @@
                 </div>
               </div>
 
+            </div>
+          </div>
+
+          <!-- ============ KHL 2026: DATA RESMI 38 PROVINSI (PERMENAKER 18/2020) ============ -->
+          <div class="bg-cyber-card border border-cyber-border rounded-2xl p-6 space-y-4">
+            <div class="flex flex-wrap items-center justify-between gap-2">
+              <div>
+                <h2 class="text-xl font-extrabold tracking-tight flex items-center gap-2">
+                  <i data-lucide="map-pin" class="w-5 h-5 text-brand-500"></i> KHL 2026 — Data Resmi 38 Provinsi
+                </h2>
+                <p class="text-[11px] text-slate-500 mt-1" id="khl26-sumber">Memuat sumber data Kemnaker...</p>
+              </div>
+              <span class="text-[10px] bg-brand-900/30 text-brand-400 px-3 py-1 rounded-full border border-brand-700/50 font-bold">M-01 KHL</span>
+            </div>
+            <p class="text-[10px] text-red-400/90 bg-red-950/30 border border-red-900/40 rounded-xl p-3 leading-relaxed">
+              ⚠️ KHL adalah standar <b>pengeluaran layak per bulan</b> (bukan aset). Mayoritas provinsi punya UMP di bawah KHL —
+              gunakan analisis ini untuk menilai kecukupan penghasilan rumah tangga, bukan sekadar aturan 50/30/20.
+            </p>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+              <!-- Input -->
+              <div class="space-y-3">
+                <div>
+                  <label class="block text-[10px] font-bold text-slate-400 mb-1">Provinsi</label>
+                  <select id="khl26-provinsi" class="w-full bg-slate-900 border border-cyber-border rounded-xl px-3 py-2 text-xs text-slate-200"></select>
+                </div>
+                <div class="grid grid-cols-2 gap-2">
+                  <div>
+                    <label class="block text-[10px] font-bold text-slate-400 mb-1">Jumlah ART</label>
+                    <input type="number" id="khl26-art" value="4" min="1" max="20" class="w-full bg-slate-900 border border-cyber-border rounded-xl px-3 py-2 text-xs font-mono text-brand-400">
+                  </div>
+                  <div>
+                    <label class="block text-[10px] font-bold text-slate-400 mb-1">ART Bekerja</label>
+                    <input type="number" id="khl26-bekerja" value="1" min="0" max="20" class="w-full bg-slate-900 border border-cyber-border rounded-xl px-3 py-2 text-xs font-mono text-brand-400">
+                  </div>
+                  <div>
+                    <label class="block text-[10px] font-bold text-slate-400 mb-1">Penghasilan Bersih RT/bulan</label>
+                    <input type="number" id="khl26-penghasilan" value="5000000" min="0" class="w-full bg-slate-900 border border-cyber-border rounded-xl px-3 py-2 text-xs font-mono text-slate-200">
+                  </div>
+                  <div>
+                    <label class="block text-[10px] font-bold text-slate-400 mb-1">Cicilan Wajib/bulan</label>
+                    <input type="number" id="khl26-cicilan" value="0" min="0" class="w-full bg-slate-900 border border-cyber-border rounded-xl px-3 py-2 text-xs font-mono text-slate-200">
+                  </div>
+                  <div>
+                    <label class="block text-[10px] font-bold text-slate-400 mb-1">Fase Ekonomi</label>
+                    <select id="khl26-fase" class="w-full bg-slate-900 border border-cyber-border rounded-xl px-3 py-2 text-xs text-slate-200">
+                      <option value="pemulihan">Pemulihan</option>
+                      <option value="ekspansi" selected>Ekspansi</option>
+                      <option value="puncak">Puncak</option>
+                      <option value="kontraksi">Kontraksi</option>
+                      <option value="stagflasi">Stagflasi</option>
+                    </select>
+                  </div>
+                  <div class="flex items-end pb-2">
+                    <label class="flex items-center gap-2 text-[10px] text-slate-400 cursor-pointer">
+                      <input type="checkbox" id="khl26-bpjs" class="accent-brand-500"> Punya BPJS
+                    </label>
+                  </div>
+                </div>
+                <button onclick="hitungKHL2026()" class="w-full bg-brand-600 hover:bg-brand-500 text-white text-xs font-bold py-2.5 rounded-xl transition duration-150">
+                  ⚖️ Analisis KHL Rumah Tangga
+                </button>
+                <div class="text-[10px] text-red-400" id="khl26-error"></div>
+              </div>
+
+              <!-- Hasil -->
+              <div class="bg-slate-950/40 border border-cyber-border rounded-2xl p-4 min-h-[280px]" id="khl26-hasil">
+                <div class="text-xs text-slate-500">Pilih provinsi, isi data rumah tangga, lalu tekan <b class="text-brand-400">Analisis KHL</b>.</div>
+              </div>
+            </div>
+
+            <!-- 64 Komponen KHL -->
+            <div>
+              <h3 class="text-sm font-bold text-slate-300 mb-2 flex items-center gap-1.5">
+                <i data-lucide="list-checks" class="w-4 h-4 text-blue-400"></i> Rincian 64 Komponen KHL (Permenaker 18/2020)
+              </h3>
+              <div id="khl26-komponen-list" class="max-h-72 overflow-y-auto pr-2"></div>
             </div>
           </div>
         </section>
@@ -1044,6 +1153,18 @@
             <p class="text-slate-400 mt-1">
               Metodologi Screening Top-Down: Tentukan fase ekonomi makro, temukan sektor paling diunggulkan di siklus tersebut, saring emiten terbaik secara fundamental, dan tentukan timing entry/exit yang akurat secara teknikal.
             </p>
+          </div>
+
+          <!-- GLOBAL STOCK FORENSIC SEARCH & AUDIT BAR -->
+          <div class="bg-gradient-to-r from-slate-950 via-slate-900 to-purple-950 border border-purple-500/30 rounded-2xl p-6 space-y-4">
+            <h3 class="font-bold text-base text-slate-100 flex items-center gap-2"><i data-lucide="search" class="w-5 h-5 text-purple-400"></i> Cari & Audit Forensik Seluruh Emiten di Dunia</h3>
+            <p class="text-xs text-slate-400">Masukkan kode emiten global mana saja (misal: <strong class="font-mono text-slate-200">AAPL</strong> untuk Apple, <strong class="font-mono text-slate-200">BBRI.JK</strong> untuk Bank Rakyat Indonesia, atau <strong class="font-mono text-slate-200">TSLA</strong> untuk Tesla). Sistem secara rill akan menarik profile, pemegang saham, dewan direksi, aksi korporasi, berita terhangat, dan melakukan penilaian red-flags akuntansi otomatis secara real-time!</p>
+            <div class="flex gap-2">
+              <input type="text" id="dev-global-audit-search-input" placeholder="Masukkan kode emiten (e.g. BBRI, AAPL, TSLA)" class="flex-1 bg-slate-900 border border-cyber-border rounded-xl px-4 py-2 text-sm text-slate-200 focus:outline-none focus:border-brand-500">
+              <button onclick="searchAndExecuteGlobalAudit()" class="bg-brand-600 hover:bg-brand-500 text-white font-extrabold px-6 py-2 rounded-xl text-xs uppercase tracking-wider transition flex items-center gap-1.5 shadow-lg">
+                <i data-lucide="shield-check" class="w-4 h-4"></i> Jalankan Audit Forensik
+              </button>
+            </div>
           </div>
 
           <!-- STEP 1: INDIKATOR MAKRO EKONOMI RIIL -->
@@ -2911,6 +3032,14 @@
           <span class="text-[9px] text-purple-400 font-extrabold uppercase tracking-wider block">3. Risiko Aksi Korporasi & Dilusi Saham</span>
           <p class="text-slate-300" id="audit-actions-desc">-</p>
         </div>
+
+        <!-- Live News checks -->
+        <div class="bg-slate-950 p-3.5 rounded-xl border border-cyber-border/40 space-y-2">
+          <span class="text-[9px] text-brand-500 font-extrabold uppercase tracking-wider block">4. Sumber Berita Terhangat & Informasi Publik</span>
+          <div class="space-y-2 font-sans" id="audit-news-container">
+            <!-- Dynamically loaded live news headlines -->
+          </div>
+        </div>
       </div>
 
       <button onclick="closeModal('modal-audit-details')" class="w-full bg-slate-800 hover:bg-slate-700 text-slate-200 font-extrabold py-2.5 rounded-xl text-xs uppercase tracking-wider transition">
@@ -2926,6 +3055,7 @@
   <script src="/js/pos.js"></script>
   <script src="/js/web3.js"></script>
   <script src="/js/dev.js"></script>
+  <script src="/js/khl.js"></script>
   <script src="/js/main.js"></script>
 </body>
 </html>

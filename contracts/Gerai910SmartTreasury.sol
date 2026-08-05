@@ -105,19 +105,25 @@ contract Gerai910SmartTreasury {
     function configureHeir(address _heirWallet, uint256 _sharePercentage) external onlyOwner onlyIfAlive {
         require(_heirWallet != address(0), "Wallet ahli waris tidak boleh alamat nol");
         require(_sharePercentage > 0 && _sharePercentage <= 10000, "Persentase tidak valid (skala basis 10000 = 100%)");
-        
-        // Pastikan total persentase tidak melebihi 100% (10000 basis points)
-        uint256 totalShares = 0;
+
+        // Hitung total share ahli waris LAIN (untuk validasi total <= 100%),
+        // valid di jalur tambah MAUPUN jalur ubah share yang sudah ada.
+        uint256 othersTotal = 0;
+        for (uint256 i = 0; i < heirs.length; i++) {
+            if (heirs[i].wallet != _heirWallet) {
+                othersTotal += heirs[i].sharePercentage;
+            }
+        }
+        require(othersTotal + _sharePercentage <= 10000, "Total persentase ahli waris melampaui 100%!");
+
         for (uint256 i = 0; i < heirs.length; i++) {
             if (heirs[i].wallet == _heirWallet) {
                 heirs[i].sharePercentage = _sharePercentage;
                 emit HeirAdded(_heirWallet, _sharePercentage);
                 return;
             }
-            totalShares += heirs[i].sharePercentage;
         }
-        
-        require(totalShares + _sharePercentage <= 10000, "Total persentase ahli waris melampaui 100%!");
+
         heirs.push(Heir(_heirWallet, _sharePercentage, true));
         emit HeirAdded(_heirWallet, _sharePercentage);
     }
@@ -214,12 +220,6 @@ contract Gerai910SmartTreasury {
      *         fungsi ini untuk mencairkan seluruh sisa dana kas treasury ke dompet waris masing-masing
      *         dan mentransfer kepemilikan platform secara otonom tanpa memerlukan proses pengadilan kaku!
      */
-    /**
-     * @notice EKSEKUSI PEWARISAN OTOMATIS (Dead Man's Switch - Waris Lintas Generasi).
-     *         Jika pemilik tidak check-in dalam 365 hari, ahli waris terdaftar dapat memanggil
-     *         fungsi ini untuk mencairkan seluruh sisa dana kas treasury ke dompet waris masing-masing
-     *         dan mentransfer kepemilikan platform secara otonom tanpa memerlukan proses pengadilan kaku!
-     */
     function claimInheritance(address _tokenAddress) external nonReentrant {
         require(block.timestamp > lastHeartbeat + HEARTBEAT_TIMEOUT, "🚫 Pemilik Platform Masih Aktif: Hak waris belum terbuka.");
         require(heirs.length > 0, "Belum ada ahli waris yang didaftarkan oleh admin.");
@@ -235,12 +235,12 @@ contract Gerai910SmartTreasury {
         platformOwner = primaryHeir;
         lastHeartbeat = block.timestamp; // Reset heartbeat di tangan pemilik baru
 
-        // INTERACTIONS (Token transfer last)
+        // INTERACTIONS (Token transfer last) — cek return value semua transfer
         for (uint256 i = 0; i < heirs.length; i++) {
             if (heirs[i].exists && heirs[i].wallet != address(0)) {
                 uint256 heirShare = (totalBalance * heirs[i].sharePercentage) / 10000;
                 if (heirShare > 0) {
-                    token.transfer(heirs[i].wallet, heirShare);
+                    require(token.transfer(heirs[i].wallet, heirShare), "Gagal transfer warisan");
                 }
             }
         }

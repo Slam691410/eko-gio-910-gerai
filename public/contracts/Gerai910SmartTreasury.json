@@ -1,0 +1,117 @@
+[
+  {
+    "inputs": [
+      { "internalType": "address", "name": "_reserveGoldWallet", "type": "address" },
+      { "internalType": "address", "name": "_operationalWallet", "type": "address" },
+      { "internalType": "address", "name": "_buybackContractWallet", "type": "address" }
+    ],
+    "stateMutability": "nonpayable",
+    "type": "constructor"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      { "indexed": true, "internalType": "address", "name": "creator", "type": "address" },
+      { "indexed": true, "internalType": "address", "name": "platform", "type": "address" },
+      { "indexed": false, "internalType": "uint256", "name": "creatorShare", "type": "uint256" },
+      { "indexed": false, "internalType": "uint256", "name": "platformShare", "type": "uint256" }
+    ],
+    "name": "CommissionDistributed",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      { "indexed": false, "internalType": "uint256", "name": "timestamp", "type": "uint256" }
+    ],
+    "name": "HeartbeatUpdated",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      { "indexed": true, "internalType": "address", "name": "heir", "type": "address" },
+      { "indexed": false, "internalType": "uint256", "name": "amountDistributed", "type": "uint256" }
+    ],
+    "name": "InheritanceClaimed",
+    "type": "event"
+  },
+  {
+    "inputs": [],
+    "name": "heartbeat",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "address", "name": "_heirWallet", "type": "address" },
+      { "internalType": "uint256", "name": "_sharePercentage", "type": "uint256" }
+    ],
+    "name": "configureHeir",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "resetHeirs",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "uint256", "name": "_reserveGold", "type": "uint256" },
+      { "internalType": "uint256", "name": "_operational", "type": "uint256" },
+      { "internalType": "uint256", "name": "_buyback", "type": "uint256" }
+    ],
+    "name": "updateSaaSAllocation",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "uint256", "name": "_amount", "type": "uint256" },
+      { "internalType": "address", "name": "_tokenAddress", "type": "address" }
+    ],
+    "name": "processSaaSPayment",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "uint256", "name": "_totalCommission", "type": "uint256" },
+      { "internalType": "address", "name": "_creatorWallet", "type": "address" },
+      { "internalType": "address", "name": "_tokenAddress", "type": "address" }
+    ],
+    "name": "processAffiliateCommission",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "address", "name": "_tokenAddress", "type": "address" }
+    ],
+    "name": "claimInheritance",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "getTreasuryStatus",
+    "outputs": [
+      { "internalType": "uint256", "name": "totalSubscriptions", "type": "uint256" },
+      { "internalType": "uint256", "name": "totalCommissions", "type": "uint256" },
+      { "internalType": "uint256", "name": "reserveGold", "type": "uint256" },
+      { "internalType": "uint256", "name": "timeSinceLastHeartbeat", "type": "uint256" },
+      { "internalType": "bool", "name": "isWarisReady", "type": "bool" }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  }
+]

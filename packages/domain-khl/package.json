@@ -1,0 +1,14 @@
+{
+  "name": "domain-khl",
+  "version": "1.0.0",
+  "description": "Paket domain KHL (Kebutuhan Hidup Layak) — rumus murni tanpa efek samping, Permenaker 18/2020",
+  "type": "module",
+  "main": "src/index.js",
+  "exports": {
+    ".": "./src/index.js"
+  },
+  "scripts": {
+    "test": "node --test test/"
+  },
+  "license": "MIT"
+}
