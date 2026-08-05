@@ -4,12 +4,14 @@
   "description": "Premium All-in-One Real-Time Financial Portal, POS, CRM, Wealth, Sharia Inheritance, AI Assistant and Blockchain Asset Tokenization Hub",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
+    "smoke-test": "bash scripts/smoke-test.sh"
   },
   "dependencies": {
     "cors": "^2.8.5",
     "dotenv": "^17.4.2",
-    "express": "^4.19.2"
+    "express": "^4.19.2",
+    "helmet": "^7.0.0"
   },
   "keywords": [
     "pos",

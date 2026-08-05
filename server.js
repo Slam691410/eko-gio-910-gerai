@@ -2,6 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
+const helmet = require('helmet'); // security headers
 const { initCluster } = require('./backend/config/cluster');
 const { logEvent } = require('./backend/config/db');
 const apiRateLimiter = require('./backend/middleware/rateLimiter');
@@ -11,7 +12,33 @@ function bootWorkerApp() {
   const app = express();
   const PORT = process.env.PORT || 3000;
 
-  app.use(cors());
+  // SECURITY HEADERS - helmet defaults
+  app.use(helmet());
+
+  // Content Security Policy - tune sources as needed
+  app.use(
+    helmet.contentSecurityPolicy({
+      directives: {
+        defaultSrc: ["'self'"],
+        scriptSrc: ["'self'", "https://cdn.tailwindcss.com", "https://cdn.jsdelivr.net", "https://unpkg.com"],
+        styleSrc: ["'self'", "'unsafe-inline'", "https://cdn.tailwindcss.com"],
+        imgSrc: ["'self'", 'data:', 'https:'],
+        connectSrc: ["'self'", 'https:', 'wss:'],
+        fontSrc: ["'self'", 'https:'],
+        objectSrc: ["'none'"],
+        upgradeInsecureRequests: []
+      }
+    })
+  );
+
+  // Restrict CORS via env var if provided
+  const allowedOrigin = process.env.CORS_ORIGIN || null;
+  if (allowedOrigin) {
+    app.use(cors({ origin: allowedOrigin }));
+  } else {
+    app.use(cors()); // permissive during development
+  }
+
   app.use(express.json());
 
   // GLOBAL ERROR TRACKING FOR UNCAUGHT WORKER EXCEPTIONS
@@ -25,13 +52,13 @@ function bootWorkerApp() {
   });
 
   // ADVANCED HTTP STATIC ASSETS CACHING & ETAG MANAGEMENT
-  const STATIC_CACHE_AGE_MS = 24 * 60 * 60 * 1000; 
+  const STATIC_CACHE_AGE_MS = 24 * 60 * 60 * 1000;
   app.use(express.static(path.join(__dirname, 'public'), {
     maxAge: STATIC_CACHE_AGE_MS,
     etag: true,
     lastModified: true,
     setHeaders: (res, filePath, stat) => {
-      res.setHeader('Cache-Control', 'public, max-age=86400'); 
+      res.setHeader('Cache-Control', 'public, max-age=86400');
       res.setHeader('X-Content-Type-Options', 'nosniff');
       res.setHeader('X-Frame-Options', 'SAMEORIGIN');
     }
