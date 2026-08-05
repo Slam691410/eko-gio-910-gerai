@@ -9,7 +9,9 @@
     "smoke-test": "bash scripts/smoke-test.sh",
     "test": "node --test \"packages/domain-khl/test/*.test.js\"",
     "test:khl": "node --test \"packages/domain-khl/test/*.test.js\"",
-    "seed:khl": "node infra/seed/tulis-data-khl.js"
+    "seed:khl": "node infra/seed/tulis-data-khl.js",
+    "crosscheck": "node scripts/crosscheck.js",
+    "crosscheck:json": "node scripts/crosscheck.js --json=docs/crosscheck-report.json"
   },
   "dependencies": {
     "cors": "^2.8.5",
