@@ -4,7 +4,9 @@
   "description": "Premium All-in-One Real-Time Financial Portal, POS, CRM, Wealth, Sharia Inheritance, AI Assistant and Blockchain Asset Tokenization Hub",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
+    "crosscheck": "node scripts/crosscheck.js",
+    "crosscheck:json": "node scripts/crosscheck.js --json=docs/crosscheck-report.json"
   },
   "dependencies": {
     "cors": "^2.8.5",
