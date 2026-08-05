@@ -1,38 +1,29 @@
-# Temuan — audit cepat branch arena/019fc76a-eko-gio-910-gerai
+# Temuan — audit cepat & refactor lengkap branch arena/019fc76a-eko-gio-910-gerai
 
 Tanggal: 2026-08-05
-Branch: arena/019fc76a-eko-gio-910-gerai
-Commit: e9e6875...
+Branch: feature/smoke-helmet-csp (merged refactor)
 
 ## Ringkasan singkat
-- Aplikasi berbasis Node/Express dengan arsitektur cluster; UI berat berbasis Tailwind + Chart.js.
-- Banyak fitur siap untuk demo, namun beberapa fitur bergantung pada environment variables (OpenAI/Anthropic, Web3 RPC, Gold API, Midtrans).
-- Penyimpanan saat ini berupa file JSON (database.json) dan log ke server.log.
+- Melakukan refactor backend storage dari file JSON (database.json) ke SQLite (data/database.sqlite).
+- Mengganti logging sink dari synchronous fs ops ke pino (server.log) dan menyimpan ringkasan log ke tabel sqlite.
+- Menambahkan health endpoint `/api/health`, graceful shutdown, helmet + CSP, dan konfigurasi CORS via env CORS_ORIGIN.
+- Menambahkan skrip smoke-test (scripts/smoke-test.sh) dan skrip npm untuk start:dev.
 
-## Temuan teknis utama
-- Cluster forking (cluster.fork) akan spawn worker per CPU; di beberapa platform forking tidak didukung.
-- Database file-based + synchronous file I/O (appendFileSync, writeFileSync/renameSync) berisiko pada kondisi multi-worker.
-- CORS saat ini aktif secara global tanpa pembatasan origin.
-- Tidak ada helmet atau CSP sebelum perubahan — kami menambahkan helmet dan contoh CSP.
-- Static assets besar → pertimbangkan bundling/minify/code splitting.
+## Catatan migrasi & backup
+- Jika `database.json` ditemukan di repo root, pada saat server start akan dilakukan migrasi otomatis ke SQLite. File `database.json` akan dicadangkan ke `data/database.json.bak.<timestamp>`.
+- Tidak ada kehilangan data selama migrasi (data dulunya akan disalin ke tabel kv dengan key 'root').
 
-## UX / Frontend
-- UI modern, dark theme, banyak modul — tampak siap untuk prototype/demo.
-- Namun: ketergantungan pada CDN (Tailwind, Chart.js, Lucide) dan banyak file JS besar → potensi first-load/performance issues.
-- Perlu fallback UX ketika backend tidak tersedia (skeletons/messages).
-
-## Rekomendasi prioritas
-1. Tambahkan helmet + CSP (sudah ditambahkan di branch fitur).
-2. Batasi CORS ke origin produksi melalui env var (CORS_ORIGIN).
-3. Migrasi ke DB terpusat (SQLite with locking, Postgres, dsb.) sebelum produksi multi-instance.
-4. Ganti blocking FS I/O dengan non-blocking/queue-based logging.
-5. Bundle/minify assets, serve compressed files, implement cache-busting.
+## Rekomendasi lanjutan
+1. Untuk beban produksi tinggi, migrasi dari SQLite ke Postgres/MongoDB direkomendasikan.
+2. Ganti CDN-dependant production assets dengan bundle lokal/CI build (esbuild/webpack) dan serve compressed assets.
+3. Tambahkan monitoring (Prometheus/Grafana) + readiness probes pada container orchestration.
+4. Tambahkan A11y & performance audits (Lighthouse).
 
 ## Cara verifikasi cepat
-- Isi .env dari .env.example
+- git checkout feature/smoke-helmet-csp
 - npm install
 - npm start
-- jalankan `npm run smoke-test` (atau jalankan scripts/smoke-test.sh)
-- buka http://localhost:3000 dan cek console/server.log untuk error.
+- npm run smoke-test
+- Buka http://localhost:3000 dan cek /api/health
 
 --- END

@@ -64,6 +64,16 @@ function bootWorkerApp() {
     }
   }));
 
+  // Health endpoint
+  app.get('/api/health', async (req, res) => {
+    try {
+      const uptime = process.uptime();
+      res.json({ status: 'ok', uptimeSeconds: Math.floor(uptime), env: process.env.NODE_ENV || 'development' });
+    } catch (err) {
+      res.status(500).json({ status: 'error', error: err.message });
+    }
+  });
+
   // Serve Solidity Contracts statically
   app.use('/contracts', express.static(path.join(__dirname, 'contracts')));
 
@@ -71,8 +81,22 @@ function bootWorkerApp() {
   app.use('/api/', apiRateLimiter);
   app.use('/api/', apiRouter);
 
-  app.listen(PORT, '0.0.0.0', () => {
+  const server = app.listen(PORT, '0.0.0.0', () => {
     logEvent('INFO', `[Worker Process] Active on PID: ${process.pid}. Server is running at http://0.0.0.0:${PORT}`);
+  });
+
+  // Graceful shutdown
+  const SHUTDOWN_TIMEOUT = parseInt(process.env.SHUTDOWN_TIMEOUT_MS || '10000', 10);
+  process.on('SIGTERM', () => {
+    logEvent('INFO', 'SIGTERM received, shutting down gracefully');
+    server.close(() => {
+      logEvent('INFO', 'HTTP server closed, exiting');
+      process.exit(0);
+    });
+    setTimeout(() => {
+      logEvent('CRITICAL', 'Forcing shutdown after timeout');
+      process.exit(1);
+    }, SHUTDOWN_TIMEOUT);
   });
 }
 
