@@ -52,7 +52,6 @@ async function fetchDatabase(showToast = false) {
     renderProfileDependents();
     renderDebts();
     renderDividendCalendar();
-    renderAssetsBreakdown();
     
     // Recalculate financial formulas
     recalculateAssetNetWorth();
@@ -152,7 +151,7 @@ async function fetchMarketData() {
 
 // 4. CHART.JS INITIALIZATIONS
 function initCharts() {
-  const ctxPrice = document.getElementById('livePriceChart');
+  const ctxPrice = document.getElementById('priceHistoryChart');
   const ctxAlloc = document.getElementById('assetAllocationChart');
 
   if (ctxPrice) {
@@ -816,7 +815,6 @@ async function submitAddAsset() {
   closeModal('modal-add-asset');
   alert('✅ Sukses menambah aset baru ke portofolio!');
   recalculateAssetNetWorth();
-  renderAssetsBreakdown();
 }
 
 async function submitAddDebt() {
@@ -1221,89 +1219,5 @@ function executeActiveInheritanceClaim(heirName, share) {
     activeHeartbeatDays = 365; // Reset UI
     updateActiveHeartbeatUI();
   }, 1200);
-}
-
-// -------------------------------------------------------------
-// DYNAMIC DETAILED PORTFOLIO ASSET LISTINGS & REMOVALS
-
-function renderAssetsBreakdown() {
-  const container = document.getElementById('assets-breakdown-grid');
-  if (!container || !appState.db?.assets) return;
-
-  container.innerHTML = '';
-  const assets = appState.db.assets;
-
-  const categories = [
-    { key: "mutualFunds", title: "Reksa Dana", icon: "trending-up", color: "text-blue-400" },
-    { key: "sbn", title: "SBN (Surat Berharga Negara)", icon: "landmark", color: "text-emerald-400" },
-    { key: "deposits", title: "Deposito Syariah", icon: "shield", color: "text-rose-400" },
-    { key: "stocks", title: "Portofolio Saham", icon: "coins", color: "text-purple-400" },
-    { key: "property", title: "Properti & Tanah", icon: "home", color: "text-lime-400" }
-  ];
-
-  categories.forEach(cat => {
-    const list = assets[cat.key] || [];
-    const card = document.createElement('div');
-    card.className = "bg-cyber-card border border-cyber-border rounded-2xl p-5 space-y-4";
-    
-    let itemsHTML = '';
-    let categorySum = 0;
-
-    if (list.length === 0) {
-      itemsHTML = `<p class="text-xs text-slate-500 italic">Belum ada aset terdaftar di kelas ini.</p>`;
-    } else {
-      list.forEach((item, idx) => {
-        let name = item.name || item.code || "Aset";
-        let val = item.balance || (item.shares * (item.avgPrice || 1000));
-        categorySum += val;
-        
-        let desc = item.yield !== undefined ? `Target: ${item.yield}% p.a.` : item.shares !== undefined ? `${item.shares} lembar` : "";
-
-        itemsHTML += `
-          <div class="flex justify-between items-center text-xs bg-slate-900/60 p-2.5 border border-cyber-border/40 rounded-xl">
-            <div>
-              <strong class="text-slate-200 block">${name}</strong>
-              <span class="text-[10px] text-slate-500 font-mono">${desc}</span>
-            </div>
-            <div class="flex items-center gap-3">
-              <strong class="font-mono text-brand-400">Rp ${val.toLocaleString('id-ID')}</strong>
-              <button onclick="removeAsset('${cat.key}', ${idx})" class="text-red-400 hover:text-red-300 font-bold text-[9px] uppercase">Jual</button>
-            </div>
-          </div>
-        `;
-      });
-    }
-
-    card.innerHTML = `
-      <div class="flex justify-between items-center pb-2 border-b border-cyber-border/40">
-        <div class="flex items-center gap-2">
-          <i data-lucide="${cat.icon}" class="w-5 h-5 ${cat.color}"></i>
-          <h4 class="font-bold text-sm text-slate-100">${cat.title}</h4>
-        </div>
-        <strong class="font-mono text-sm text-slate-200">Total: Rp ${categorySum.toLocaleString('id-ID')}</strong>
-      </div>
-      <div class="space-y-2">
-        ${itemsHTML}
-      </div>
-    `;
-    container.appendChild(card);
-  });
-
-  lucide.createIcons();
-}
-
-async function removeAsset(category, index) {
-  if (!appState.db?.assets) return;
-  const list = appState.db.assets[category];
-  if (list && list[index]) {
-    const name = list[index].name || list[index].code || "Aset";
-    if (confirm(`Apakah Anda yakin ingin menjual/menghapus aset '${name}' dari portofolio?`)) {
-      list.splice(index, 1);
-      await saveDatabase();
-      recalculateAssetNetWorth();
-      renderAssetsBreakdown();
-      alert('✓ Aset berhasil dihapus/dijual.');
-    }
-  }
 }
 

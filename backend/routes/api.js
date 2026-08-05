@@ -1,56 +1,46 @@
 const express = require('express');
 const fs = require('fs');
-const fsp = require('fs').promises;
 const { readDB, writeDB, LOG_FILE, logEvent } = require('../config/db');
 const { getMarketData, getDynamicScreenerData, getGlobalStockAudit } = require('../controllers/marketDataController');
 const { handleAIChat } = require('../controllers/aiChatController');
 const { mintToken } = require('../controllers/web3Controller');
-const {
-  getSystemStatus,
-  getEnvConfig,
-  saveEnvConfig,
-  forceCrashWorker
+const { 
+  getSystemStatus, 
+  getEnvConfig, 
+  saveEnvConfig, 
+  forceCrashWorker 
 } = require('../controllers/devConsoleController');
 
 const router = express.Router();
 
 // 1. Database endpoints
-router.get('/db', async (req, res) => {
-  try {
-    const db = await readDB();
-    res.json(db);
-  } catch (err) {
-    res.status(500).json({ error: 'Failed to read DB', details: err.message });
-  }
+router.get('/db', (req, res) => {
+  const db = readDB();
+  res.json(db);
 });
 
-router.post('/db', async (req, res) => {
-  try {
-    const db = await readDB();
-    const updated = { ...db, ...req.body };
-    const ok = await writeDB(updated);
-    if (ok) {
-      logEvent('INFO', `Database updated successfully via POST /api/db`);
-      res.json({ success: true, message: 'Database updated successfully', db: updated });
-    } else {
-      res.status(500).json({ success: false, message: 'Failed to write to database' });
-    }
-  } catch (err) {
-    res.status(500).json({ success: false, message: 'Failed to write to database', details: err.message });
+router.post('/db', (req, res) => {
+  const db = readDB();
+  const updated = { ...db, ...req.body };
+  if (writeDB(updated)) {
+    logEvent('INFO', `Database updated successfully via POST /api/db`);
+    res.json({ success: true, message: 'Database updated successfully', db: updated });
+  } else {
+    res.status(500).json({ success: false, message: 'Failed to write to database' });
   }
 });
 
 // 2. Centralized Logs Telemetry
-router.get('/logs', async (req, res) => {
+router.get('/logs', (req, res) => {
   try {
     if (!fs.existsSync(LOG_FILE)) {
       return res.json({ logs: [] });
     }
-    const rawText = await fsp.readFile(LOG_FILE, 'utf8');
-    const lines = rawText.trim().split('\n').slice(-200);
+    const rawText = fs.readFileSync(LOG_FILE, 'utf8');
+    const lines = rawText.trim().split('\n').slice(-100); 
     res.json({ logs: lines });
   } catch (err) {
-    res.status(500).json({ error: 'Failed to read log file', details: err.message });
+    res.status(500).json({ error: 'Failed to read log file' });
   }
 });
 
@@ -81,7 +71,7 @@ router.post('/dev/crash', forceCrashWorker);
 
 // Autopilot state routes
 router.get('/dev/autopilot', (req, res) => {
-  res.json({ success: true, ...(getAutopilotState ? getAutopilotState() : {}) });
+  res.json({ success: true, ...getAutopilotState() });
 });
 
 router.post('/dev/autopilot', (req, res) => {

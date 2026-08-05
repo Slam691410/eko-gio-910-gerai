@@ -66,7 +66,7 @@ eko-gio-910-gerai/
 ### 4. PPN 12% Indonesia & Pembongkaran Aturan "Sesat" 50/30/20
 *   **PPN 12% Ritel**: Mengonfigurasi POS Kasir merchant secara otomatis memungut PPN 12% sesuai UU HPP terbaru Indonesia per 2025/2026 dan menyisihkannya ke kas negara.
 *   **Demokrasi Anggaran AI**: AI Advisor secara dinamis membongkar aturan 50/30/20 yang sering kali menyesatkan kelompok pendapatan ketat (di bawah UMR provinsi) dengan mengalokasikan 90% langsung untuk bertahan hidup (*Needs*), menolak *Wants* (0%), dan menyarankan investasi emas PAXG hingga 85% untuk kelompok pendapatan triliunan.
-*   **KHL Berbasis Permenaker No. 18 Tahun 2020**: Mengintegrasikan data UMR/KHL provinsi rill (Jakarta, Jawa Barat, Yogyakarta, Bali, dsb.) secara interaktif untuk menghitung rincian **64 Komponen KHL rill** yang dibagi rata ke dalam **7 Kelompok Utama** (Makanan, Sandang, Papan, Pendidikan, Kesehatan, Transportasi, Rekreasi) secara real-time sesuai regulasi resmi Kemeneaker RI.
+*   **KHL Provinsi Dinamis**: Mengintegrasikan data UMR/KHL provinsi rill (Jakarta, Jawa Barat, Yogyakarta, Bali, dsb.) secara interaktif untuk menghitung kecukupan finansial keluarga Anda secara akurat.
 
 ---
 

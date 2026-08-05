@@ -124,8 +124,8 @@ Tujuan akhir Gerai 910 adalah bertahan hidup selama ratusan tahun melintasi bebe
 ### 1. Mekanisme Pengelolaan Kas Smart Treasury (Anti-Pailit Protocol)
 *   Smart Treasury global di Singapura membagi seluruh fee platform (30% dari total rujukan dan langganan) secara otonom ke dalam tiga alokasi kas terisolasi:
     *   **40% - Dana Abadi Cadangan Emas Fisik (PAXG)**: Dana ini tidak boleh disentuh untuk operasional harian. Ia disimpan di cold wallet multinasional sebagai jaminan likuiditas keras. Jika terjadi krisis ekonomi global, cadangan emas ini akan menjaga nilai kapital korporasi Anda tetap utuh dan berkembang.
-    *   **40% - Operational Wallet (Server Hosting & AI Bills)**: Digunakan untuk membayar tagihan server AWS, database PostgreSQL, dan kupon API secara otomatis melalui smart contract recurring payments di blockchain, memastikan server terus menyala tanpa bergantung pada admin.
-    *   **20% - Buyback Pool (Token Liquidity)**: Digunakan untuk membeli kembali token platform dari pasar publik untuk meningkatkan nilai ekonomi sirkular.
+    *   **40% - Operational Wallet (Server Hosting & AI Bills)**: Digunakan untuk membayar tagihan server AWS, database PostgreSQL, dan konsumsi API OpenAI/Claude. Pembayaran disetel otomatis melalui smart contract recurring payments di blockchain, memastikan server terus menyala tanpa bergantung pada admin.
+    *   **20% - Buyback Pool (Token Liquidity)**: Digunakan untuk membeli kembali token utilitas platform dari pasar publik untuk meningkatkan nilai ekonomi sirkular dan membagikan dividen kepada pemegang saham loyal.
 
 ### 2. Prosedur Darurat Eksekusi Waris On-Chain (Dead Man's Switch Drill)
 Untuk menjamin kepemilikan platform dan seluruh kas treasury mengalir mulus kepada keturunan Anda tanpa sengketa hukum lama di pengadilan sipil:
@@ -133,12 +133,13 @@ Untuk menjamin kepemilikan platform dan seluruh kas treasury mengalir mulus kepa
 2.  **Heartbeat Monitoring**: Server daemon secara otomatis mengirim detak check-in pemilik setiap minggu.
 3.  **Skenario Darurat (Pemilik Berhalangan Tetap/Meninggal)**:
     *   Jika pemilik tidak melakukan check-in selama **365 hari**, kontrak pintar secara otomatis masuk ke status *Inactive*.
-    *   Ahli waris utama dapat memanggil fungsi `claimInheritance()` dari dompet mereka.
+    *   Ahli waris utama dapat memicu fungsi `claimInheritance()` dari dompet mereka.
     *   Secara instan, blockchain memindahkan hak kepemilikan administratif server (*Master Admin Private Key*), mengalihkan sisa saldo treasury stablecoin, serta membagi sisa emas abadi PAXG langsung ke wallet masing-masing ahli waris secara otonom tanpa memerlukan proses tanda tangan fisik atau persetujuan notaris.
     *   Generasi baru Anda secara instan menguasai sistem dan melanjutkan bisnis otonom ini secara mulus.
 
-### 3. KHL Berdasarkan Kepatuhan Permenaker No. 18 Tahun 2020
-*   Platform mengintegrasikan **64 item komponen KHL** berdasarkan **Permenaker No. 18 Tahun 2020** secara real-time. Hal ini memastikan bahwa data kebutuhan hidup layak yang dihitung di dalam Kategori 4 dan Kategori 5 adalah legal, akurat secara regulasi rill, dan terintegrasi penuh ke dalam visualisasi diagram lingkar di peramban.
+### 3. Disaster Recovery & Cyber Security Hardening
+*   **Perlindungan DDoS**: Gunakan layanan **Cloudflare Magic Transit** dan **WAF** tingkat tinggi di depan Nginx load-balancer untuk memitigasi serangan cyber dan menjaga uptime 100%.
+*   **Database Backup Scheduled**: Setel cron-job harian di AWS RDS untuk melakukan backup database PostgreSQL secara terenkripsi ke cold storage AWS Glacier yang terpisah secara fisik.
 
 ---
 
@@ -148,4 +149,4 @@ Untuk menjamin kepemilikan platform dan seluruh kas treasury mengalir mulus kepa
 *   **Hari 16 - 30 (Multinational Legal Setup)**: Pendirian Pte. Ltd. di Singapura, pendirian PT PMA di Indonesia, dan registrasi PSE di Kominfo.
 *   **Hari 31 - 45 (Audit & Shariah compliance)**: Audit keamanan smart contracts oleh pihak ketiga, pengajuan sertifikasi Syariah DSN-MUI, dan integrasi API e-Faktur Pajak 12%.
 *   **Hari 46 - 55 (Mainnet Deployment & Soft Launch)**: Deploy seluruh smart contracts ke Polygon Mainnet, hubungkan API OpenAI rill, lakukan soft launch POS retail kepada 50 merchant kelontong pertama.
-*   **Hari 56 - 60 (Grand Launch & Viral Loop Trigger)**: Luncurkan kampanye nasional "Sadar Waris KHI" berbasis KHL 64 Komponen Permenaker No. 18/2020, aktifkan fitur Keranjang Kuning GeraiTok, dan saksikan platform Anda menghimpun, mengelola, serta mengembangkan kekayaan Anda secara autopilot sepanjang generasi!
+*   **Hari 56 - 60 (Grand Launch & Viral Loop Trigger)**: Luncurkan kampanye nasional "Sadar Waris KHI", aktifkan fitur Keranjang Kuning GeraiTok, dan saksikan platform Anda menghimpun, mengelola, serta mengembangkan kekayaan Anda secara autopilot sepanjang generasi!
